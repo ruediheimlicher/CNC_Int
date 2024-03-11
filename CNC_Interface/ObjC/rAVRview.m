@@ -1262,6 +1262,16 @@ NSMutableDictionary* cncdatendic;
 }
 - (void)settingsAktion:(NSNotification*)note
 {
+    /*
+     rumpfdatenarray
+     rumpfteildic
+     koordinatentabelle
+     2
+     1
+     0
+     
+     */
+    
     NSLog(@"AVR settingsAktion note: %@",note);
     NSDictionary* settingsDic = [[note userInfo]objectForKey:@"schnittsettings"];
     cncdatendic = [NSMutableDictionary dictionaryWithDictionary:[[note userInfo]objectForKey:@"schnittsettings"]];
@@ -1958,7 +1968,8 @@ return returnInt;
          [tempPListDic setObject:[NSNumber numberWithInt:[Blockdicke intValue]] forKey:@"blockdicke"];
 
          [tempPListDic setObject:[NSNumber numberWithFloat:[DC_PWM intValue]] forKey:@"pwm"];
-         
+          [tempPListDic setObject:[NSNumber numberWithFloat:[DC_PWM intValue]] forKey:@"pwm"];
+
          // Rumpf
          
          [tempPListDic setObject:RumpfdatenArray forKey:@"rumpfdatenarray"];
@@ -4216,8 +4227,11 @@ return returnInt;
    {
        NSDictionary* outletdaten = [rHotwireViewController cncoutletdaten];
        NSLog(@"ManRichtung outletdaten: %@",outletdaten);
-
-      NSLog(@"AVR  ManRichtung richtung: %d mousestatus: %d seite1check: %d seite2check: %d",richtung, status,outletdaten[@"cnc_seite1check"],outletdaten[@"cnc_seite2check"]);
+       
+       boardindex = [outletdaten[@"cnc_seite1check"]integerValue];
+       speed = [outletdaten[@"speed"]integerValue];
+       steps = [outletdaten[@"motorsteps"]integerValue];
+       NSLog(@"AVR  ManRichtung richtung: %d mousestatus: %d seite1check: %d seite2check: %d",richtung, status,outletdaten[@"cnc_seite1check"],outletdaten[@"cnc_seite2check"]);
        
        if ((cncstatus)|| !(outletdaten[@"cnc_seite1check"] || (outletdaten[@"cnc_seite2check"])))
       {
@@ -4382,9 +4396,10 @@ return returnInt;
     
          
          NSDictionary* tempSteuerdatenDic=[self Tool_SteuerdatenVonDic:tempDic];
-         //NSLog(@"D i: %d",i);
+         NSLog(@"tempSteuerdatenDic: %@",tempSteuerdatenDic);
+          NSDictionary* tempSchnittdatenVonDic = [self SchnittdatenVonDic:tempSteuerdatenDic];
          [HomeSchnittdatenArray addObject:[self SchnittdatenVonDic:tempSteuerdatenDic]];
-         //NSLog(@"E i: %d",i);
+          NSLog(@"tempSchnittdatenVonDic: %@",tempSchnittdatenVonDic);
          HomeSchnittdatenArray[0][24] = [NSNumber numberWithInt:code];
          HomeSchnittdatenArray[0][31] = [NSNumber numberWithInt:richtung];
          HomeSchnittdatenArray[0][35] = [NSNumber numberWithInt:1]; // ramp

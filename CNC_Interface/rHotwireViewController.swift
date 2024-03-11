@@ -349,7 +349,19 @@ var outletdaten:[String:AnyObject] = [:]
        outletdaten["cnc_seite2check"] = CNC_Seite2Check.state.rawValue as Int as AnyObject
        outletdaten["speed"] = SpeedFeld.integerValue as AnyObject
        outletdaten["micro"] = micro as AnyObject
-print("outletdaten: \(outletdaten)")
+       outletdaten["boardindex"] = boardindex as AnyObject
+       print("outletdaten: \(outletdaten)")
+       var pfeildaten:[String:Int] = [:]
+       pfeildaten["cnc_seite1check"] = (CNC_Seite1Check.state.rawValue)
+       pfeildaten["cnc_seite2check"] = (CNC_Seite2Check.state.rawValue)
+       pfeildaten["speed"] = SpeedFeld.integerValue
+       pfeildaten["micro"] = micro
+       pfeildaten["motorsteps"] = motorsteps
+       pfeildaten["boardindex"] = boardindex
+       print("pfeildaten: \(pfeildaten)")
+       
+       
+       
        AVR?.manRichtung(1, mousestatus:1, pfeilstep:100)
    }
     
@@ -426,11 +438,11 @@ print("outletdaten: \(outletdaten)")
     {
         print("report_Microsteps")
        let stepsindex = sender.indexOfSelectedItem
-        motorsteps = sender.selectedTag()
+        micro = sender.selectedTag()
         var NotificationDic = [String:Int]()
         
        
-        NotificationDic["micro"] = motorsteps
+        NotificationDic["micro"] = micro
         
         
         let nc = NotificationCenter.default
@@ -469,7 +481,8 @@ print("outletdaten: \(outletdaten)")
       self.view.layer?.backgroundColor = hintergrundfarbe.cgColor
       
  
-       
+       NotificationCenter.default.addObserver(self, selector:#selector(usbstatusAktion(_:)),name:NSNotification.Name(rawValue: "usb_status"),object:nil)
+  
       Auslauftiefe.integerValue = 10
       
        hotwireplist =  readHotwire_PList()
@@ -802,15 +815,27 @@ print("outletdaten: \(outletdaten)")
     
    @objc func usbstatusAktion(_ notification:Notification) 
    {
-      let info = notification.userInfo
-      guard let status = info?["usbstatus"] as? Int else 
+       //        userinformation = ["message":"usbstart", "usbstatus": usbstatus, "boardindex":boardindex] as [String : Any]
+
+       let info = notification.userInfo 
+       print(" usbstatusAktion: info: \(notification.userInfo) \(info)")
+      guard let status = info?["usbstatus"] as? Int else
       { 
-         print("Basis usbstatusAktion: kein status\n")
+         print(" usbstatusAktion: kein status\n")
          return  
          
       }// 
+       guard let rawboardindex = info?["boardindex"] as? Int else
+       {
+          print("Basis rawboardindex: kein rawboardindex\n")
+          return
+          
+       }//
+
       //print("Hotwire usbstatusAktion:\t \(status)")
-      usbstatus = Int32(status)
+      usbstatus = Int(status)
+      boardindex = rawboardindex
+       
    }
 
 

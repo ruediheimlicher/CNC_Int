@@ -211,7 +211,7 @@ class rViewController: NSViewController, NSWindowDelegate
    var phi2:Float = 0 // Winkel Arm 2
    // var  myUSBController:USBController
    // var usbzugang:
-   var usbstatus: Int32 = 0
+   var usbstatus: Int = 0
    
    var boardindex:Int = 0
     
@@ -439,7 +439,7 @@ class rViewController: NSViewController, NSWindowDelegate
          let teensycode = teensyboardarray[boardindex]
          
          let erfolg = teensy.USBOpen(code:teensycode, board: boardindex)
-         usbstatus = erfolg
+          usbstatus = Int(Int(erfolg))
          globalusbstatus = Int(erfolg)
          print("viewDidAppear erfolg: \(erfolg) usbstatus: \(usbstatus) rawhid_status: \(rawhid_status())")
          if usbstatus == 1
@@ -452,9 +452,10 @@ class rViewController: NSViewController, NSWindowDelegate
          }
 
       }
-       var userinformation:[String : Any]
-       userinformation = ["message":"usbstart", "usbstatus": usbstatus, "boardindex":boardindex] as [String : Any]
-       let nc = NotificationCenter.default
+       var userinformation:[String : Int]
+       userinformation = [ "usbstatus": usbstatus, "boardindex":boardindex] as [String : Int]
+      print("userinformation: \(userinformation)")
+        let nc = NotificationCenter.default
        nc.post(name:Notification.Name(rawValue:"usb_status"),
                object: nil,
                userInfo: userinformation)
@@ -907,7 +908,7 @@ class rViewController: NSViewController, NSWindowDelegate
       let ident:String = info?["ident"] as! String  // 
       print("ViewController tabviewAktion:\t \(ident) usbstatus: \(usbstatus) globalusbstatus: \(globalusbstatus)")
       selectedDevice = ident
-      usbstatus = Int32(globalusbstatus)
+      usbstatus = Int(globalusbstatus)
       
    }
 
@@ -1566,7 +1567,7 @@ class rViewController: NSViewController, NSWindowDelegate
          }
          let device = teensyboardarray[boardindex]
          let erfolg = teensy.USBOpen(code:device,  board: boardindex)
-         usbstatus = erfolg
+          usbstatus = Int(erfolg)
          globalusbstatus = Int(erfolg)
          //   print("USBOpen erfolg: \(erfolg) usbstatus: \(usbstatus)")
       }

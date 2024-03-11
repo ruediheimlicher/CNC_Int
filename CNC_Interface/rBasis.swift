@@ -244,7 +244,7 @@ class rBasis: rViewController
          
       }// 
       print("Basis usbstatusAktion:\t \(status)")
-      usbstatus = Int32(status)
+      usbstatus = Int(status)
    }
 
    
