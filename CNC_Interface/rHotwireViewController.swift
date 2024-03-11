@@ -38,7 +38,7 @@ var outletdaten:[String:AnyObject] = [:]
    var hintergrundfarbe:NSColor = NSColor()
    //rTSP_NN* nn;
    var nn:rTSP_NN!
-    var micro:Int!
+   // var micro:Int!
     //var AVR = rAVRview()
     
    var CNC_PList:NSMutableDictionary!
@@ -459,7 +459,7 @@ print("outletdaten: \(outletdaten)")
        motorsteps = CNC_StepsSegControl.tag(forSegment:stepsindex)
        outletdaten["motorsteps"] = CNC_StepsSegControl.tag(forSegment:stepsindex)  as AnyObject
 
-       micro = CNC_microPop.selectedItem?.tag
+       micro = CNC_microPop.selectedItem?.tag ?? 1
        
       if (hotwireplist["koordinatentabelle"] != nil)
       {
@@ -473,13 +473,14 @@ print("outletdaten: \(outletdaten)")
          DC_PWM.integerValue = hotwireplist["pwm"] as! Int
          DC_Slider.integerValue = hotwireplist["pwm"] as! Int
          DC_Stepper.integerValue = hotwireplist["pwm"] as! Int
-         
+         pwm = plistpwm
       }
       else
       {
          DC_PWM.integerValue = 10
          DC_Slider.integerValue = 10
          DC_Stepper.integerValue = 10
+         pwm  = 10
 
       }
       if (hotwireplist["speed"] != nil)

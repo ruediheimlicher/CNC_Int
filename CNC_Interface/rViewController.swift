@@ -232,8 +232,31 @@ class rViewController: NSViewController, NSWindowDelegate
 
    var robotPList = UserDefaults.standard 
    let defaults = UserDefaults.standard
+    
+    // von CNCViewC
+    var mausistdown:Int = 0
+     
+    var Stepperposition:Int = 0
+    
+    var halt = 0
+    var home = 0
+
+    var pwm = 0
+    
+    var HomeAnschlagSet = IndexSet()
+     // end IOWarriorWindowController
+
+    var usb_schnittdatenarray:[[UInt8]] = [[]]
+    
+    var schnittdatenstring:String = ""
+    
+    var steps = 0
+    var micro = 0
+
+
    
-   
+   // end von CNCViewC
+    
    // https://learnappmaking.com/plist-property-list-swift-how-to/
    struct Preferences: Codable {
       var webserviceURL:String
