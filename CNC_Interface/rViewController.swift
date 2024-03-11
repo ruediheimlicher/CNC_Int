@@ -15,7 +15,7 @@ import Cocoa
 
  public var lastDataRead = Data.init(count:BUFFER_SIZE)
 
-
+var loadcounter = 0
 
 var globalusbstatus = 0
 
@@ -188,10 +188,15 @@ class rDeviceTabViewController: NSTabViewController
 //MARK: ViewController
 class rViewController: NSViewController, NSWindowDelegate
 {
+    
    let notokimage :NSImage = NSImage(named:NSImage.Name(rawValue: "notok_image"))!
    let okimage :NSImage = NSImage(named:NSImage.Name(rawValue: "ok_image"))!
    
     var AVR = rAVRview()
+    
+    @IBOutlet weak var steps_Feld: NSTextField!
+     @IBOutlet weak var micro_Feld: NSTextField!
+
 
    @IBOutlet weak var USB_OK_Feld: NSImageView!
    
@@ -254,7 +259,8 @@ class rViewController: NSViewController, NSWindowDelegate
     var micro = 0
 
     //var Einstellungen = rEinstellungen()
-   
+    let USBATTACHED = 5
+   let USBREMOVED  = 6
    // end von CNCViewC
     
    // https://learnappmaking.com/plist-property-list-swift-how-to/
@@ -282,6 +288,10 @@ class rViewController: NSViewController, NSWindowDelegate
    
    override func viewDidLoad()
    {
+       if loadcounter > 0
+       {
+           return
+       }
       super.viewDidLoad()
       self.view.wantsLayer = true
       self.view.superview?.wantsLayer = true
@@ -310,13 +320,36 @@ class rViewController: NSViewController, NSWindowDelegate
       // Do any additional setup after loading the view.
       let newdataname = Notification.Name("newdata")
   //    NotificationCenter.default.addObserver(self, selector:#selector(newDataAktion(_:)),name:newdataname,object:nil)
-      NotificationCenter.default.addObserver(self, selector:#selector(joystickAktion(_:)),name:NSNotification.Name(rawValue: "joystick"),object:nil)
-      NotificationCenter.default.addObserver(self, selector:#selector(tabviewAktion(_:)),name:NSNotification.Name(rawValue: "tabview"),object:nil)
-
-//      NotificationCenter.default.addObserver(self, selector: #selector(usbsendAktion), name:NSNotification.Name(rawValue: "usbsend"), object: nil)
-       NotificationCenter.default.addObserver(self, selector: #selector(beendenAktion), name:NSNotification.Name(rawValue: "beenden"), object: nil)
-
-
+           loadcounter += 1
+           NotificationCenter.default.addObserver(self, selector:#selector(joystickAktion(_:)),name:NSNotification.Name(rawValue: "joystick"),object:nil)
+           NotificationCenter.default.addObserver(self, selector:#selector(tabviewAktion(_:)),name:NSNotification.Name(rawValue: "tabview"),object:nil)
+           
+           //      NotificationCenter.default.addObserver(self, selector: #selector(usbsendAktion), name:NSNotification.Name(rawValue: "usbsend"), object: nil)
+           NotificationCenter.default.addObserver(self, selector: #selector(beendenAktion), name:NSNotification.Name(rawValue: "beenden"), object: nil)
+           
+           // von CNCVIWC
+           NotificationCenter.default.addObserver(self, selector: #selector(usbsendAktion), name:NSNotification.Name(rawValue: "usbsend"), object: nil)
+           NotificationCenter.default.removeObserver(self, name:NSNotification.Name(rawValue: "usbschnittdaten"), object: nil)
+           NotificationCenter.default.addObserver(self, selector: #selector(usbschnittdatenAktion), name:NSNotification.Name(rawValue: "usbschnittdaten"), object: nil)
+           NotificationCenter.default.addObserver(self, selector:#selector(newDataAktion(_:)),name:NSNotification.Name(rawValue: "newdata"),object:nil)
+           NotificationCenter.default.addObserver(self, selector:#selector(contDataAktion(_:)),name:NSNotification.Name(rawValue: "contdata"),object:nil)
+           NotificationCenter.default.addObserver(self, selector:#selector(usbattachAktion(_:)),name:NSNotification.Name(rawValue: "usb_attach"),object:nil)
+           NotificationCenter.default.addObserver(self, selector: #selector(slaveresetAktion), name:NSNotification.Name(rawValue: "slavereset"), object: nil)
+           
+           NotificationCenter.default.removeObserver(self, name: Notification.Name("steps"), object: nil)
+           NotificationCenter.default.addObserver(self, selector: #selector(stepsAktion), name:NSNotification.Name(rawValue: "steps"), object: nil)
+           
+           NotificationCenter.default.removeObserver(self, name: Notification.Name("micro"), object: nil)
+           NotificationCenter.default.addObserver(self, selector: #selector(microAktion), name:NSNotification.Name(rawValue: "micro"), object: nil)
+           
+           NotificationCenter.default.addObserver(self, selector: #selector(stoptimerAktion), name:NSNotification.Name(rawValue: "stoptimer"), object: nil)
+           
+           NotificationCenter.default.addObserver(self, selector: #selector(haltAktion), name:NSNotification.Name(rawValue: "halt"), object: nil)
+           
+           NotificationCenter.default.addObserver(self, selector: #selector(DCAktion), name:NSNotification.Name(rawValue: "dc_pwm"), object: nil)
+       
+       
+       // end CNCViewC
       
       
       defaults.set(25, forKey: "Age")
@@ -356,6 +389,13 @@ class rViewController: NSViewController, NSWindowDelegate
          print(preferences.webserviceURL)
       }
       
+    }
+    
+    @objc override func viewWillDisappear()
+    {
+        NotificationCenter.default.removeObserver(self, name: Notification.Name("steps"), object: nil)
+        NotificationCenter.default.removeObserver(self, name: Notification.Name("micro"), object: nil)
+
     }
    
     // https://nabtron.com/quit-cocoa-app-window-close/
@@ -428,7 +468,423 @@ class rViewController: NSViewController, NSWindowDelegate
       myFileDialog.runModal() 
       return myFileDialog.url 
    }  
+    
+    @objc func writeCNCAbschnitt()
+    {
+      print("swift writeCNCAbschnitt usb_schnittdatenarray: \(usb_schnittdatenarray)")
+       let count = usb_schnittdatenarray.count
+       //print("writeCNCAbschnitt  count: \(count) Stepperposition: \t",Stepperposition)
+       
+       if(Stepperposition < count)
+       {
+          //print("schnittdatenarray:\n",usb_schnittdatenarray[Stepperposition])
+       }
+       //print("writeCNCAbschnitt code: \(usb_schnittdatenarray[0][16]) Stepperposition: \(Stepperposition) count: \(count) ")
+       
+       if Stepperposition < count
+       {
+          let motorstatus = usb_schnittdatenarray[Stepperposition][21]
+          //print("motorstatus: \(motorstatus)")
+       }
+  
+       
+       if Stepperposition == 0
+       {
+          schnittdatenstring = ""
+         // print("writeCNCAbschnitt 19")
+          
+       }
+       teensy.write_byteArray.removeAll()
+       
+       if Stepperposition < usb_schnittdatenarray.count
+       {
+          //print("Stepperposition < usb_schnittdatenarray.count")
+          if halt > 0
+          {
+             /*
+             if readtimer?.isValid ?? false
+             {
+                print("writeCNCAbschnitt HALT readTimer inval")
+                readtimer?.invalidate()
+             }
+             */
+          }
+          else
+          {
+             let aktuellezeile:[UInt8] = usb_schnittdatenarray[Stepperposition]
+             //print("aktuellezeile: \(aktuellezeile) 25: \(aktuellezeile[25])")
+             let writecode = aktuellezeile[16]
+             var string:String = ""
+             var index=0
+             //print("aktuellezeile:")
+             for wert in aktuellezeile
+             {
+                teensy.write_byteArray.append(wert)
+                if index < 24
+                {
+                   string.append(String(wert))
+                   string.append("\t")
+                }
+                index += 1
+             }
+             //print("\(string) code: \(aktuellezeile[16]) pos: \(aktuellezeile[17]) index: \(aktuellezeile[19])");
+             schnittdatenstring.append(string)
+             schnittdatenstring.append("\n")
+             
+             //print("write_byteArray: \(teensy.write_byteArray)")
+             if (globalusbstatus > 0)
+             {
+                let senderfolg = teensy.send_USB()
+                print("writeCNCAbschnitt senderfolg: \(senderfolg)")
+             }
+             // print("Stepperposition: \(Stepperposition) \n\(schnittdatenstring)");
+             var ausschlussindex:[UInt8] = [0xE2]
+             if !(ausschlussindex.contains(writecode))
+             {
+                
+                Stepperposition += 1
+             }
+             
+          }// ! halt
+       }
+       else
+       {
+          print("writeCNCAbschnitt Fertig ")
+      //    teensy.stop_read_USB()
+          return
+          
+       }
+       
+       //print("writeCNCAbschnitt write_byteArray: \(teensy.write_byteArray)")
+    }
+    
+   
+    
+    @objc func stepsAktion(_ notification:Notification)
+     {
+        print("stepsAktion: \(notification)")
+        steps = notification.userInfo?["motorsteps"] as! Int
+        print("stepsAktion steps: \(steps)")
+        steps_Feld.integerValue = steps
+     }
 
+     @objc func microAktion(_ notification:Notification)
+     {
+        print("microAktion: \(notification)")
+        micro = notification.userInfo?["micro"] as! Int
+        print("Aktion micro: \(micro)")
+        micro_Feld.integerValue = micro
+     }
+
+    @objc func stoptimerAktion(_ notification:Notification)
+     {
+        print("stoptimerAktion: \(notification)")
+        teensy.stop_timer()
+        
+     
+     }
+
+    @objc func DCAktion(_ notification:Notification)
+     {
+        usb_schnittdatenarray.removeAll()
+        //print("DCAktion: \(notification)")
+        let info = notification.userInfo
+        guard let pwm = notification.userInfo?["pwm"] else
+        {
+           print("DCAktion: kein pwm")
+           return
+        }
+        print("DCAktion  pwm: \(pwm)")
+        Stepperposition = 0;
+        var wertarray = [UInt8](repeating: 0, count: Int(BufferSize()))
+        
+        wertarray[16] = 0xE2
+        wertarray[24] = 0xE2
+        wertarray[18]=0; // indexh, indexl ergibt abschnittnummer
+        wertarray[20]=pwm as! UInt8; // pwm
+        
+        usb_schnittdatenarray.append(wertarray)
+        writeCNCAbschnitt()
+        teensy.clear_data()
+
+     }
+  
+    
+     @objc func haltAktion(_ notification:Notification)
+     {
+        print("haltAktion ")
+        usb_schnittdatenarray.removeAll()
+        let info = notification.userInfo
+        print("haltAktion info: \(info)")
+        var wertarray = [UInt8](repeating: 0, count: Int(BufferSize()))
+        
+        wertarray[16] = 0xE0
+        wertarray[18]=0; // indexh, indexl ergibt abschnittnummer
+        wertarray[20]=0; // pwm
+        
+        usb_schnittdatenarray.append(wertarray)
+        writeCNCAbschnitt()
+        teensy.clear_data()
+     }
+
+     
+     @objc func slaveresetAktion(_ notification:Notification)
+     {
+        print("slaveresetAktion")
+        
+        teensy.clear_data()
+        let senderfolg = teensy.send_USB()
+        print("slaveresetAktion senderfolg: \(senderfolg)")
+     }
+
+    
+    @objc  func contDataAktion(_ notification:Notification)
+    {
+       let lastData = teensy.getlastDataRead()
+      print("contDataAktion notification: \n\(notification)\n lastData:\n \(lastData) ")
+      var ii = 0
+       while ii < 10
+       {
+          //print("ii: \(ii)  wert: \(lastData[ii])\t")
+          ii = ii+1
+       }
+       
+       let u = ((Int32(lastData[1])<<8) + Int32(lastData[2]))
+       //print("hb: \(lastData[1]) lb: \(lastData[2]) u: \(u)")
+       let info = notification.userInfo
+       
+       //print("info: \(String(describing: info))")
+       //print("new Data")
+       let data = notification.userInfo?["data"]
+       //print("data: \(String(describing: data)) \n") // data: Optional([0, 9, 51, 0,....
+       
+       
+       //print("lastDataRead: \(lastDataRead)   ")
+       var i = 0
+       while i < 10
+       {
+          //print("i: \(i)  wert: \(lastDataRead[i])\t")
+          i = i+1
+       }
+       
+       if let d = notification.userInfo!["contdata"]
+        {
+              
+           //print("d: \(d)\n") // d: [0, 9, 56, 0, 0,...
+           let t = type(of:d)
+           //print("typ: \(t)\n") // typ: Array<UInt8>
+           
+           //print("element: \(d[1])\n")
+           
+           print("d as string: \(String(describing: d))\n")
+           if d != nil
+           {
+              //print("d not nil\n")
+              var i = 0
+              while i < 10
+              {
+                 //print("i: \(i)  wert: \(d![i])\t")
+                 i = i+1
+              }
+              
+           }
+          
+           
+           //print("dic end\n")
+        }
+
+            
+          
+          //print("dic end\n")
+       }
+    @objc func usbschnittdatenAktion(_ notification:Notification)
+  {
+     // N
+     /*
+      Array:
+      
+      schritteax lb
+      schritteax hb
+      schritteay lb
+      schritteay hb
+      
+      delayax lb
+      delayax hb
+      delayay lb
+      delayay hb
+      
+      schrittebx lb
+      schrittebx hb
+      schritteby lb
+      schritteby hb
+      
+      delaybx lb
+      delaybx hb
+      delayby lb
+      delayby hb
+      
+      code
+      position // first, last, ...
+      indexh
+      indexl
+      
+      pwm (pos 20)
+      motorstatus (pos 21)
+      
+      zoomfaktor  22
+      steps 25
+      micro 26
+      
+      */
+     
+     Stepperposition = 0
+     //print("cncviewcontroller usbschnittdatenAktion")
+     
+      
+       
+  //     guard let steps:Int32 = AVR?.motorsteps()  else {return}
+       
+     //print("cncviewcontroller usbschnittdatenAktion steps: \(steps)")
+     usb_schnittdatenarray.removeAll()
+     
+     let info = notification.userInfo
+  //   print("info: \(info)")
+     //    let usb_pwm =  info?["pwm"] as! UInt8
+     //    let usb_delayok =  info?["delayok"] as! UInt8
+    
+     guard let usb_home = info?["home"] as? Int else {
+        print("Basis usbstatusAktion: kein home\n")
+        return
+     }
+        
+              
+              
+
+              
+  //   let usb_home =  info?["home"] as! UInt8
+     
+     if usb_home == 1
+     {
+        //print("cncviewcontroller usbschnittdatenAktion usb_home: \(usb_home)")
+        Stepperposition = 0
+        
+     }
+     //    let usb_art =  info?["art"] as! UInt8
+     //    let usb_cncposition =  info?["cncposition"]
+     
+     //print("usb_pwm: \(usb_pwm) usb_delayok: \(usb_delayok) usb_home: \(usb_home) usb_art: \(usb_art) usb_cncposition: \(usb_cncposition) ")
+     //        let zeilenzahlarray = info?["schnittdatenarray"] as! [UInt8]
+     guard   let zeilenzahlarray = info?["schnittdatenarray"] as?[[UInt8]] else {return}
+     
+     //HomeAnschlagSet.removeAll()
+     
+     var zeilenindex = 0
+     for zeile in   zeilenzahlarray
+     {
+        var wertarray = [UInt8]()
+        var elementindex = 0
+        for el in zeile
+        {
+           guard UInt8(el) != nil else { return  }
+           wertarray.append(el)
+           elementindex += 1
+        }
+        for anz in  elementindex..<Int(BufferSize())
+        {
+           wertarray.append(0)
+           
+        }
+        wertarray[25] = UInt8(steps)
+        wertarray[26] = UInt8(micro)
+        
+        /*
+         print("usbschnittdatenAktion usb_schnittdatenarray 0-48");
+        var zeile:Int=0
+        for i in 0..<48
+        {
+           print("\(i)\t\(wertarray[i])")
+           zeile += 1
+        }
+         */
+        usb_schnittdatenarray.append(wertarray)
+  
+     }
+     
+     
+     if (globalusbstatus == 0)
+     {
+        let warnung = NSAlert.init()
+        
+        warnung.informativeText = "USB_SchnittdatenAktion: USB ist noch nicht eingesteckt."
+        warnung.messageText = "CNC Schnitt starten"
+        warnung.addButton(withTitle: "Einstecken und einschalten")
+        warnung.addButton(withTitle: "Zurück")
+        
+        var openerfolg = 0
+        let devicereturn = warnung.runModal()
+        switch (devicereturn)
+        {
+        case NSApplication.ModalResponse.alertFirstButtonReturn: // Einschalten
+           let device = teensyboardarray[boardindex]
+           openerfolg = Int(teensy.USBOpen(code: device, board: boardindex))
+           break
+           
+        case NSApplication.ModalResponse.alertSecondButtonReturn:
+           return
+           break
+        case NSApplication.ModalResponse.alertThirdButtonReturn:
+           return
+           break
+        default:
+           return
+           break
+        }
+     }
+     
+     var timerdic:[String:Any] = [String:Any]()
+     timerdic["home"] = usb_home
+     
+     if (teensy.read_OK.boolValue == false)
+     {
+        print("teensy.read_OK ist false")
+        teensy.start_read_USB(true, dic:timerdic)
+     }
+     else
+     {
+        print("teensy.read_OK ist true")
+     }
+     
+      writeCNCAbschnitt()
+    }
+    
+    @objc func usbattachAktion(_ note:Notification)
+     {
+        let info = note.userInfo
+        let status = info?["attach"] as! Int
+        print("ViewController usbattachAktion status: \(status)");
+        
+        if (status == USBREMOVED)
+        {
+     //      USB_OK_Feld.image = notokimage
+           //USBKontrolle.stringValue="USB OFF"
+           print("CNCViewController usbattachAktion USBREMOVED ")
+        }
+       else if (status == USBATTACHED)
+        {
+      //     USB_OK_Feld.image = okimage
+          // [USBKontrolle setStringValue:@"USB ON"];
+           
+           print("CNCViewController usbattachAktion USBATTACHED")
+        }
+        
+        
+     }
+
+
+    @objc func usbsendAktion(_ notification:Notification)
+     {
+        print("usbsendAktion: \(notification)")
+     }
 
    
    @objc func beendenAktion(_ notification:Notification) 

@@ -6,7 +6,7 @@
 //  Copyright 2008 Ruedi Heimlicher. All rights reserved.
 //
 
-#import "rAVR.h"
+#import "rAVRview.h"
 #import "rElement.h"
 
 #import "hid.h"

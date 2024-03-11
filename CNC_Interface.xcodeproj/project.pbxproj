@@ -24,7 +24,6 @@
 		BD8702621A06852A00F2C77B /* rViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8702611A06852A00F2C77B /* rViewController.swift */; };
 		BD8702641A06852A00F2C77B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD8702631A06852A00F2C77B /* Images.xcassets */; };
 		BD8702671A06852A00F2C77B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD8702651A06852A00F2C77B /* Main.storyboard */; };
-		BD9F396C25E595A7000D22C1 /* rAVR.m in Sources */ = {isa = PBXBuildFile; fileRef = BD9F396B25E595A7000D22C1 /* rAVR.m */; };
 		BD9F396F25E59651000D22C1 /* rProfil_DS.m in Sources */ = {isa = PBXBuildFile; fileRef = BD9F396E25E59651000D22C1 /* rProfil_DS.m */; };
 		BD9F397625E64857000D22C1 /* rCNC.m in Sources */ = {isa = PBXBuildFile; fileRef = BD9F397025E64857000D22C1 /* rCNC.m */; };
 		BD9F397725E64857000D22C1 /* rDump_DS.m in Sources */ = {isa = PBXBuildFile; fileRef = BD9F397325E64857000D22C1 /* rDump_DS.m */; };
@@ -64,6 +63,7 @@
 		BDFCF9B722DCFD4400335B2B /* hid.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFCF9B422DCFD4400335B2B /* hid.m */; };
 		BDFCF9B822DCFD4400335B2B /* usb.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFCF9B622DCFD4400335B2B /* usb.swift */; };
 		CA02A27D2B9CBAFE004561D3 /* rTools.m in Sources */ = {isa = PBXBuildFile; fileRef = CA02A27C2B9CBAFE004561D3 /* rTools.m */; };
+		CA22D8EC2B9F27D600AD1A86 /* rAVRview.m in Sources */ = {isa = PBXBuildFile; fileRef = CA22D8EA2B9F27D600AD1A86 /* rAVRview.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -89,8 +89,6 @@
 		BD8702611A06852A00F2C77B /* rViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rViewController.swift; sourceTree = "<group>"; };
 		BD8702631A06852A00F2C77B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		BD8702661A06852A00F2C77B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		BD9F396A25E595A7000D22C1 /* rAVR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rAVR.h; path = ObjC/rAVR.h; sourceTree = "<group>"; };
-		BD9F396B25E595A7000D22C1 /* rAVR.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = rAVR.m; path = ObjC/rAVR.m; sourceTree = "<group>"; };
 		BD9F396D25E59651000D22C1 /* rProfil_DS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rProfil_DS.h; path = ObjC/rProfil_DS.h; sourceTree = "<group>"; };
 		BD9F396E25E59651000D22C1 /* rProfil_DS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = rProfil_DS.m; path = ObjC/rProfil_DS.m; sourceTree = "<group>"; };
 		BD9F397025E64857000D22C1 /* rCNC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = rCNC.m; path = ObjC/rCNC.m; sourceTree = "<group>"; };
@@ -140,6 +138,8 @@
 		BDFCF9B622DCFD4400335B2B /* usb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = usb.swift; sourceTree = "<group>"; };
 		BDFCF9B922DCFDA100335B2B /* CNC_Interface-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CNC_Interface-Bridging-Header.h"; sourceTree = "<group>"; };
 		CA02A27C2B9CBAFE004561D3 /* rTools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = rTools.m; path = ObjC/rTools.m; sourceTree = "<group>"; };
+		CA22D8EA2B9F27D600AD1A86 /* rAVRview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = rAVRview.m; path = ObjC/rAVRview.m; sourceTree = "<group>"; };
+		CA22D8EB2B9F27D600AD1A86 /* rAVRview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rAVRview.h; path = ObjC/rAVRview.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -244,14 +244,14 @@
 		BD9F396925E59530000D22C1 /* ObjC */ = {
 			isa = PBXGroup;
 			children = (
+				CA22D8EB2B9F27D600AD1A86 /* rAVRview.h */,
+				CA22D8EA2B9F27D600AD1A86 /* rAVRview.m */,
 				BD337662289C574300AB7B1B /* rVertikalanzeige.h */,
 				BD337661289C574300AB7B1B /* rVertikalanzeige.m */,
 				BD1C2193296C7D5700EE1084 /* spline.h */,
 				BD1C2194296C7D5700EE1084 /* spline.c */,
 				BDA0D51929F6F3090017CA50 /* poly.h */,
 				BDA0D51829F6F3090017CA50 /* poly.c */,
-				BD9F396A25E595A7000D22C1 /* rAVR.h */,
-				BD9F396B25E595A7000D22C1 /* rAVR.m */,
 				CA02A27C2B9CBAFE004561D3 /* rTools.m */,
 				BD9F397F25E6491F000D22C1 /* rElement.h */,
 				BD9F398025E6491F000D22C1 /* rElement.m */,
@@ -391,7 +391,6 @@
 				BD3E63132309AA600096AC70 /* rDrehknopfView.swift in Sources */,
 				BD9F397825E64857000D22C1 /* rProfilGraph.m in Sources */,
 				BDE9397A232AC32B005A1A29 /* rRobot.swift in Sources */,
-				BD9F396C25E595A7000D22C1 /* rAVR.m in Sources */,
 				BDCB6F262B985C9000709FC0 /* rHotwireView.swift in Sources */,
 				BD9F397E25E648CA000D22C1 /* rEinstellungen.m in Sources */,
 				BDFCF9B722DCFD4400335B2B /* hid.m in Sources */,
@@ -409,6 +408,7 @@
 				BDFCF9B822DCFD4400335B2B /* usb.swift in Sources */,
 				BD3E630E2305DDE60096AC70 /* geom.swift in Sources */,
 				BD8702601A06852A00F2C77B /* AppDelegate.swift in Sources */,
+				CA22D8EC2B9F27D600AD1A86 /* rAVRview.m in Sources */,
 				BD9F397B25E6487E000D22C1 /* rUtils.m in Sources */,
 				BD9F397725E64857000D22C1 /* rDump_DS.m in Sources */,
 			);

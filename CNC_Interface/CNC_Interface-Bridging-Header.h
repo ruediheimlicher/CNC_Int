@@ -11,7 +11,7 @@
 #import "hid.h"
 #import "kreisschnittpunkt.h"
 
-#import "rAVR.h"
+#import "rAVRview.h"
 #import "rProfil_DS.h"
 #import "rProfilGraph.h"
 #import "rCNC.h"

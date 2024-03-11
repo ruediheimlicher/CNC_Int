@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "rAVR.h"
+#import "rAVRview.h"
 @implementation rAVRview(rTools)
 
 - (NSDictionary*)Tool_SteuerdatenVonDic:(NSDictionary*)derDatenDic

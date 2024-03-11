@@ -321,8 +321,24 @@ var outletdaten:[String:AnyObject] = [:]
       left: 3
       down: 4
       */
-    
-    
+
+    /*
+    @objc func updateSteps()
+     {
+        print("stepsAktion: \()")
+        steps = notification.userInfo?["motorsteps"] as! Int
+        print("stepsAktion steps: \(steps)")
+        //steps_Feld.integerValue = steps
+     }
+
+     @objc func updateMicro()
+     {
+   //     print("stepsAktion: \(notification)")
+        micro = notification.userInfo?["micro"] as! Int
+        print("Aktion micro: \(micro)")
+        //micro_Feld.integerValue = micro
+     }
+*/
 
    @IBAction func reportManRight(_ sender: rPfeil_Taste)
    {
@@ -386,15 +402,21 @@ print("outletdaten: \(outletdaten)")
     {
         print("report_Motorsteps")
        let stepsindex = sender.selectedSegment
-       motorsteps = sender.tag(forSegment: stepsindex)
+        motorsteps = sender.tag(forSegment: stepsindex)
         var NotificationDic = [String:Int]()
+        let view = self.view.superview
         
        
         NotificationDic["motorsteps"] = motorsteps
         
         
         let nc = NotificationCenter.default
+        /*
         nc.post(name:Notification.Name(rawValue:"motorsteps"),
+        object: nil,
+        userInfo: NotificationDic)
+         */
+        nc.post(name:Notification.Name(rawValue:"steps"),
         object: nil,
         userInfo: NotificationDic)
 
