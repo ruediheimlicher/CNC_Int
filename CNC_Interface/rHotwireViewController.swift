@@ -702,7 +702,7 @@ print("outletdaten: \(outletdaten)")
         
         print("reportHome")
         //AVR!.reportHome(nil)
-        AVR!.goHome
+        AVR!.goHome()
    
 
     }

@@ -4283,6 +4283,8 @@ return returnInt;
       index++;
       [ManArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:PositionA.x],@"ax",[NSNumber numberWithFloat:PositionA.y],@"ay",[NSNumber numberWithFloat:PositionB.x],@"bx", [NSNumber numberWithFloat:PositionB.y],@"by",[NSNumber numberWithInt:index],@"index",[NSNumber numberWithInt:0],@"lage",nil]];
       //NSLog(@"A");
+       
+       NSLog(@"AVR  ManRichtung richtung ManArray: %@",ManArray);
       // von reportOberkanteAnfahren
       int i=0;
       int zoomfaktor=1.0;

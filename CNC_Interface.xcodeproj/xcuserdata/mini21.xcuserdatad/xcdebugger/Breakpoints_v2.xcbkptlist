@@ -204,8 +204,8 @@
             filePath = "CNC_Interface/ObjC/rAVR.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "12362"
-            endingLineNumber = "12362"
+            startingLineNumber = "12364"
+            endingLineNumber = "12364"
             landmarkName = "-writeCNCAbschnitt"
             landmarkType = "7">
             <Locations>
@@ -252,6 +252,36 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "12368"
                   endingLineNumber = "12368"
+                  offsetFromSymbolStart = "140">
+               </Location>
+               <Location
+                  uuid = "A168289C-4CC0-4A60-BB97-CA1E9A97C03A - c97e98e612a4c3aa"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[rAVRview writeCNCAbschnitt]"
+                  moduleName = "CNC_Interface"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mini21/Documents/Programming/CNC_Interface/CNC_Interface/ObjC/rAVR.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "12375"
+                  endingLineNumber = "12375"
+                  offsetFromSymbolStart = "140">
+               </Location>
+               <Location
+                  uuid = "A168289C-4CC0-4A60-BB97-CA1E9A97C03A - c97e98e612a4c3e8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[rAVRview writeCNCAbschnitt]"
+                  moduleName = "CNC_Interface"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mini21/Documents/Programming/CNC_Interface/CNC_Interface/ObjC/rAVR.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "12377"
+                  endingLineNumber = "12377"
                   offsetFromSymbolStart = "140">
                </Location>
             </Locations>
@@ -753,8 +783,8 @@
             filePath = "CNC_Interface/ObjC/rAVR.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4289"
-            endingLineNumber = "4289"
+            startingLineNumber = "4291"
+            endingLineNumber = "4291"
             landmarkName = "-ManRichtung:mousestatus:pfeilstep:"
             landmarkType = "7">
          </BreakpointContent>
@@ -769,8 +799,8 @@
             filePath = "CNC_Interface/ObjC/rAVR.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4322"
-            endingLineNumber = "4322"
+            startingLineNumber = "4324"
+            endingLineNumber = "4324"
             landmarkName = "-ManRichtung:mousestatus:pfeilstep:"
             landmarkType = "7">
             <Locations>
@@ -817,8 +847,8 @@
             filePath = "CNC_Interface/ObjC/rAVR.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4392"
-            endingLineNumber = "4392"
+            startingLineNumber = "4394"
+            endingLineNumber = "4394"
             landmarkName = "-ManRichtung:mousestatus:pfeilstep:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1025,8 +1055,8 @@
             filePath = "CNC_Interface/ObjC/rAVR.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "11255"
-            endingLineNumber = "11255"
+            startingLineNumber = "11257"
+            endingLineNumber = "11257"
             landmarkName = "-reportHome:"
             landmarkType = "7">
             <Locations>
@@ -1226,8 +1256,8 @@
             filePath = "CNC_Interface/ObjC/rAVR.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "11328"
-            endingLineNumber = "11328"
+            startingLineNumber = "11330"
+            endingLineNumber = "11330"
             landmarkName = "-reportHome:"
             landmarkType = "7">
             <Locations>
@@ -1304,6 +1334,36 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "11324"
                   endingLineNumber = "11324"
+                  offsetFromSymbolStart = "3436">
+               </Location>
+               <Location
+                  uuid = "4D73D517-26FF-474D-83AE-33E65C5F76FB - e552300a85cf5996"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[rAVRview reportHome:]"
+                  moduleName = "CNC_Interface"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mini21/Documents/Programming/CNC_Interface/CNC_Interface/ObjC/rAVR.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "11329"
+                  endingLineNumber = "11329"
+                  offsetFromSymbolStart = "3436">
+               </Location>
+               <Location
+                  uuid = "4D73D517-26FF-474D-83AE-33E65C5F76FB - e552300a85cf5658"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[rAVRview reportHome:]"
+                  moduleName = "CNC_Interface"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mini21/Documents/Programming/CNC_Interface/CNC_Interface/ObjC/rAVR.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "11331"
+                  endingLineNumber = "11331"
                   offsetFromSymbolStart = "3436">
                </Location>
             </Locations>
@@ -1383,8 +1443,8 @@
             filePath = "CNC_Interface/ObjC/rAVR.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "11274"
-            endingLineNumber = "11274"
+            startingLineNumber = "11276"
+            endingLineNumber = "11276"
             landmarkName = "-reportHome:"
             landmarkType = "7">
             <Locations>
@@ -1652,8 +1712,8 @@
             filePath = "CNC_Interface/ObjC/rAVR.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "11244"
-            endingLineNumber = "11244"
+            startingLineNumber = "11246"
+            endingLineNumber = "11246"
             landmarkName = "-reportHome:"
             landmarkType = "7">
             <Locations>
@@ -1715,6 +1775,36 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "11239"
                   endingLineNumber = "11239"
+                  offsetFromSymbolStart = "64">
+               </Location>
+               <Location
+                  uuid = "8E3C0605-7061-4982-B7A7-05F8A8421D73 - e552300a85cf22a1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[rAVRview reportHome:]"
+                  moduleName = "CNC_Interface"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mini21/Documents/Programming/CNC_Interface/CNC_Interface/ObjC/rAVR.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "11244"
+                  endingLineNumber = "11244"
+                  offsetFromSymbolStart = "64">
+               </Location>
+               <Location
+                  uuid = "8E3C0605-7061-4982-B7A7-05F8A8421D73 - e552300a85cf2363"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[rAVRview reportHome:]"
+                  moduleName = "CNC_Interface"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mini21/Documents/Programming/CNC_Interface/CNC_Interface/ObjC/rAVR.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "11246"
+                  endingLineNumber = "11246"
                   offsetFromSymbolStart = "64">
                </Location>
             </Locations>
@@ -2130,8 +2220,8 @@
             filePath = "CNC_Interface/ObjC/rAVR.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "11249"
-            endingLineNumber = "11249"
+            startingLineNumber = "11251"
+            endingLineNumber = "11251"
             landmarkName = "-reportHome:"
             landmarkType = "7">
             <Locations>
@@ -2225,6 +2315,36 @@
                   endingLineNumber = "11245"
                   offsetFromSymbolStart = "328">
                </Location>
+               <Location
+                  uuid = "2572A531-BB21-4581-A02D-6F97E4EE8C6F - e552300a85cf23e7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[rAVRview reportHome:]"
+                  moduleName = "CNC_Interface"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mini21/Documents/Programming/CNC_Interface/CNC_Interface/ObjC/rAVR.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "11250"
+                  endingLineNumber = "11250"
+                  offsetFromSymbolStart = "328">
+               </Location>
+               <Location
+                  uuid = "2572A531-BB21-4581-A02D-6F97E4EE8C6F - e552300a85cf23a9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[rAVRview reportHome:]"
+                  moduleName = "CNC_Interface"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mini21/Documents/Programming/CNC_Interface/CNC_Interface/ObjC/rAVR.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "11252"
+                  endingLineNumber = "11252"
+                  offsetFromSymbolStart = "328">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -2270,8 +2390,8 @@
             filePath = "CNC_Interface/ObjC/rAVR.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "11246"
-            endingLineNumber = "11246"
+            startingLineNumber = "11248"
+            endingLineNumber = "11248"
             landmarkName = "-reportHome:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2318,8 +2438,8 @@
             filePath = "CNC_Interface/ObjC/rAVR.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4434"
-            endingLineNumber = "4434"
+            startingLineNumber = "4436"
+            endingLineNumber = "4436"
             landmarkName = "-reportManRight:"
             landmarkType = "7">
             <Locations>
@@ -2705,6 +2825,21 @@
                   endingLineNumber = "361"
                   offsetFromSymbolStart = "1484">
                </Location>
+               <Location
+                  uuid = "02F8BCF5-0C36-46E3-AB22-169C16D1DE53 - 7f5c14c91d83b672"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CNC_Interface.rHotwireViewController.reportManLeft(CNC_Interface.rPfeil_Taste) -&gt; ()"
+                  moduleName = "CNC_Interface"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mini21/Documents/Programming/CNC_Interface/CNC_Interface/rHotwireViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "361"
+                  endingLineNumber = "361"
+                  offsetFromSymbolStart = "1484">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -2882,6 +3017,21 @@
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "CNC_Interface.rHotwireViewController.reportManDown(__C.rPfeiltaste) -&gt; ()"
+                  moduleName = "CNC_Interface"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mini21/Documents/Programming/CNC_Interface/CNC_Interface/rHotwireViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "375"
+                  endingLineNumber = "375"
+                  offsetFromSymbolStart = "1484">
+               </Location>
+               <Location
+                  uuid = "B9B5B440-CCCD-4182-90F1-655DDE789484 - 34e16f31e58e7d3f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CNC_Interface.rHotwireViewController.reportManDown(CNC_Interface.rPfeil_Taste) -&gt; ()"
                   moduleName = "CNC_Interface"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mini21/Documents/Programming/CNC_Interface/CNC_Interface/rHotwireViewController.swift"
@@ -3352,14 +3502,94 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "D86EADB1-B5EF-425B-8631-8289E88D1ADC"
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CNC_Interface/rViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "333"
-            endingLineNumber = "333"
+            startingLineNumber = "334"
+            endingLineNumber = "334"
+            landmarkName = "viewDidAppear()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "86AF118A-2D82-464B-A62A-C321134B54B1"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CNC_Interface/ObjC/rAVR.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "4284"
+            endingLineNumber = "4284"
+            landmarkName = "-ManRichtung:mousestatus:pfeilstep:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D1790C49-E1E9-444B-AA7F-246ED54F9ED9"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CNC_Interface/ObjC/rAVR.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "4389"
+            endingLineNumber = "4389"
+            landmarkName = "-ManRichtung:mousestatus:pfeilstep:"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "D1790C49-E1E9-444B-AA7F-246ED54F9ED9 - 7fe2ef5e0ac27dd9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[rAVRview ManRichtung:mousestatus:pfeilstep:]"
+                  moduleName = "CNC_Interface"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mini21/Documents/Programming/CNC_Interface/CNC_Interface/ObjC/rAVR.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "4387"
+                  endingLineNumber = "4387"
+                  offsetFromSymbolStart = "4492">
+               </Location>
+               <Location
+                  uuid = "D1790C49-E1E9-444B-AA7F-246ED54F9ED9 - 7fe2ef5e0ac27c1b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[rAVRview ManRichtung:mousestatus:pfeilstep:]"
+                  moduleName = "CNC_Interface"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mini21/Documents/Programming/CNC_Interface/CNC_Interface/ObjC/rAVR.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "4389"
+                  endingLineNumber = "4389"
+                  offsetFromSymbolStart = "4516">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9F605718-34A8-4F4C-8149-0CB840F26B5E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CNC_Interface/rViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "363"
+            endingLineNumber = "363"
             landmarkName = "viewDidAppear()"
             landmarkType = "7">
          </BreakpointContent>
