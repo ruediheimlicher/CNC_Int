@@ -253,7 +253,7 @@ class rViewController: NSViewController, NSWindowDelegate
     var steps = 0
     var micro = 0
 
-
+    //var Einstellungen = rEinstellungen()
    
    // end von CNCViewC
     
@@ -275,6 +275,10 @@ class rViewController: NSViewController, NSWindowDelegate
       
    }
    
+    override var acceptsFirstResponder : Bool {
+           return true
+    }
+
    
    override func viewDidLoad()
    {
