@@ -10,7 +10,29 @@ import Cocoa
 
 var outletdaten:[String:AnyObject] = [:]
 
-@objc class rHotwireViewController: rViewController 
+@objc class rPfeil_Taste:NSButton
+{
+    required init?(coder  aDecoder : NSCoder)
+    {
+        print("rPfeil_Taste required init")
+        super.init(coder: aDecoder)
+        
+    }
+    
+    override func mouseDown(with theEvent: NSEvent)
+    {
+        let pfeiltag:Int = self.tag
+        super.mouseDown(with: theEvent)
+      }
+    
+    @objc func reportPfeiltaste(pfeiltag:Int)
+    {
+        print("reportPfeiltaste")
+    }
+}
+
+
+@objc class rHotwireViewController: rViewController
 {
       
    var hintergrundfarbe:NSColor = NSColor()
@@ -24,7 +46,8 @@ var outletdaten:[String:AnyObject] = [:]
    var ProfilTable: NSTableView!          
    var ProfilDaten: NSMutableArray!   
    
-    var motorsteps = 48
+    var motorsteps = 47
+    var speed = 6
    /*
    var ProfilDatenOA: NSArray    
    var ProfilDatenUA: NSArray                 
@@ -87,9 +110,9 @@ var outletdaten:[String:AnyObject] = [:]
     var hotwireplist:[String:AnyObject] = [:]
    
    @IBOutlet weak var intpos0Feld: NSStepper!
-   @IBOutlet weak var StepperTab: rTabview!
+   //@IBOutlet weak var StepperTab: rTabview!
     
-   @IBOutlet weak var TaskTab: rTabview!
+   //@IBOutlet weak var TaskTab: rTabview!
    @IBOutlet weak var  ProfilFeld: NSTextField!
     
    @IBOutlet weak var  GFKFeldA: NSTextField!
@@ -298,6 +321,8 @@ var outletdaten:[String:AnyObject] = [:]
       left: 3
       down: 4
       */
+    
+    
 
    @IBAction func reportManRight(_ sender: rPfeiltaste)
    {

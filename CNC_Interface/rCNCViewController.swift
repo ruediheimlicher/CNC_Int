@@ -34,7 +34,7 @@ import Cocoa
    //var readTimer:Timer
    //var readtimer : Timer? = nil
    
-  // var AVR = rAVRview()
+   var AVR = rAVRview()
    
    var Hotwire = rHotwireViewController()
    

@@ -441,10 +441,11 @@ float det(float v0[],float v1[])
 @implementation  rTabview
 - (void)awakeFromNib
 {
-   NSLog(@"rTabview awakeFromNib anz: %d", [[self tabViewItems]count]);
-   NSMutableArray* tabarray = [self tabViewItems];
+   //NSLog(@"rTabview awakeFromNib anz: %d", [[self tabViewItems]count]);
+   //NSMutableArray* tabarray = [self tabViewItems];
    
    nummer = 1;
+    /*
    for (int i=0;i<tabarray.count;i++)
    {
       NSString* ident = [[tabarray objectAtIndex:i]identifier] ;
@@ -452,6 +453,7 @@ float det(float v0[],float v1[])
       NSLog(@"rTabview ident: %@ nummer: %d",ident,nummer);
       
    }
+   */
 }
 @end
 
