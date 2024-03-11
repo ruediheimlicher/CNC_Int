@@ -209,6 +209,8 @@ class rViewController: NSViewController, NSWindowDelegate
    var usbstatus: Int32 = 0
    
    var boardindex:Int = 0
+    
+    var viewdidloadcounter = 0
    
    var teensyboardarray:[[String:Any]] = []
    
@@ -243,10 +245,10 @@ class rViewController: NSViewController, NSWindowDelegate
  
    func windowWillClose(_ aNotification: Notification) {
       print("windowWillClose ViewC")
-      //let nc = NotificationCenter.default
-      //nc.post(name:Notification.Name(rawValue:"beenden"),
-      //        object: nil,
-      //        userInfo: nil)
+      let nc = NotificationCenter.default
+      nc.post(name:Notification.Name(rawValue:"beenden"),
+              object: nil,
+              userInfo: nil)
       
    }
    
@@ -285,6 +287,7 @@ class rViewController: NSViewController, NSWindowDelegate
       NotificationCenter.default.addObserver(self, selector:#selector(tabviewAktion(_:)),name:NSNotification.Name(rawValue: "tabview"),object:nil)
 
 //      NotificationCenter.default.addObserver(self, selector: #selector(usbsendAktion), name:NSNotification.Name(rawValue: "usbsend"), object: nil)
+       NotificationCenter.default.addObserver(self, selector: #selector(beendenAktion), name:NSNotification.Name(rawValue: "beenden"), object: nil)
 
 
       
@@ -1259,6 +1262,7 @@ class rViewController: NSViewController, NSWindowDelegate
       print("Board: \(board) boardtag: \(boardtag)")
       
    }
+    
    
    @nonobjc  func windowShouldClose(_ sender: Any) 
    {

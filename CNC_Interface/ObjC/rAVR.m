@@ -4211,9 +4211,9 @@ return returnInt;
 {
    {
        NSDictionary* outletdaten = [rHotwireViewController cncoutletdaten];
-       NSLog(@"outletdaten: %@",outletdaten);
+       NSLog(@"ManRichtung outletdaten: %@",outletdaten);
 
-      NSLog(@"AVR  ManRichtung richtung: %d mousestatus: %d seite1check: %d seite2check: %d",richtung, status,[CNC_Seite1Check state],[CNC_Seite2Check state]);
+      NSLog(@"AVR  ManRichtung richtung: %d mousestatus: %d seite1check: %d seite2check: %d",richtung, status,outletdaten[@"cnc_seite1check"],outletdaten[@"cnc_seite2check"]);
        
        if ((cncstatus)|| !(outletdaten[@"cnc_seite1check"] || (outletdaten[@"cnc_seite2check"])))
       {
