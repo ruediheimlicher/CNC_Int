@@ -98,7 +98,7 @@
    
    IBOutlet id                StepperTab;
    
-   IBOutlet     rTabview*            TaskTab;
+   IBOutlet     rTabview*       TaskTab;
    IBOutlet   rProfilGraph*     ProfilFeld;
    
    IBOutlet   id               GFKFeldA;

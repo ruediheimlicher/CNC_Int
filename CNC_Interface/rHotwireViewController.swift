@@ -113,7 +113,7 @@ var outletdaten:[String:AnyObject] = [:]
    //@IBOutlet weak var StepperTab: rTabview!
     
    //@IBOutlet weak var TaskTab: rTabview!
-   @IBOutlet weak var  ProfilFeld: NSTextField!
+   //@IBOutlet weak var  ProfilFeld: NSTextField!
     
    @IBOutlet weak var  GFKFeldA: NSTextField!
    @IBOutlet weak var  GFKFeldB: NSTextField!
@@ -281,7 +281,7 @@ var outletdaten:[String:AnyObject] = [:]
     @IBOutlet weak var BlockbreiteFeld:  NSTextField!
     @IBOutlet weak var BlockbreiteStepper:  NSTextField!
     
-    
+    @IBOutlet weak var  ProfilFeld: rProfilfeldView!
     
     // Rumpf
     @IBOutlet weak var RandFeld:  NSTextField!

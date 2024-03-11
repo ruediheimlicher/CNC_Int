@@ -64,6 +64,7 @@
 		BDFCF9B822DCFD4400335B2B /* usb.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFCF9B622DCFD4400335B2B /* usb.swift */; };
 		CA02A27D2B9CBAFE004561D3 /* rTools.m in Sources */ = {isa = PBXBuildFile; fileRef = CA02A27C2B9CBAFE004561D3 /* rTools.m */; };
 		CA22D8EC2B9F27D600AD1A86 /* rAVRview.m in Sources */ = {isa = PBXBuildFile; fileRef = CA22D8EA2B9F27D600AD1A86 /* rAVRview.m */; };
+		CA22D8EE2B9F82C600AD1A86 /* rProfilfeldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA22D8ED2B9F82C600AD1A86 /* rProfilfeldView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -140,6 +141,7 @@
 		CA02A27C2B9CBAFE004561D3 /* rTools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = rTools.m; path = ObjC/rTools.m; sourceTree = "<group>"; };
 		CA22D8EA2B9F27D600AD1A86 /* rAVRview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = rAVRview.m; path = ObjC/rAVRview.m; sourceTree = "<group>"; };
 		CA22D8EB2B9F27D600AD1A86 /* rAVRview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rAVRview.h; path = ObjC/rAVRview.h; sourceTree = "<group>"; };
+		CA22D8ED2B9F82C600AD1A86 /* rProfilfeldView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = rProfilfeldView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -214,6 +216,7 @@
 				BD1407402337F6DD00EDC163 /* rRobotarm.swift */,
 				BD3E63122309AA600096AC70 /* rDrehknopfView.swift */,
 				BD247842286EF7B200D922AF /* rHotwireViewController.swift */,
+				CA22D8ED2B9F82C600AD1A86 /* rProfilfeldView.swift */,
 				BD8702631A06852A00F2C77B /* Images.xcassets */,
 				BD8702651A06852A00F2C77B /* Main.storyboard */,
 				BD9F398425E65FCD000D22C1 /* rTrigo.swift */,
@@ -398,6 +401,7 @@
 				BD8702621A06852A00F2C77B /* rViewController.swift in Sources */,
 				BDA0D51A29F6F3090017CA50 /* poly.c in Sources */,
 				BD247843286EF7B300D922AF /* rHotwireViewController.swift in Sources */,
+				CA22D8EE2B9F82C600AD1A86 /* rProfilfeldView.swift in Sources */,
 				BD1407412337F6DD00EDC163 /* rRobotarm.swift in Sources */,
 				BD1C2195296C7D5700EE1084 /* spline.c in Sources */,
 				BD6A98C522FA07BA001FBADA /* rBasis.swift in Sources */,
