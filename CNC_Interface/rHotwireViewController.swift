@@ -703,7 +703,7 @@ print("outletdaten: \(outletdaten)")
        
        var settingsNotificationDic = [String:AnyObject]()
        
-       settingsNotificationDic["schnittsettigs"] = hotwireplist as AnyObject
+       settingsNotificationDic["schnittsettings"] = hotwireplist as AnyObject
        
        nc.post(name:Notification.Name(rawValue:"settings"),
        object: nil,

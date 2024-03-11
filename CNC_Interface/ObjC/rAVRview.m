@@ -643,6 +643,7 @@ void plot_line (int x0, int y0, int x1, int y1)
 }
 */
 
+NSMutableDictionary* cncdatendic;
 - (void)awakeFromNib
 {
    NSLog(@"AVR awakeFromNib globalcounter: %d",globalcounter);
@@ -651,7 +652,7 @@ void plot_line (int x0, int y0, int x1, int y1)
       return;
    }
    globalcounter++;
-   
+    cncdatendic = NSMutableDictionary.new;
  //  printf("plotBasicBezier\n");
  //  plotBasicBezier(10, 180, 25, 0, 35, 131) ;
  //  printf("plotBasicBezier2\n");
@@ -1261,8 +1262,10 @@ void plot_line (int x0, int y0, int x1, int y1)
 }
 - (void)settingsAktion:(NSNotification*)note
 {
-    NSLog(@"AVR settigsAktion note: %@",note);
-    NSDictionary* settingsDic = [[note userInfo]objectForKey:@"settings"];
+    NSLog(@"AVR settingsAktion note: %@",note);
+    NSDictionary* settingsDic = [[note userInfo]objectForKey:@"schnittsettings"];
+    cncdatendic = [NSMutableDictionary dictionaryWithDictionary:[[note userInfo]objectForKey:@"schnittsettings"]];
+    NSDictionary*  rumpfdic = [cncdatendic objectForKey:@"0"];
     NSLog(@"AVR settingsAktion settingsDic: %@",settingsDic);
     
 }
@@ -1272,6 +1275,7 @@ void plot_line (int x0, int y0, int x1, int y1)
     NSLog(@"AVR speedAktion note: %@",note);
     speed = [[[note userInfo]objectForKey:@"speed"]integerValue];
     NSLog(@"AVR speedAktion speed: %d",speed);
+    [cncdatendic setValue:[[note userInfo]objectForKey:@"speed"] forKey:@"speed"];
     
 }
 
