@@ -11232,6 +11232,11 @@ return returnInt;
    
 }
 
+- (void)goHome
+{
+    NSLog(@"goHome");
+}
+
 
 // TODO: *** *** *** *** *** *** reportHome
 - (IBAction)reportHome:(id)sender

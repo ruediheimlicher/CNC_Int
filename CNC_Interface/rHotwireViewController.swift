@@ -39,7 +39,7 @@ var outletdaten:[String:AnyObject] = [:]
    //rTSP_NN* nn;
    var nn:rTSP_NN!
     var micro:Int!
-    var AVR = rAVRview()
+    //var AVR = rAVRview()
     
    var CNC_PList:NSMutableDictionary!
    
@@ -198,7 +198,7 @@ var outletdaten:[String:AnyObject] = [:]
    @IBOutlet weak var CNC_BlockAnfuegenTaste: NSButton! 
 
     
-   @IBOutlet weak var  Pfeiltaste: rPfeiltaste! 
+   @IBOutlet weak var  Pfeiltaste: rPfeil_Taste!
     
    @IBOutlet weak var IndexFeld: NSTextField! 
    @IBOutlet weak var IndexStepper: NSStepper! 
@@ -324,7 +324,7 @@ var outletdaten:[String:AnyObject] = [:]
     
     
 
-   @IBAction func reportManRight(_ sender: rPfeiltaste)
+   @IBAction func reportManRight(_ sender: rPfeil_Taste)
    {
       print("swift reportManRight: \(sender.tag)")
        cnc_seite1check = CNC_Seite1Check.state.rawValue as Int
@@ -337,7 +337,7 @@ print("outletdaten: \(outletdaten)")
        AVR?.manRichtung(1, mousestatus:1, pfeilstep:100)
    }
     
-    @IBAction func reportManUp(_ sender: rPfeiltaste)
+    @IBAction func reportManUp(_ sender: rPfeil_Taste)
     {
        print("swift reportManUp: \(sender.tag)")
         cnc_seite1check = CNC_Seite1Check.state.rawValue as Int
@@ -351,7 +351,7 @@ print("outletdaten: \(outletdaten)")
         AVR?.manRichtung(2, mousestatus:1, pfeilstep:100)
     }
 
-    @IBAction func reportManLeft(_ sender: rPfeiltaste)
+    @IBAction func reportManLeft(_ sender: rPfeil_Taste)
     {
        print("swift reportManLeft: \(sender.tag)")
         cnc_seite1check = CNC_Seite1Check.state.rawValue as Int
@@ -365,7 +365,7 @@ print("outletdaten: \(outletdaten)")
         AVR?.manRichtung(3, mousestatus:1, pfeilstep:100)
     }
 
-    @IBAction func reportManDown(_ sender: rPfeiltaste)
+    @IBAction func reportManDown(_ sender: rPfeil_Taste)
     {
        print("swift reportManDown: \(sender.tag)")
         cnc_seite1check = CNC_Seite1Check.state.rawValue as Int
@@ -701,8 +701,8 @@ print("outletdaten: \(outletdaten)")
         
         
         print("reportHome")
-        AVR!.reportHome(nil)
-        
+        //AVR!.reportHome(nil)
+        AVR!.goHome
    
 
     }

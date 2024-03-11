@@ -12,6 +12,7 @@
 
 import Cocoa
 
+
  public var lastDataRead = Data.init(count:BUFFER_SIZE)
 
 
@@ -190,6 +191,8 @@ class rViewController: NSViewController, NSWindowDelegate
    let notokimage :NSImage = NSImage(named:NSImage.Name(rawValue: "notok_image"))!
    let okimage :NSImage = NSImage(named:NSImage.Name(rawValue: "ok_image"))!
    
+    var AVR = rAVRview()
+
    @IBOutlet weak var USB_OK_Feld: NSImageView!
    
    // Robot

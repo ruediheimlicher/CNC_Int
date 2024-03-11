@@ -53,7 +53,6 @@
 		BD9F39B225E8ED25000D22C1 /* CNC_Eingabe.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD9F39AF25E8ED25000D22C1 /* CNC_Eingabe.xib */; };
 		BD9F39B325E8ED25000D22C1 /* Settings.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD9F39B025E8ED25000D22C1 /* Settings.xib */; };
 		BDA0D51A29F6F3090017CA50 /* poly.c in Sources */ = {isa = PBXBuildFile; fileRef = BDA0D51829F6F3090017CA50 /* poly.c */; };
-		BDBE032B25EA6AFA0011A658 /* rCNCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBE032A25EA6AFA0011A658 /* rCNCViewController.swift */; };
 		BDCB6F262B985C9000709FC0 /* rHotwireView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCB6F252B985C9000709FC0 /* rHotwireView.swift */; };
 		BDDB38932937E4FF00B4F355 /* Taste_red.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BDDB388F2937E4FF00B4F355 /* Taste_red.jpg */; };
 		BDDB38942937E4FF00B4F355 /* notok_image.png in Resources */ = {isa = PBXBuildFile; fileRef = BDDB38902937E4FF00B4F355 /* notok_image.png */; };
@@ -128,7 +127,6 @@
 		BD9F39B025E8ED25000D22C1 /* Settings.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Settings.xib; path = nibs/Settings.xib; sourceTree = "<group>"; };
 		BDA0D51829F6F3090017CA50 /* poly.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = poly.c; sourceTree = "<group>"; };
 		BDA0D51929F6F3090017CA50 /* poly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = poly.h; sourceTree = "<group>"; };
-		BDBE032A25EA6AFA0011A658 /* rCNCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rCNCViewController.swift; sourceTree = "<group>"; };
 		BDCB6F252B985C9000709FC0 /* rHotwireView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rHotwireView.swift; sourceTree = "<group>"; };
 		BDDB388F2937E4FF00B4F355 /* Taste_red.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Taste_red.jpg; path = Bilder/Taste_red.jpg; sourceTree = "<group>"; };
 		BDDB38902937E4FF00B4F355 /* notok_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = notok_image.png; path = Bilder/notok_image.png; sourceTree = "<group>"; };
@@ -213,7 +211,6 @@
 				BD3E63102309A96D0096AC70 /* rJoystickView.swift */,
 				BD6A989022EDE8CE001FBADA /* defines.swift */,
 				BD8702611A06852A00F2C77B /* rViewController.swift */,
-				BDBE032A25EA6AFA0011A658 /* rCNCViewController.swift */,
 				BD1407402337F6DD00EDC163 /* rRobotarm.swift */,
 				BD3E63122309AA600096AC70 /* rDrehknopfView.swift */,
 				BD247842286EF7B200D922AF /* rHotwireViewController.swift */,
@@ -397,7 +394,6 @@
 				BD9F396C25E595A7000D22C1 /* rAVR.m in Sources */,
 				BDCB6F262B985C9000709FC0 /* rHotwireView.swift in Sources */,
 				BD9F397E25E648CA000D22C1 /* rEinstellungen.m in Sources */,
-				BDBE032B25EA6AFA0011A658 /* rCNCViewController.swift in Sources */,
 				BDFCF9B722DCFD4400335B2B /* hid.m in Sources */,
 				BD9F398625E65FCD000D22C1 /* rTrigo.swift in Sources */,
 				BD8702621A06852A00F2C77B /* rViewController.swift in Sources */,

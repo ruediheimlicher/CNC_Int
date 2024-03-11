@@ -142,8 +142,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "560"
             endingLineNumber = "560"
-            landmarkName = "rTabview"
-            landmarkType = "3">
+            landmarkName = "-Richtung"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -158,8 +158,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "553"
             endingLineNumber = "553"
-            landmarkName = "rTabview"
-            landmarkType = "3">
+            landmarkName = "-Tastestatus"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -174,7 +174,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "484"
             endingLineNumber = "484"
-            landmarkName = "-awakeFromNib"
+            landmarkName = "-mouseUp:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -204,8 +204,8 @@
             filePath = "CNC_Interface/ObjC/rAVR.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "12357"
-            endingLineNumber = "12357"
+            startingLineNumber = "12362"
+            endingLineNumber = "12362"
             landmarkName = "-writeCNCAbschnitt"
             landmarkType = "7">
             <Locations>
@@ -1025,8 +1025,8 @@
             filePath = "CNC_Interface/ObjC/rAVR.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "11250"
-            endingLineNumber = "11250"
+            startingLineNumber = "11255"
+            endingLineNumber = "11255"
             landmarkName = "-reportHome:"
             landmarkType = "7">
             <Locations>
@@ -1226,8 +1226,8 @@
             filePath = "CNC_Interface/ObjC/rAVR.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "11323"
-            endingLineNumber = "11323"
+            startingLineNumber = "11328"
+            endingLineNumber = "11328"
             landmarkName = "-reportHome:"
             landmarkType = "7">
             <Locations>
@@ -1383,8 +1383,8 @@
             filePath = "CNC_Interface/ObjC/rAVR.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "11269"
-            endingLineNumber = "11269"
+            startingLineNumber = "11274"
+            endingLineNumber = "11274"
             landmarkName = "-reportHome:"
             landmarkType = "7">
             <Locations>
@@ -1496,8 +1496,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1245"
             endingLineNumber = "1245"
-            landmarkName = "rAVRview"
-            landmarkType = "3">
+            landmarkName = "-awakeFromNib"
+            landmarkType = "7">
             <Locations>
                <Location
                   uuid = "4DAF3A6D-5101-48F5-833C-A1D18B0CBD4D - e5d90bba4cc7e9f2"
@@ -1652,8 +1652,8 @@
             filePath = "CNC_Interface/ObjC/rAVR.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "11239"
-            endingLineNumber = "11239"
+            startingLineNumber = "11244"
+            endingLineNumber = "11244"
             landmarkName = "-reportHome:"
             landmarkType = "7">
             <Locations>
@@ -2036,7 +2036,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1261"
             endingLineNumber = "1261"
-            landmarkName = "-settingsAktion:"
+            landmarkName = "-microAktion:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2130,8 +2130,8 @@
             filePath = "CNC_Interface/ObjC/rAVR.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "11244"
-            endingLineNumber = "11244"
+            startingLineNumber = "11249"
+            endingLineNumber = "11249"
             landmarkName = "-reportHome:"
             landmarkType = "7">
             <Locations>
@@ -2270,8 +2270,8 @@
             filePath = "CNC_Interface/ObjC/rAVR.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "11241"
-            endingLineNumber = "11241"
+            startingLineNumber = "11246"
+            endingLineNumber = "11246"
             landmarkName = "-reportHome:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3295,8 +3295,8 @@
             filePath = "CNC_Interface/rViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "191"
-            endingLineNumber = "191"
+            startingLineNumber = "192"
+            endingLineNumber = "192"
             landmarkName = "rViewController"
             landmarkType = "3">
             <Locations>
@@ -3358,8 +3358,8 @@
             filePath = "CNC_Interface/rViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "330"
-            endingLineNumber = "330"
+            startingLineNumber = "333"
+            endingLineNumber = "333"
             landmarkName = "viewDidAppear()"
             landmarkType = "7">
          </BreakpointContent>
