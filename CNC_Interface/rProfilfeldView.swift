@@ -31,21 +31,91 @@ class rProfilfeldView: NSView
     var  screen  :  Int  = 0
     var  GraphOffset :  Int  = 0
 
-    func setDatenArray(derDatenArray:NSArray) {}
-    func setRahmenArray(DatenArray:NSArray) {}
-    func setScale(derScalefaktor : CGFloat ) {}
-    func setStepperposition(pos : Int ) {}
-    func setAnzahlMaschen (anzahl : Int ) {}
+    func setDatenArray(derDatenArray:NSArray) 
+    {
+        DatenArray=derDatenArray
+    }
+    func setRahmenArray(derRahmenArray:NSArray)
+    {
+        RahmenArray=derRahmenArray
+    }
+    func setScale(derScalefaktor : CGFloat ) 
+    {
+        scale = derScalefaktor
+    }
+    func setStepperposition(pos : Int )
+    {
+        
+    }
+    func setAnzahlMaschen (anzahl : Int )
+    {
+        anzahlmaschen = anzahl
+    }
+    func getDatenArray() -> NSArray
+    {
+        return DatenArray
+    }
     func acceptsFirstResponder() -> ObjCBool {return true}
     func canBecomeKeyView ()->ObjCBool {return true}
+    
     func keyDown (derEvent : NSEvent ) {}
+    
     func mausistDown() {}
-    func setKlickpunkt (derPunkt : Int ) {}
-    func setKlickrange (derRange : NSRange ) {}
-    func setGraphOffset (offset : Int ) {}
-    func setgraphstatus (status : Int ) {}
+    
+    func setKlickpunkt (derPunkt : Int )
+    {
+        Klickpunkt=derPunkt
+        startklickpunkt=derPunkt
+    }
+    func setKlickrange (derRange : NSRange ) 
+    {
+        klickrange = derRange
+    }
+    func setGraphOffset (offset : Int )
+    {
+        GraphOffset = offset
+    }
+    func setgraphstatus (status : Int ) 
+    {
+        graphstatus = status
+    }
     func GitterZeichnenMitMaschen (anzahl : Int ) {}
-    func GitterZeichnen () {}
+    func GitterZeichnen ()
+    {
+        
+    var Gittermass:Double  = scale*10;
+          
+        var breite:CGFloat = bounds.size.width;
+        let w:CGFloat = bounds.size.width
+        let h:CGFloat = bounds.size.height
+      
+        if ((NSGraphicsContext.current?.isDrawingToScreen) != nil)
+        {
+            print("ProfilGraph drawRect screen")
+            screen = 1
+            anzahlmaschen = Int(breite/Gittermass)
+        }
+        else
+        {
+            anzahlmaschen = 28
+            breite = Double(anzahlmaschen) * Gittermass;
+            screen = 0
+        }
+        var  HorizontaleLinie:NSBezierPath = NSBezierPath()
+        var  i:Int = 0
+        
+        // waagrechte Linien
+        let anzvertikal:Int = Int((h/Gittermass))
+        for i in 0..<anzvertikal
+        {
+            var A:NSPoint = NSMakePoint(0, 1+Gittermass*Double(i))
+            var B:NSPoint = NSMakePoint(w, 1+Gittermass*Double(i))
+            HorizontaleLinie.move(to:A)
+            HorizontaleLinie.line(to:B)
+            
+        }
+        
+    }
 
     // end Profilgraph
     
