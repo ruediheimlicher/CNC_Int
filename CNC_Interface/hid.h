@@ -8,6 +8,6 @@ extern int get_hid_usbstatus(void);
 extern int usb_present(void);
 extern const char* get_manu(void);
 extern const char* get_prod(void);
-extern int getX();
+extern int getX(void);
 
 extern const int BufferSize(void);

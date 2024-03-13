@@ -195,7 +195,7 @@ class rViewController: NSViewController, NSWindowDelegate
     var AVR = rAVRview()
     
     @IBOutlet weak var steps_Feld: NSTextField!
-     @IBOutlet weak var micro_Feld: NSTextField!
+    @IBOutlet weak var micro_Feld: NSTextField!
 
 
    @IBOutlet weak var USB_OK_Feld: NSImageView!
@@ -739,13 +739,13 @@ class rViewController: NSViewController, NSWindowDelegate
       */
      
      Stepperposition = 0
-     //print("cncviewcontroller usbschnittdatenAktion")
+     //print("viewcontroller usbschnittdatenAktion")
      
       
        
   //     guard let steps:Int32 = AVR?.motorsteps()  else {return}
        
-     //print("cncviewcontroller usbschnittdatenAktion steps: \(steps)")
+     //print("viewcontroller usbschnittdatenAktion steps: \(steps)")
      usb_schnittdatenarray.removeAll()
      
      let info = notification.userInfo
@@ -766,7 +766,7 @@ class rViewController: NSViewController, NSWindowDelegate
      
      if usb_home == 1
      {
-        //print("cncviewcontroller usbschnittdatenAktion usb_home: \(usb_home)")
+        //print("viewcontroller usbschnittdatenAktion usb_home: \(usb_home)")
         Stepperposition = 0
         
      }
@@ -868,14 +868,14 @@ class rViewController: NSViewController, NSWindowDelegate
         {
      //      USB_OK_Feld.image = notokimage
            //USBKontrolle.stringValue="USB OFF"
-           print("CNCViewController usbattachAktion USBREMOVED ")
+           print("ViewController usbattachAktion USBREMOVED ")
         }
        else if (status == USBATTACHED)
         {
       //     USB_OK_Feld.image = okimage
           // [USBKontrolle setStringValue:@"USB ON"];
            
-           print("CNCViewController usbattachAktion USBATTACHED")
+           print("ViewController usbattachAktion USBATTACHED")
         }
         
         

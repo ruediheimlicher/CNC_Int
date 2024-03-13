@@ -537,7 +537,7 @@ float det(float v0[],float v1[])
 	[NotificationDic setObject:[NSNumber numberWithInt:1] forKey:@"push"];// Start, nur fuer AVR
 	NSNotificationCenter* nc=[NSNotificationCenter defaultCenter];
 	[nc postNotificationName:@"Pfeil" object:self userInfo:NotificationDic];
-   //[super mouseDown:theEvent];
+   [super mouseDown:theEvent];
    
    [self mouseUp:theEvent];
 }

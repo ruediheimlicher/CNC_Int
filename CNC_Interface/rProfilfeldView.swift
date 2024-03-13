@@ -18,7 +18,7 @@ class rProfilfeldView: NSView
     var  StartPunktB :  NSPoint  = NSZeroPoint
     var  EndPunktB :  NSPoint  = NSZeroPoint
     var  oldMauspunkt :  NSPoint  = NSZeroPoint
-    var  scale  :  Double  = 0
+    var  scale  :  Double  = 4
     var  mausistdown :  Int  = 0
     var  Klickpunkt :  Int  = 0
     var  Klickseite :  Int  = 0
@@ -80,6 +80,7 @@ class rProfilfeldView: NSView
         graphstatus = status
     }
     func GitterZeichnenMitMaschen (anzahl : Int ) {}
+    
     func GitterZeichnen ()
     {
         
@@ -94,6 +95,7 @@ class rProfilfeldView: NSView
             print("ProfilGraph drawRect screen")
             screen = 1
             anzahlmaschen = Int(breite/Gittermass)
+            print("anzahlmaschen: \(anzahlmaschen)")
         }
         else
         {
@@ -114,6 +116,9 @@ class rProfilfeldView: NSView
             HorizontaleLinie.line(to:B)
             
         }
+        HorizontaleLinie.lineWidth = 0.3
+        NSColor.darkGray.set()
+        HorizontaleLinie.stroke()
         
     }
 
@@ -200,6 +205,7 @@ class rProfilfeldView: NSView
       
       weg.lineWidth = 2
       weg.stroke()  // draw line(s) in color
+       GitterZeichnen()
    }
    
    override func mouseDown(with theEvent: NSEvent) 

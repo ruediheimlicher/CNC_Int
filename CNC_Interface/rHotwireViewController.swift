@@ -21,9 +21,18 @@ var outletdaten:[String:AnyObject] = [:]
     
     override func mouseDown(with theEvent: NSEvent)
     {
+        print("tPfeiltaste mouseDown")
         let pfeiltag:Int = self.tag
         super.mouseDown(with: theEvent)
-      }
+    }
+    
+    func mouseup(with theEvent: NSEvent)
+    {
+        print("tPfeiltaste mouseup")
+        let pfeiltag:Int = self.tag
+        super.mouseDown(with: theEvent)
+    }
+
     
     @objc func reportPfeiltaste(pfeiltag:Int)
     {

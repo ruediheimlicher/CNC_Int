@@ -64,7 +64,7 @@ static void detach_callback(void *, IOReturn, void *hid_mgr, IOHIDDeviceRef dev)
 static void timeout_callback(CFRunLoopTimerRef, void *);
 static void input_callback(void *, IOReturn, void *, IOHIDReportType,uint32_t, uint8_t *, CFIndex);
 
-const int BufferSize()
+const int BufferSize(void)
 {
    return BUFFER_SIZE;
 }
@@ -180,7 +180,7 @@ static void free_all_hid(void)
  
 
 
-const char* get_manu()
+const char* get_manu(void)
 {
    return "*\n";
    hid_t * cnc = get_hid(0);
@@ -201,7 +201,7 @@ const char* get_manu()
 }
 
 
-const char* get_prod()
+const char* get_prod(void)
 {
    hid_t * cnc = get_hid(0);
    if (cnc)
@@ -219,7 +219,7 @@ const char* get_prod()
    }
 }
 
-int getX()
+int getX(void)
 {
    return 13;
 }
@@ -245,7 +245,7 @@ int rawhid_send(int num, uint8_t *buf, int len, int timeout)
 	if (!hid || !hid->open) return -1;
    //fprintf(stderr,"rawhid_send A\n");
 //#if 1
-#warning "Send timeout not implemented on MACOSX"
+//#warning "Send timeout not implemented on MACOSX"
 	IOReturn ret = IOHIDDeviceSetReport(hid->ref, kIOHIDReportTypeOutput, 0, buf, (CFIndex)len);
 	result = (ret == kIOReturnSuccess) ? len : -1;
  //  fprintf(stderr,"rawhid_send B result: %d\n",result);
@@ -303,7 +303,7 @@ int rawhid_open(int max, int vid, int pid, int usage_page, int usage)
    mach_port_t             masterPort;
    //CFMutableDictionaryRef  matchingDict = NULL;
    CFRunLoopSourceRef      runLoopSource;
-   fprintf(stderr,"fprintf rawhid_open vid: %d pid: %d\n");
+   fprintf(stderr,"fprintf rawhid_open vid: %d pid: %d\n",vid,pid);
    
    
    //Create a master port for communication with the I/O Kit
@@ -584,7 +584,7 @@ static void attach_callback(void *context, IOReturn r, void *hid_mgr, IOHIDDevic
 }
 
 
-int usb_present()
+int usb_present(void)
 {
    CFMutableDictionaryRef matchingDict;
    io_iterator_t iter;
