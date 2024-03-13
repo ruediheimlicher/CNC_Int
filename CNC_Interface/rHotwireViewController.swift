@@ -12,24 +12,27 @@ var outletdaten:[String:AnyObject] = [:]
 
 @objc class rPfeil_Taste:NSButton
 {
+    var mousedowncounter = 0;
     required init?(coder  aDecoder : NSCoder)
     {
-        print("rPfeil_Taste required init")
+        //print("rPfeil_Taste required init")
         super.init(coder: aDecoder)
         
     }
     
     override func mouseDown(with theEvent: NSEvent)
     {
-        print("swift Pfeiltaste mouseDown")
-        let pfeiltag:Int = self.tag
         super.mouseDown(with: theEvent)
+        mousedowncounter += 1
+        print("swift Pfeil_Taste mouseDown  mousedowncounter: \(mousedowncounter)")
+        let pfeiltag:Int = self.tag
+        
         
         var userinformation:[String : Any]
-         userinformation = ["richtung":pfeiltag,  "push": 1 ] as [String : Any]
+        userinformation = ["richtung":pfeiltag,  "push": 1 , "mousedowncounter":mousedowncounter] as [String : Any]
 
         let nc = NotificationCenter.default
-        nc.post(name:Notification.Name(rawValue:"pfeil"),
+        nc.post(name:Notification.Name(rawValue:"pfeil" ),
                  object: nil,
                  userInfo: userinformation)
 
@@ -37,11 +40,12 @@ var outletdaten:[String:AnyObject] = [:]
         
     }
     
-    @objc func mouseup(with theEvent: NSEvent)
+    @objc override func mouseUp(with theEvent: NSEvent)
     {
+        super.mouseUp(with: theEvent)
         print("swift Pfeiltaste mouseup")
         let pfeiltag:Int = self.tag
-        super.mouseDown(with: theEvent)
+        
         /*
           richtung:
           right: 1
@@ -49,7 +53,15 @@ var outletdaten:[String:AnyObject] = [:]
           left: 3
           down: 4
           */
+        var userinformation:[String : Any]
+        userinformation = ["richtung":pfeiltag,  "push": 0 , "mousedowncounter":mousedowncounter] as [String : Any]
 
+        let nc = NotificationCenter.default
+        nc.post(name:Notification.Name(rawValue:"pfeil"),
+                 object: nil,
+                 userInfo: userinformation)
+
+        
     }
 
     
@@ -337,6 +349,12 @@ var outletdaten:[String:AnyObject] = [:]
     
 
     @IBOutlet weak var  RumpfteilTaste:  NSSegmentedControl!
+    
+    let MANRIGHT    = 1
+    let MANUP       = 2
+    let MANLEFT     = 3
+    let MANDOWN     = 4
+
 
     @objc class func cncoutletdaten() -> NSDictionary
     {
@@ -373,7 +391,8 @@ var outletdaten:[String:AnyObject] = [:]
 
    @IBAction func reportManRight(_ sender: rPfeil_Taste)
    {
-      print("swift reportManRight: \(sender.tag)")
+      //print("swift reportManRight: \(sender.tag)")
+       
        AnschlagLinksIndikator.layer?.backgroundColor = NSColor.green.cgColor
        
        cnc_seite1check = CNC_Seite1Check.state.rawValue as Int
@@ -816,9 +835,9 @@ var outletdaten:[String:AnyObject] = [:]
          //print("xml: \(plistXML) anz: \(plistXML.count)")
          for zeile in plistData
          {
-            print("zeile: \(zeile)")
+     //       print("zeile: \(zeile)")
          }
-         print("0: \(plistData["0"])")
+     //    print("0: \(plistData["0"])")
        }
       
       
@@ -882,6 +901,15 @@ var outletdaten:[String:AnyObject] = [:]
     {
         let info = notification.userInfo
         print(" PfeilAktion: info: \(notification.userInfo) \(info)")
+        if  let mauscounter = info?["mousedownconter"]
+        {
+            let mc = mauscounter as! Int
+            print(" PfeilAktion: mauscounter: \(mc)")
+        }
+        else
+        {
+            
+        }
         
         if (info?["richtung"] != nil)
         {
@@ -890,9 +918,46 @@ var outletdaten:[String:AnyObject] = [:]
             if info?["push"] != nil
             {
                 mausistdown = info?["push"] as!Int
-            }
+            } // if push
+        }// if richtung
+        else
+        {
+            NSSound.beep()
+            quelle = 0
+            mausistdown = 0
+            return
         }
-    }
+        
+        if mausistdown > 0
+        {
+            switch quelle
+            {
+            case MANDOWN:
+                print("PfeilAktion MANDOWN")
+            case MANUP:
+                print("PfeilAktion MANUP")
+                AnschlagUntenIndikator.layer?.backgroundColor = NSColor.green.cgColor
+            case MANLEFT:
+                print("PfeilAktion MANLEFT")
+            case MANRIGHT:
+                print("PfeilAktion MANRIGHT")
+                AnschlagLinksIndikator.layer?.backgroundColor = NSColor.green.cgColor
+                
+                
+            default:
+                break
+            }// switch quelle
+            AVR?.manRichtung(Int32(quelle), mousestatus:Int32(mausistdown), pfeilstep:700)
+            
+        } // mausistdown > 0
+        else // Button released
+        {
+            print("swift Pfeilaktion Button released quelle: \(quelle)")
+            AVR?.manRichtung(Int32(quelle), mousestatus:Int32(mausistdown), pfeilstep:80)
+        }
+        
+        
+    }// Pfeilaktion
 
 
 } // end Hotwire

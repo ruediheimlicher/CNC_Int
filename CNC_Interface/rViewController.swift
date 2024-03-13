@@ -188,7 +188,7 @@ class rDeviceTabViewController: NSTabViewController
 //MARK: ViewController
 class rViewController: NSViewController, NSWindowDelegate
 {
-    
+    var cncwritecounter = 0;
    let notokimage :NSImage = NSImage(named:NSImage.Name(rawValue: "notok_image"))!
    let okimage :NSImage = NSImage(named:NSImage.Name(rawValue: "ok_image"))!
    
@@ -473,7 +473,8 @@ class rViewController: NSViewController, NSWindowDelegate
     
     @objc func writeCNCAbschnitt()
     {
-      print("swift writeCNCAbschnitt usb_schnittdatenarray: \(usb_schnittdatenarray)")
+        cncwritecounter += 1
+        print("swift writeCNCAbschnitt usb_schnittdatenarray: \(usb_schnittdatenarray) cncwritecounter: \(cncwritecounter)")
        let count = usb_schnittdatenarray.count
        //print("writeCNCAbschnitt  count: \(count) Stepperposition: \t",Stepperposition)
        
@@ -853,7 +854,7 @@ class rViewController: NSViewController, NSWindowDelegate
      {
         print("teensy.read_OK ist true")
      }
-     
+      print("readOK vor writeCNCAbschnitt: \(teensy.read_OK.boolValue)")
       writeCNCAbschnitt()
     }
     
@@ -1034,7 +1035,7 @@ class rViewController: NSViewController, NSWindowDelegate
    @objc func newDataAktion(_ notification:Notification) 
    {
       let lastData = teensy.getlastDataRead()
-      print("rViewController newDataAktion lastData:\t \(lastData)   ")
+      //print("rViewController newDataAktion lastData:\t \(lastData)   ")
       var ii = 0
        /*
       while ii < 10
@@ -1055,13 +1056,14 @@ class rViewController: NSViewController, NSWindowDelegate
       
       //print("lastDataRead: \(lastDataRead)   ")
       var i = 0
+       /*
       while i < 10
       {
          //print("i: \(i)  wert: \(lastDataRead[i])\t")
          i = i+1
       }
-
-      if let d = notification.userInfo!["usbdata"]
+        */
+       if let d = notification.userInfo!["usbdata"] as? String
       {
             
          //print("d: \(d)\n") // d: [0, 9, 56, 0, 0,... 
@@ -1075,18 +1077,20 @@ class rViewController: NSViewController, NSWindowDelegate
          {
             //print("d not nil\n")
             var i = 0
+             /*
             while i < 10
             {
                //print("i: \(i)  wert: \(d![i])\t")
                i = i+1
             }
+              */
             
          }
         
          
          //print("dic end\n")
       }
-      print("rViewController newDataAktion end");
+      //print("rViewController newDataAktion end");
       //let dic = notification.userInfo as? [String:[UInt8]]
       //print("dic: \(dic ?? ["a":[123]])\n")
 
