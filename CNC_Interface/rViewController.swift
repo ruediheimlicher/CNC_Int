@@ -326,7 +326,8 @@ class rViewController: NSViewController, NSWindowDelegate
            
            //      NotificationCenter.default.addObserver(self, selector: #selector(usbsendAktion), name:NSNotification.Name(rawValue: "usbsend"), object: nil)
            NotificationCenter.default.addObserver(self, selector: #selector(beendenAktion), name:NSNotification.Name(rawValue: "beenden"), object: nil)
-           
+
+ 
            // von CNCVIWC
            NotificationCenter.default.addObserver(self, selector: #selector(usbsendAktion), name:NSNotification.Name(rawValue: "usbsend"), object: nil)
            NotificationCenter.default.removeObserver(self, name:NSNotification.Name(rawValue: "usbschnittdaten"), object: nil)
@@ -439,7 +440,7 @@ class rViewController: NSViewController, NSWindowDelegate
          let teensycode = teensyboardarray[boardindex]
          
          let erfolg = teensy.USBOpen(code:teensycode, board: boardindex)
-          usbstatus = Int(Int(erfolg))
+        usbstatus = Int(Int(erfolg))
          globalusbstatus = Int(erfolg)
          print("viewDidAppear erfolg: \(erfolg) usbstatus: \(usbstatus) rawhid_status: \(rawhid_status())")
          if usbstatus == 1
@@ -759,9 +760,6 @@ class rViewController: NSViewController, NSWindowDelegate
      }
         
               
-              
-
-              
   //   let usb_home =  info?["home"] as! UInt8
      
      if usb_home == 1
@@ -848,7 +846,8 @@ class rViewController: NSViewController, NSWindowDelegate
      if (teensy.read_OK.boolValue == false)
      {
         print("teensy.read_OK ist false")
-        teensy.start_read_USB(true, dic:timerdic)
+        var result = teensy.start_read_USB(true, dic:timerdic)
+         print("teensy.read_OK status ist: \(result)")
      }
      else
      {
@@ -1035,14 +1034,15 @@ class rViewController: NSViewController, NSWindowDelegate
    @objc func newDataAktion(_ notification:Notification) 
    {
       let lastData = teensy.getlastDataRead()
-      print("rViewController newDataAktion lastData:\t \(lastData[1])\t\(lastData[2])   ")
+      print("rViewController newDataAktion lastData:\t \(lastData)   ")
       var ii = 0
+       /*
       while ii < 10
       {
-         //print("ii: \(ii)  wert: \(lastData[ii])\t")
+         print("ii: \(ii)  wert: \(lastData[ii])\t")
          ii = ii+1
       }
-      
+      */
       let u = ((Int32(lastData[1])<<8) + Int32(lastData[2]))
       //print("hb: \(lastData[1]) lb: \(lastData[2]) u: \(u)")
       let info = notification.userInfo
@@ -1066,7 +1066,7 @@ class rViewController: NSViewController, NSWindowDelegate
             
          //print("d: \(d)\n") // d: [0, 9, 56, 0, 0,... 
          let t = type(of:d)
-         //print("typ: \(t)\n") // typ: Array<UInt8>
+         print("typ: \(t)\n") // typ: Array<UInt8>
          
          //print("element: \(d[1])\n")
          
@@ -1511,7 +1511,8 @@ class rViewController: NSViewController, NSWindowDelegate
       {
          var timerdic = [String:Any]()
          var start_read_USB_erfolg = teensy.start_read_USB(true,dic:timerdic)
-         Start_Knopf.isEnabled = false
+         
+          Start_Knopf.isEnabled = false
          Stop_Knopf.isEnabled = true
 
       }

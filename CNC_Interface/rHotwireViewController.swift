@@ -21,16 +21,35 @@ var outletdaten:[String:AnyObject] = [:]
     
     override func mouseDown(with theEvent: NSEvent)
     {
-        print("tPfeiltaste mouseDown")
+        print("swift Pfeiltaste mouseDown")
         let pfeiltag:Int = self.tag
         super.mouseDown(with: theEvent)
+        
+        var userinformation:[String : Any]
+         userinformation = ["richtung":pfeiltag,  "push": 1 ] as [String : Any]
+
+        let nc = NotificationCenter.default
+        nc.post(name:Notification.Name(rawValue:"pfeil"),
+                 object: nil,
+                 userInfo: userinformation)
+
+        self.mouseUp(with:theEvent)
+        
     }
     
-    func mouseup(with theEvent: NSEvent)
+    @objc func mouseup(with theEvent: NSEvent)
     {
-        print("tPfeiltaste mouseup")
+        print("swift Pfeiltaste mouseup")
         let pfeiltag:Int = self.tag
         super.mouseDown(with: theEvent)
+        /*
+          richtung:
+          right: 1
+          up: 2
+          left: 3
+          down: 4
+          */
+
     }
 
     
@@ -57,6 +76,7 @@ var outletdaten:[String:AnyObject] = [:]
    
     var motorsteps = 47
     var speed = 6
+    var quelle:Int = 0
    /*
    var ProfilDatenOA: NSArray    
    var ProfilDatenUA: NSArray                 
@@ -123,6 +143,8 @@ var outletdaten:[String:AnyObject] = [:]
     
    //@IBOutlet weak var TaskTab: rTabview!
    //@IBOutlet weak var  ProfilFeld: NSTextField!
+    
+    @IBOutlet weak var  CNC_Tabview:  rDeviceTabViewController!
     
    @IBOutlet weak var  GFKFeldA: NSTextField!
    @IBOutlet weak var  GFKFeldB: NSTextField!
@@ -352,6 +374,8 @@ var outletdaten:[String:AnyObject] = [:]
    @IBAction func reportManRight(_ sender: rPfeil_Taste)
    {
       print("swift reportManRight: \(sender.tag)")
+       AnschlagLinksIndikator.layer?.backgroundColor = NSColor.green.cgColor
+       
        cnc_seite1check = CNC_Seite1Check.state.rawValue as Int
        cnc_seite2check = CNC_Seite2Check.state.rawValue as Int
        outletdaten["cnc_seite1check"] = CNC_Seite1Check.state.rawValue as Int as AnyObject
@@ -489,9 +513,16 @@ var outletdaten:[String:AnyObject] = [:]
       
       self.view.layer?.backgroundColor = hintergrundfarbe.cgColor
       
+       AnschlagLinksIndikator.wantsLayer = true
+       AnschlagLinksIndikator?.layer?.backgroundColor = NSColor.green.cgColor
  
+       AnschlagUntenIndikator.wantsLayer = true
+       AnschlagUntenIndikator?.layer?.backgroundColor = NSColor.green.cgColor
+
        NotificationCenter.default.addObserver(self, selector:#selector(usbstatusAktion(_:)),name:NSNotification.Name(rawValue: "usb_status"),object:nil)
-  
+
+       NotificationCenter.default.addObserver(self, selector:#selector(PfeilAktion(_:)),name:NSNotification.Name(rawValue: "pfeil"),object:nil)
+
       Auslauftiefe.integerValue = 10
       
        hotwireplist =  readHotwire_PList()
@@ -841,11 +872,27 @@ var outletdaten:[String:AnyObject] = [:]
           
        }//
 
-      //print("Hotwire usbstatusAktion:\t \(status)")
+      print("Hotwire usbstatusAktion:\t \(status)")
       usbstatus = Int(status)
       boardindex = rawboardindex
        
    }
+    
+    @objc func PfeilAktion(_ notification:Notification)
+    {
+        let info = notification.userInfo
+        print(" PfeilAktion: info: \(notification.userInfo) \(info)")
+        
+        if (info?["richtung"] != nil)
+        {
+            quelle = info?["richtung"] as! Int
+            
+            if info?["push"] != nil
+            {
+                mausistdown = info?["push"] as!Int
+            }
+        }
+    }
 
 
 } // end Hotwire

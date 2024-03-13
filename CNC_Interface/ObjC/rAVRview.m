@@ -438,6 +438,7 @@ float det(float v0[],float v1[])
 }
 @end
 
+/*
 @implementation  rTabview
 - (void)awakeFromNib
 {
@@ -445,7 +446,7 @@ float det(float v0[],float v1[])
    //NSMutableArray* tabarray = [self tabViewItems];
    
    nummer = 1;
-    /*
+   
    for (int i=0;i<tabarray.count;i++)
    {
       NSString* ident = [[tabarray objectAtIndex:i]identifier] ;
@@ -453,10 +454,10 @@ float det(float v0[],float v1[])
       NSLog(@"rTabview ident: %@ nummer: %d",ident,nummer);
       
    }
-   */
+   
 }
 @end
-
+*/
 
 
 @implementation  rPfeiltaste  
@@ -480,7 +481,7 @@ float det(float v0[],float v1[])
 - (void)mouseUp:(NSEvent *)theEvent
 {
    [super mouseUp:theEvent];
-   NSLog(@"Pfeiltaste mouseup");
+   NSLog(@"AVR Pfeiltaste mouseup");
    richtung=[self tag];
    int status = [self state];
    NSLog(@"rPfeiltaste mouseUp: Pfeiltaste richtung: %d status: %d",richtung,status);
@@ -527,7 +528,7 @@ float det(float v0[],float v1[])
    
    richtung=[self tag];
    int status = [self state];
-   NSLog(@"rPfeiltaste mouseDown: Pfeiltaste richtung: %d status: %d",richtung,status);
+   NSLog(@"AVR rPfeiltaste mouseDown: Pfeiltaste richtung: %d status: %d",richtung,status);
   // [self setState:NSControlStateValueOn];
 	
   

@@ -78,13 +78,14 @@
 }
 @end
 
+/*
 @interface rTabview:NSTabView
 {
    int nummer;
    
 }
 @end
-
+*/
 
 
 @interface rAVRview:NSViewController <NSTableViewDataSource,NSTableViewDelegate,NSTabViewDelegate>
@@ -98,7 +99,7 @@
    
    IBOutlet id                StepperTab;
    
-   IBOutlet     rTabview*       TaskTab;
+   IBOutlet   NSTabView*      TaskTab;
    IBOutlet   rProfilGraph*     ProfilFeld;
    
    IBOutlet   id               GFKFeldA;

@@ -103,10 +103,7 @@ class rTimerInfo {
             manustring = manustr
             //manustring = String(cString: UnsafePointer<CChar>(manustr))
          }
-         
-         
-         
-         
+          
          let prod = get_prod();
          if (prod == nil)
          {
