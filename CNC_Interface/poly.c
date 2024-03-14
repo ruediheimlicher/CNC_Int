@@ -44,7 +44,7 @@ void koeffarray(double* x, double* y, int startindex, int bereich, int length, d
          printf("%d\t %d \t %lf \t",index,k,x[startindex+index]);
          if(k==index) // eigene pos
          {
-            printf("\t    k==index \t",k);
+            printf("\t    k==index %d\t",k);
          }
          else
          {
@@ -69,7 +69,7 @@ double lagrangewert(double* x, double* y, int firstindex, int bereich, int lengt
     */
    double koeffarray[bereich];
    double werty=0; // 
-   int endindex = firstindex + bereich;
+  // int endindex = firstindex + bereich;
    
    for (int index=0;index < bereich; index++) // Iterieren ueber Stuetzstellen
    {

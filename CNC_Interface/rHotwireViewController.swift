@@ -12,10 +12,25 @@ var outletdaten:[String:AnyObject] = [:]
 
 @objc class rPfeil_Feld:NSImageView
 {
-    let pfeilrel :NSImage = NSImage(named:NSImage.Name(rawValue: "pfeil_links_mini"))!
-    let pfeilpre :NSImage = NSImage(named:NSImage.Name(rawValue: "pfeil_links"))!
+    var releasediconarray:[NSImage] = []
+    var pressediconarray:[NSImage] = []
+    /*
+      richtung:
+      right: 1
+      up: 2
+      left: 3
+      down: 4
+      */
+
+    
+    var pfeilrechtsreleased :NSImage = NSImage(named:NSImage.Name(rawValue: "pfeil_rechts_grau"))!
+    var pfeilrechtspressed :NSImage = NSImage(named:NSImage.Name(rawValue: "pfeil_rechts"))!
+    
+    
+    
     var feldklickcounter = 0;
     
+     
     func acceptsFirstResponder() -> ObjCBool {return true}
     func canBecomeKeyView ()->ObjCBool {return true}
     required init?(coder  aDecoder : NSCoder)
@@ -23,6 +38,27 @@ var outletdaten:[String:AnyObject] = [:]
         //print("rPfeil_Taste required init")
         super.init(coder: aDecoder)
         
+        releasediconarray.append(NSImage(named:NSImage.Name(rawValue: "pfeil_rechts_grau"))!)
+        releasediconarray.append(NSImage(named:NSImage.Name(rawValue: "pfeil_up_grau"))!)
+        releasediconarray.append(NSImage(named:NSImage.Name(rawValue: "pfeil_links_grau"))!)
+        releasediconarray.append(NSImage(named:NSImage.Name(rawValue: "pfeil_down_grau"))!)
+
+        pressediconarray.append(NSImage(named:NSImage.Name(rawValue: "pfeil_rechts"))!)
+        pressediconarray.append(NSImage(named:NSImage.Name(rawValue: "pfeil_up"))!)
+        pressediconarray.append(NSImage(named:NSImage.Name(rawValue: "pfeil_links"))!)
+        pressediconarray.append(NSImage(named:NSImage.Name(rawValue: "pfeil_down"))!)
+
+        /*
+        var imageView = NSImageView(frame: CGRect(origin: .zero, size: pfeilrechtspressed.size))
+        imageView.image = pfeilrechtsreleased
+        imageView.alphaValue = 1.0
+        pfeilrechtspressed = imageView.image!
+        imageView = NSImageView(frame: CGRect(origin: .zero, size: pfeilrechtsreleased.size))
+        imageView.image = pfeilrechtsreleased
+        imageView.alphaValue = 0.1
+        pfeilrechtsreleased = imageView.image!
+         */
+        self.image = releasediconarray[self.tag-1]
     }
     override func mouseDown(with theEvent: NSEvent)
     {
@@ -32,7 +68,8 @@ var outletdaten:[String:AnyObject] = [:]
         feldklickcounter += 1
         print("swift Pfeil_Feld mouseDown  feldklickcounter: \(feldklickcounter)")
         let pfeiltag:Int = self.tag
-        self.image = pfeilpre
+        self.image = pressediconarray[self.tag-1]
+        
         var userinformation:[String : Any]
         userinformation = ["richtung":pfeiltag,  "push": 1 ] as [String : Any]
 
@@ -52,7 +89,7 @@ var outletdaten:[String:AnyObject] = [:]
         feldklickcounter += 1
         print("swift Pfeil_Feld mouseUp  feldklickcounter: \(feldklickcounter)")
         let pfeiltag:Int = self.tag
-        self.image = pfeilrel
+        self.image = releasediconarray[self.tag-1]
         var userinformation:[String : Any]
         userinformation = ["richtung":pfeiltag,  "push": 0 , ] as [String : Any]
 
@@ -71,6 +108,9 @@ var outletdaten:[String:AnyObject] = [:]
 @objc class rPfeil_Taste:NSButton
 {
     var mousedowncounter = 0;
+    
+    
+    
     required init?(coder  aDecoder : NSCoder)
     {
         //print("rPfeil_Taste required init")

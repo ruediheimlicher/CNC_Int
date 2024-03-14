@@ -84,12 +84,13 @@ class rProfilfeldView: NSView
     func GitterZeichnen ()
     {
         
-    var Gittermass:Double  = scale*10;
-          
+        var Gittermass:Double  = scale*10;
+        
         var breite:CGFloat = bounds.size.width;
         let w:CGFloat = bounds.size.width
         let h:CGFloat = bounds.size.height
-      
+        print("w: \(w) h: \(h) gittermass: \(Gittermass)")
+        
         if ((NSGraphicsContext.current?.isDrawingToScreen) != nil)
         {
             print("ProfilGraph drawRect screen")
@@ -108,7 +109,8 @@ class rProfilfeldView: NSView
         
         // waagrechte Linien
         let anzvertikal:Int = Int((h/Gittermass))
-        for i in 0..<anzvertikal
+        print("anzvertikal: \(anzvertikal)")
+        for i in 0...anzvertikal
         {
             var A:NSPoint = NSMakePoint(0, 1+Gittermass*Double(i))
             var B:NSPoint = NSMakePoint(w, 1+Gittermass*Double(i))
@@ -119,6 +121,27 @@ class rProfilfeldView: NSView
         HorizontaleLinie.lineWidth = 0.3
         NSColor.darkGray.set()
         HorizontaleLinie.stroke()
+        
+        // senkrechte Linien
+        
+        var  VertikaleLinie:NSBezierPath = NSBezierPath()
+        i = 0
+        
+ 
+        print("anzvertikal: \(anzvertikal)")
+        for i in 0...anzahlmaschen
+        {
+            var A:NSPoint = NSMakePoint(1.1+Gittermass*Double(i),0)
+            var B:NSPoint = NSMakePoint(1.1+Gittermass*Double(i),self.frame.size.height)
+            VertikaleLinie.move(to:A)
+            VertikaleLinie.line(to:B)
+            
+        }
+        VertikaleLinie.lineWidth = 0.3
+        NSColor.darkGray.set()
+        VertikaleLinie.stroke()
+        
+ 
         
     }
 

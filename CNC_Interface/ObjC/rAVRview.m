@@ -483,7 +483,7 @@ float det(float v0[],float v1[])
    [super mouseUp:theEvent];
    NSLog(@"AVR Pfeiltaste mouseup");
    richtung=[self tag];
-   int status = [self state];
+    NSInteger status = [self state];
    NSLog(@"rPfeiltaste mouseUp: Pfeiltaste richtung: %d status: %d",richtung,status);
    /*
     richtung:

@@ -48,7 +48,7 @@ open class geom: NSObject
       
       //kreispunkte()
       //var xx = kreispunkte()
-      var result = circle_circle_intersection(absz0,ord0,rad0,absz1,ord1,rad1,&absz_s0, &ord_s0, &absz_s1, &ord_s1)
+      let result = circle_circle_intersection(absz0,ord0,rad0,absz1,ord1,rad1,&absz_s0, &ord_s0, &absz_s1, &ord_s1)
       if (result == 0)
       {
          return (0,0)
@@ -64,17 +64,17 @@ open class geom: NSObject
       }
       
       // Winkel:
-      var phi0:Double = asin((xs-absz0)/rad0) * 180/Double.pi
-      var phi10:Double = acos((ord1-ys)/rad1) * 180/Double.pi
+       let phi0:Double = asin((xs-absz0)/rad0) * 180/Double.pi
+       let phi10:Double = acos((ord1-ys)/rad1) * 180/Double.pi
       
-      var phi11:Double = asin((absz1-xs )/rad1) * 180/Double.pi
+       let phi11:Double = asin((absz1-xs )/rad1) * 180/Double.pi
       
  //     Swift.print("phi0: \(phi0) phi10: \(phi10)")
       
       //var phi1 = (90 - phi0) + phi10
       
-      var phi1 = phi10 - phi0 // neu: Winkel 0 ist verlängerung des Arms0
-      var phi12 =  (180 - phi0) - phi11
+       let phi1 = phi10 - phi0 // neu: Winkel 0 ist verlängerung des Arms0
+       let phi12 =  (180 - phi0) - phi11
       
       return (phi0,phi12)
    }

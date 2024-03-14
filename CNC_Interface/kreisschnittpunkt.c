@@ -31,7 +31,7 @@ int circle_circle_intersection(double x0, double y0, double r0,
                                double *xi, double *yi,
                                double *xi_prime, double *yi_prime);
 
-void kreispunkte()
+void kreispunkte(void)
 {
    uint8_t a=0;
    a++;
