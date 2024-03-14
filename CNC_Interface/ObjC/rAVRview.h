@@ -466,6 +466,7 @@
    - (int)saveProfileinstellungen;
    - (void)setUSBDaten:(NSDictionary*)datendic;
    - (void)ManRichtung:(int)richtung  mousestatus:(int)status pfeilstep:(int)step;
+- (void)ManFeldRichtung:(int)richtung mousestatus:(int)status pfeilstep:(int)step;
    - (IBAction)reportSpeedStepper:(id)sender;
 
 //- (IBAction)reportCNCKnopf:(id)sender;

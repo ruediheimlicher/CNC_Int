@@ -37,7 +37,7 @@ var outletdaten:[String:AnyObject] = [:]
         userinformation = ["richtung":pfeiltag,  "push": 1 ] as [String : Any]
 
         let nc = NotificationCenter.default
-        nc.post(name:Notification.Name(rawValue:"pfeil" ),
+        nc.post(name:Notification.Name(rawValue:"pfeilfeld" ),
                  object: nil,
                  userInfo: userinformation)
 
@@ -57,7 +57,7 @@ var outletdaten:[String:AnyObject] = [:]
         userinformation = ["richtung":pfeiltag,  "push": 0 , ] as [String : Any]
 
         let nc = NotificationCenter.default
-        nc.post(name:Notification.Name(rawValue:"pfeil"),
+        nc.post(name:Notification.Name(rawValue:"pfeilfeld"),
                  object: nil,
                  userInfo: userinformation)
 
@@ -631,6 +631,8 @@ var outletdaten:[String:AnyObject] = [:]
 
        NotificationCenter.default.addObserver(self, selector:#selector(PfeilAktion(_:)),name:NSNotification.Name(rawValue: "pfeil"),object:nil)
 
+       NotificationCenter.default.addObserver(self, selector:#selector(PfeilFeldAktion(_:)),name:NSNotification.Name(rawValue: "pfeilfeld"),object:nil)
+
       Auslauftiefe.integerValue = 10
       
        hotwireplist =  readHotwire_PList()
@@ -985,6 +987,57 @@ var outletdaten:[String:AnyObject] = [:]
       boardindex = rawboardindex
        
    }
+  
+    @objc func PfeilFeldAktion(_ notification:Notification)
+    {
+        let info = notification.userInfo
+        print(" PfeilFeldAktion: info: \(notification.userInfo) \(info)")
+        if (info?["richtung"] != nil)
+        {
+            quelle = info?["richtung"] as! Int
+            
+            if info?["push"] != nil
+            {
+                mausistdown = info?["push"] as!Int
+            } // if push
+        }// if richtung
+        else
+        {
+            NSSound.beep()
+            quelle = 0
+            mausistdown = 0
+            return
+        }
+        if mausistdown > 0
+        {
+            switch quelle
+            {
+            case MANDOWN:
+                print("PfeilFeldAktion MANDOWN")
+            case MANUP:
+                print("PfeilFeldAktion MANUP")
+                AnschlagUntenIndikator.layer?.backgroundColor = NSColor.green.cgColor
+            case MANLEFT:
+                print("PfeilFeldAktion MANLEFT")
+            case MANRIGHT:
+                print("PfeilFeldAktion MANRIGHT")
+                AnschlagLinksIndikator.layer?.backgroundColor = NSColor.green.cgColor
+                
+                
+            default:
+                break
+            }// switch quelle
+            //AVR?.homeSenkrechtSchicken()
+            AVR?.manFeldRichtung(Int32(quelle), mousestatus:Int32(mausistdown), pfeilstep:700)
+        } // mausistdown > 0
+        else // Button released
+        {
+            print("swift PfeilFeldAktion Button released quelle: \(quelle)")
+            AVR?.manFeldRichtung(Int32(quelle), mousestatus:Int32(mausistdown), pfeilstep:80)
+        }
+        
+        
+    }
     
     @objc func PfeilAktion(_ notification:Notification)
     {
