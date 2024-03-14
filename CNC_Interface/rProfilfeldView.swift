@@ -215,7 +215,7 @@ class rProfilfeldView: NSView
       //let ident  = self.identifier as! String
        let ident  = self.identifier
       
-      Swift.print("rJoystickView mouseDown ident: \(ident)")
+      Swift.print("rProfilfeldView mouseDown ident: \(ident)")
       var identstring = ""
       if let rawident:String = ident?.rawValue
       {

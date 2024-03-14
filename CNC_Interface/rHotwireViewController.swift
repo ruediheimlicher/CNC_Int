@@ -10,6 +10,64 @@ import Cocoa
 
 var outletdaten:[String:AnyObject] = [:]
 
+@objc class rPfeil_Feld:NSImageView
+{
+    let pfeilrel :NSImage = NSImage(named:NSImage.Name(rawValue: "pfeil_links_mini"))!
+    let pfeilpre :NSImage = NSImage(named:NSImage.Name(rawValue: "pfeil_links"))!
+    var feldklickcounter = 0;
+    
+    func acceptsFirstResponder() -> ObjCBool {return true}
+    func canBecomeKeyView ()->ObjCBool {return true}
+    required init?(coder  aDecoder : NSCoder)
+    {
+        //print("rPfeil_Taste required init")
+        super.init(coder: aDecoder)
+        
+    }
+    override func mouseDown(with theEvent: NSEvent)
+    {
+        super.mouseDown(with: theEvent)
+        let startPoint = theEvent.locationInWindow
+            print(startPoint) //for top left it prints (0, 900)
+        feldklickcounter += 1
+        print("swift Pfeil_Feld mouseDown  feldklickcounter: \(feldklickcounter)")
+        let pfeiltag:Int = self.tag
+        self.image = pfeilpre
+        var userinformation:[String : Any]
+        userinformation = ["richtung":pfeiltag,  "push": 1 ] as [String : Any]
+
+        let nc = NotificationCenter.default
+        nc.post(name:Notification.Name(rawValue:"pfeil" ),
+                 object: nil,
+                 userInfo: userinformation)
+
+        
+    }
+    
+    override func mouseUp(with theEvent: NSEvent)
+    {
+        super.mouseUp(with: theEvent)
+        let startPoint = theEvent.locationInWindow
+            print(startPoint) //for top left it prints (0, 900)
+        feldklickcounter += 1
+        print("swift Pfeil_Feld mouseUp  feldklickcounter: \(feldklickcounter)")
+        let pfeiltag:Int = self.tag
+        self.image = pfeilrel
+        var userinformation:[String : Any]
+        userinformation = ["richtung":pfeiltag,  "push": 0 , ] as [String : Any]
+
+        let nc = NotificationCenter.default
+        nc.post(name:Notification.Name(rawValue:"pfeil"),
+                 object: nil,
+                 userInfo: userinformation)
+
+    }
+
+    
+} //rPfeil_Feld
+
+
+
 @objc class rPfeil_Taste:NSButton
 {
     var mousedowncounter = 0;
@@ -23,7 +81,7 @@ var outletdaten:[String:AnyObject] = [:]
     override func mouseDown(with theEvent: NSEvent)
     {
         super.mouseDown(with: theEvent)
-        mousedowncounter += 1
+        //mousedowncounter += 1
         print("swift Pfeil_Taste mouseDown  mousedowncounter: \(mousedowncounter)")
         let pfeiltag:Int = self.tag
         
@@ -149,6 +207,8 @@ var outletdaten:[String:AnyObject] = [:]
    }
     
     var hotwireplist:[String:AnyObject] = [:]
+    
+    @IBOutlet weak var  PfeilfeldLinks: rPfeil_Feld!
    
    @IBOutlet weak var intpos0Feld: NSStepper!
    //@IBOutlet weak var StepperTab: rTabview!
@@ -459,6 +519,35 @@ var outletdaten:[String:AnyObject] = [:]
         AVR?.manRichtung(4, mousestatus:1, pfeilstep:100)
     }
 
+    @IBAction func report_Home(_ sender: NSButton)
+    {
+        print("swift report_Home: \(sender.tag)")
+        let nc = NotificationCenter.default
+        var NotificationDic = [String:Int]()
+
+        var AnfahrtArray = [[String:Double]]()
+       
+        // Startpunkt ist aktuelle Position. Lage: 3
+        var PositionA:NSPoint = NSMakePoint(CGFloat(0), CGFloat(0))
+        var PositionB:NSPoint = NSMakePoint(CGFloat(0), CGFloat(0))
+        var index:Int = 0
+        let zeilendicA:[String:Double] = ["ax": PositionA.x, "ay":PositionA.y, "bx": PositionB.x, "by":PositionB.y, "index":Double(index), "lage":3]
+        AnfahrtArray.append(zeilendicA)
+        
+        PositionA.x -= 500
+        PositionB.x -= 500
+        index += 1
+        let zeilendicB:[String:Double] = ["ax": PositionA.x, "ay":PositionA.y, "bx": PositionB.x, "by":PositionB.y, "index":Double(index), "lage":3]
+        AnfahrtArray.append(zeilendicB)
+        
+        let zoomfaktor = 1
+        
+        var HomeSchnittdatenArray = [[String:Double]]()
+        
+        AVR?.homeSenkrechtSchicken()
+        
+    }
+    
     /*******************************************************************/
     // CNC
     /*******************************************************************/

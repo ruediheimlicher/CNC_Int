@@ -191,6 +191,8 @@ class rViewController: NSViewController, NSWindowDelegate
     var cncwritecounter = 0;
    let notokimage :NSImage = NSImage(named:NSImage.Name(rawValue: "notok_image"))!
    let okimage :NSImage = NSImage(named:NSImage.Name(rawValue: "ok_image"))!
+    
+    
    
     var AVR = rAVRview()
     
