@@ -181,16 +181,17 @@ var outletdaten:[String:AnyObject] = [:]
     
    var CNC_PList:NSMutableDictionary!
    
-   var ProfilTable: NSTableView!          
-   var ProfilDaten: NSMutableArray!   
+   //var ProfilTable: NSTableView!
+   //var ProfilDaten: NSMutableArray!
    
     var motorsteps = 47
     var speed = 6
     var quelle:Int = 0
+   var  oldMauspunkt :  NSPoint  = NSZeroPoint
    /*
-   var ProfilDatenOA: NSArray    
-   var ProfilDatenUA: NSArray                 
-    var ProfilDatenOB: NSArray                  
+   var ProfilDatenOA: NSArray
+   var ProfilDatenUA: NSArray
+    var ProfilDatenOB: NSArray
    var ProfilDatenUB: NSArray
 */
    
@@ -247,7 +248,10 @@ var outletdaten:[String:AnyObject] = [:]
    }
     
     var hotwireplist:[String:AnyObject] = [:]
-    
+   var RahmenDic:[String:Double] = [:]
+   
+   var KoordinatenTabelle = [[String:Double]]()
+   
     @IBOutlet weak var  PfeilfeldLinks: rPfeil_Feld!
    
    @IBOutlet weak var intpos0Feld: NSStepper!
@@ -310,111 +314,111 @@ var outletdaten:[String:AnyObject] = [:]
    @IBOutlet  weak var  CNCScroller: NSScrollView!
 
    // CNC
-   @IBOutlet weak var CNC_Preparetaste: NSButton! 
-   @IBOutlet weak var CNC_Starttaste: NSButton! 
-   @IBOutlet weak var CNC_Stoptaste: NSButton! 
-   @IBOutlet weak var CNC_Sendtaste: NSButton! 
-   @IBOutlet weak var CNC_Terminatetaste: NSButton! 
-   @IBOutlet weak var CNC_Neutaste: NSButton! 
-   @IBOutlet weak var CNC_Halttaste: NSButton! 
-   @IBOutlet weak var DC_Taste: NSButton! 
-   @IBOutlet weak var DC_Stepper: NSStepper! 
-   @IBOutlet weak var DC_Slider: NSSlider! 
-   @IBOutlet weak var DC_PWM: NSTextField! 
+   @IBOutlet weak var CNC_Preparetaste: NSButton!
+   @IBOutlet weak var CNC_Starttaste: NSButton!
+   @IBOutlet weak var CNC_Stoptaste: NSButton!
+   @IBOutlet weak var CNC_Sendtaste: NSButton!
+   @IBOutlet weak var CNC_Terminatetaste: NSButton!
+   @IBOutlet weak var CNC_Neutaste: NSButton!
+   @IBOutlet weak var CNC_Halttaste: NSButton!
+   @IBOutlet weak var DC_Taste: NSButton!
+   @IBOutlet weak var DC_Stepper: NSStepper!
+   @IBOutlet weak var DC_Slider: NSSlider!
+   @IBOutlet weak var DC_PWM: NSTextField!
    @IBOutlet weak var CNC_StepsSegControl: NSSegmentedControl!
    @IBOutlet weak var CNC_microPop: NSPopUpButton!
 
-   @IBOutlet weak var CNC_Uptaste: NSButton! 
-   @IBOutlet weak var CNC_Downtaste: NSButton! 
-   @IBOutlet weak var CNC_Lefttaste: NSButton! 
-   @IBOutlet weak var CNC_busySpinner: NSProgressIndicator! 
+   @IBOutlet weak var CNC_Uptaste: NSButton!
+   @IBOutlet weak var CNC_Downtaste: NSButton!
+   @IBOutlet weak var CNC_Lefttaste: NSButton!
+   @IBOutlet weak var CNC_busySpinner: NSProgressIndicator!
     
-   @IBOutlet weak var CNC_Linkstaste: NSButton! 
+   @IBOutlet weak var CNC_Linkstaste: NSButton!
     
-   @IBOutlet weak var CNC_Righttaste: NSButton! 
+   @IBOutlet weak var CNC_Righttaste: NSButton!
     
-   @IBOutlet weak var CNC_Seite1Check: NSButton! 
+   @IBOutlet weak var CNC_Seite1Check: NSButton!
     @objc var  cnc_seite1check:Int = 0
    @IBOutlet weak var CNC_Seite2Check: NSButton!
     @objc var  cnc_seite2check:Int = 0
    @IBOutlet weak var CNC_BlockKonfigurierenTaste: NSButton!
-   @IBOutlet weak var CNC_BlockAnfuegenTaste: NSButton! 
+   @IBOutlet weak var CNC_BlockAnfuegenTaste: NSButton!
 
     
    @IBOutlet weak var  Pfeiltaste: rPfeil_Taste!
     
-   @IBOutlet weak var IndexFeld: NSTextField! 
-   @IBOutlet weak var IndexStepper: NSStepper! 
+   @IBOutlet weak var IndexFeld: NSTextField!
+   @IBOutlet weak var IndexStepper: NSStepper!
 
-   @IBOutlet weak var WertAXFeld: NSTextField! 
-   @IBOutlet weak var WertAXStepper: NSStepper! 
-   @IBOutlet weak var WertAYFeld: NSTextField! 
-   @IBOutlet weak var WertAYStepper: NSStepper! 
+   @IBOutlet weak var WertAXFeld: NSTextField!
+   @IBOutlet weak var WertAXStepper: NSStepper!
+   @IBOutlet weak var WertAYFeld: NSTextField!
+   @IBOutlet weak var WertAYStepper: NSStepper!
     
-   @IBOutlet weak var WertBXFeld: NSTextField! 
-   @IBOutlet weak var WertBXStepper: NSStepper! 
-   @IBOutlet weak var WertBYFeld: NSTextField! 
-   @IBOutlet weak var WertBYStepper: NSStepper! 
+   @IBOutlet weak var WertBXFeld: NSTextField!
+   @IBOutlet weak var WertBXStepper: NSStepper!
+   @IBOutlet weak var WertBYFeld: NSTextField!
+   @IBOutlet weak var WertBYStepper: NSStepper!
     
-   @IBOutlet weak var ABBindCheck: NSButton! 
+   @IBOutlet weak var ABBindCheck: NSButton!
 
-   @IBOutlet weak var LagePop: NSPopUpButton! 
-   @IBOutlet weak var WinkelFeld: NSTextField! 
-   @IBOutlet weak var WinkelStepper: NSStepper! 
+   @IBOutlet weak var LagePop: NSPopUpButton!
+   @IBOutlet weak var WinkelFeld: NSTextField!
+   @IBOutlet weak var WinkelStepper: NSStepper!
 
-   @IBOutlet weak var PWMFeld: NSTextField! 
-   @IBOutlet weak var PWMStepper: NSStepper! 
+ //  @IBOutlet weak var PWMFeld: NSTextField!
+ //  @IBOutlet weak var PWMStepper: NSStepper!
 
-   @IBOutlet weak var AbbrandFeld: NSTextField! 
+   @IBOutlet weak var AbbrandFeld: NSTextField!
 
-   @IBOutlet weak var GleichesProfilRadioKnopf: NSButton! 
-   @IBOutlet weak var WertFeld: NSTextField! 
+   @IBOutlet weak var GleichesProfilRadioKnopf: NSButton!
+   @IBOutlet weak var WertFeld: NSTextField!
     
    @IBOutlet weak var PositionFeld: NSTextField!
-   @IBOutlet weak var AnzahlFeld: NSTextField! 
-   @IBOutlet weak var PositionXFeld: NSTextField! 
-   @IBOutlet weak var PositionYFeld: NSTextField! 
+   @IBOutlet weak var AnzahlFeld: NSTextField!
+   @IBOutlet weak var PositionXFeld: NSTextField!
+   @IBOutlet weak var PositionYFeld: NSTextField!
     
-   @IBOutlet weak var SaveChangeTaste: NSButton! 
-   @IBOutlet weak var ShiftAllTaste: NSButton! 
+   @IBOutlet weak var SaveChangeTaste: NSButton!
+   @IBOutlet weak var ShiftAllTaste: NSButton!
     
-   @IBOutlet weak var Blockoberkante: NSTextField! 
-   @IBOutlet weak var OberkantenStepper: NSStepper! 
-   @IBOutlet weak var Blockbreite: NSTextField! 
-   @IBOutlet weak var Blockdicke: NSTextField! 
+   @IBOutlet weak var Blockoberkante: NSTextField!
+   @IBOutlet weak var OberkantenStepper: NSStepper!
+   @IBOutlet weak var Blockbreite: NSTextField!
+   @IBOutlet weak var Blockdicke: NSTextField!
     
-   @IBOutlet weak var RumpfBlockbreite: NSTextField! 
-   @IBOutlet weak var RumpfBlockhoehe: NSTextField! 
+   @IBOutlet weak var RumpfBlockbreite: NSTextField!
+   @IBOutlet weak var RumpfBlockhoehe: NSTextField!
 
     
-   @IBOutlet weak var Einlaufrand: NSTextField! 
-   @IBOutlet weak var Auslaufrand: NSTextField! 
-   @IBOutlet weak var AnschlagLinksIndikator: NSBox! 
-   @IBOutlet weak var AnschlagUntenIndikator: NSBox! 
+   @IBOutlet weak var Einlaufrand: NSTextField!
+   @IBOutlet weak var Auslaufrand: NSTextField!
+   @IBOutlet weak var AnschlagLinksIndikator: NSBox!
+   @IBOutlet weak var AnschlagUntenIndikator: NSBox!
     
    @IBOutlet weak var Basisabstand: NSTextField!  // Abstand CNC zu Block
-   @IBOutlet weak var Portalabstand: NSTextField!  
-   @IBOutlet weak var Spannweite: NSTextField!  // 
+   @IBOutlet weak var Portalabstand: NSTextField!
+   @IBOutlet weak var Spannweite: NSTextField!  //
     
    @IBOutlet weak var startdelayFeld: NSTextField!  //
     
-   //@IBOutlet weak var USBKontrolle! 
+   //@IBOutlet weak var USBKontrolle!
     
-   @IBOutlet weak var HomeTaste: NSButton! 
+   @IBOutlet weak var HomeTaste: NSButton!
 
-   @IBOutlet weak var SeitenVertauschenTaste: NSButton! 
-   @IBOutlet weak var NeuesElementTaste: NSButton! 
+   @IBOutlet weak var SeitenVertauschenTaste: NSButton!
+   @IBOutlet weak var NeuesElementTaste: NSButton!
     
-   @IBOutlet weak var AbmessungX: NSTextField! 
-   @IBOutlet weak var AbmessungY: NSTextField! 
+   @IBOutlet weak var AbmessungX: NSTextField!
+   @IBOutlet weak var AbmessungY: NSTextField!
     
-   @IBOutlet weak var red_pwmFeld: NSTextField! 
+   @IBOutlet weak var red_pwmFeld: NSTextField!
 
-   @IBOutlet weak var LinkeRechteSeite: NSSegmentedControl! 
+   @IBOutlet weak var LinkeRechteSeite: NSSegmentedControl!
     
-   @IBOutlet weak var VersionFeld: NSTextField! 
-   @IBOutlet weak var DatumFeld: NSTextField! 
-   @IBOutlet weak var SlaveVersionFeld: NSTextField! 
+   @IBOutlet weak var VersionFeld: NSTextField!
+   @IBOutlet weak var DatumFeld: NSTextField!
+   @IBOutlet weak var SlaveVersionFeld: NSTextField!
 
 
    @IBOutlet weak var ManufactorerFeld:  NSTextField!
@@ -455,6 +459,292 @@ var outletdaten:[String:AnyObject] = [:]
     let MANLEFT     = 3
     let MANDOWN     = 4
 
+
+    
+    @objc func MausGraphAktion(_ notification:Notification)
+    {
+        let info = notification.userInfo
+        print("Hotwire mausGraphAktion:\t \(String(describing: info))")
+       
+        CNCTable.deselectAll(nil)
+       
+    //   [[[self view]window]makeFirstResponder: ProfilGraph];
+       let mauspunktstring = notification.userInfo?["mauspunkt"] as! String
+      let MausPunkt:NSPoint = NSPointFromString(mauspunktstring);
+
+       WertAXFeld.doubleValue = MausPunkt.x
+       WertAYFeld.doubleValue = MausPunkt.y
+          
+       WertAXStepper.doubleValue = MausPunkt.x
+       WertAYStepper.doubleValue = MausPunkt.y
+  
+       WertBXFeld.doubleValue = MausPunkt.x
+       WertBYFeld.doubleValue = MausPunkt.y
+       
+       WertBXStepper.doubleValue = MausPunkt.x
+       WertBYStepper.doubleValue = MausPunkt.y
+
+     
+     
+       
+       var offsetx:Double = ProfilBOffsetXFeld.doubleValue
+       var offsety:Double = ProfilBOffsetYFeld.doubleValue
+       
+       var oldPosDic:[String:Double] = [:]
+       
+       var oldax:Double = MausPunkt.x;
+       var olday:Double = MausPunkt.y;
+       var  oldbx:Double = oldax + offsetx;
+       var  oldby:Double = olday + offsety;
+       var  oldpwm :Double =  DC_PWM.doubleValue
+       print("KoordinatenTabelle: \(KoordinatenTabelle) count: \(KoordinatenTabelle.count)")
+       
+       let c = KoordinatenTabelle.isEmpty
+       
+       print("KoordinatenTabelle: \(KoordinatenTabelle) ")
+       
+       if (KoordinatenTabelle.isEmpty == false)
+       {
+          oldPosDic = KoordinatenTabelle.last!
+          oldax = oldPosDic["ax"] ?? 0
+          olday = oldPosDic["ay"] ?? 0
+          oldbx = oldPosDic["bx"] ?? 0
+          oldby = oldPosDic["by"] ?? 0
+          if (oldPosDic["pwm"]! > 0)
+          {
+             //NSLog(@"oldpwm VOR: %d",oldpwm);
+             var  temppwm = oldPosDic["pwm"]
+             if (temppwm == oldpwm)
+             {
+                oldpwm = temppwm!;
+             }
+             //NSLog(@"oldpwm: %d temppwm: %d",oldpwm,temppwm);
+          }
+          CNC_Stoptaste.isEnabled = true
+       }
+       else // Start
+       {
+         // oldbx += offsetx;
+          //oldby += offsety;
+       }
+       
+       DC_Stepper.doubleValue = oldpwm
+       DC_PWM.doubleValue = oldpwm
+       
+       //NSLog(@"oldax: %1.1f olday: %1.1f",oldax,olday);
+       
+       var deltax = MausPunkt.x-oldax;
+       var deltay = MausPunkt.y-olday;
+       
+       //NSLog(@"deltax: %1.1f deltay: %1.1f",deltax, deltay);
+       
+       var neueZeileDic:[String:Double] = [:]
+       neueZeileDic["ax"] = MausPunkt.x
+       neueZeileDic["ay"] = MausPunkt.y
+       neueZeileDic["bx"] = MausPunkt.x + deltax
+       neueZeileDic["by"] = MausPunkt.y + deltay
+       neueZeileDic["index"] = Double(KoordinatenTabelle.count)
+       neueZeileDic["pwm"] = oldpwm
+       /*
+       NSDictionary* neueZeileDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:MausPunkt.x], @"ax",
+                                [NSNumber numberWithFloat:MausPunkt.y], @"ay",
+                                     [NSNumber numberWithFloat:oldbx + deltax], @"bx",
+                                [NSNumber numberWithFloat:oldby + deltay],@"by",
+                                     [NSNumber numberWithInt:[KoordinatenTabelle count]],@"index",
+                                     [NSNumber numberWithInt:oldpwm],@"pwm",NULL];
+       */
+       
+       //NSLog(@"testDic:  %1.2f  %1.2f  %1.2f  %1.2f",MausPunkt.x,MausPunkt.y,oldbx+deltax,oldby+deltay);
+       
+       if (CNC_Starttaste.state.rawValue > 0)
+       {
+           oldMauspunkt = MausPunkt
+          
+          var tempDic:[String:Double] = [:]
+          tempDic["ax"] = MausPunkt.x
+          tempDic["ay"] = MausPunkt.y
+          tempDic["bx"] = MausPunkt.x + offsetx
+          tempDic["by"] = MausPunkt.y + offsety
+          tempDic["index"] = Double(KoordinatenTabelle.count)
+          tempDic["pwm"] = oldpwm
+/*
+          NSDictionary* tempDic = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSNumber numberWithFloat:MausPunkt.x], @"ax",
+                                   [NSNumber numberWithFloat:MausPunkt.y], @"ay",
+                                   [NSNumber numberWithFloat:MausPunkt.x + offsetx], @"bx",
+                                   [NSNumber numberWithFloat:MausPunkt.y + offsety],@"by",
+                                   [NSNumber numberWithInt:[KoordinatenTabelle count]],@"index",
+                                   [NSNumber numberWithInt:oldpwm],@"pwm",NULL];
+   */
+          //NSLog(@"tempDic: %@",[tempDic description]);
+          
+          switch (KoordinatenTabelle.count)
+          {
+             case 0:
+              IndexFeld.integerValue = KoordinatenTabelle.count
+             IndexStepper.integerValue = KoordinatenTabelle.count
+             IndexStepper.maxValue = Double(KoordinatenTabelle.count)
+          //      [KoordinatenTabelle addObject:tempDic];
+             KoordinatenTabelle.append(neueZeileDic)
+             break;
+                
+             default:
+             
+             KoordinatenTabelle[0] = tempDic
+             
+             IndexFeld.integerValue = 0
+            IndexStepper.integerValue = 0
+             break;
+                
+          }//switch
+          
+       }
+       else if (CNC_Stoptaste.state.rawValue > 0)
+       {
+          
+          var tempDic:[String:Double] = [:]
+          tempDic["ax"] = MausPunkt.x
+          tempDic["ay"] = MausPunkt.y
+          tempDic["bx"] = MausPunkt.x + offsetx
+          tempDic["by"] = MausPunkt.y + offsety
+          tempDic["index"] = Double(KoordinatenTabelle.count)
+          tempDic["pwm"] = oldpwm
+/*
+          NSDictionary* tempDic = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSNumber numberWithFloat:MausPunkt.x], @"ax",
+                                   [NSNumber numberWithFloat:MausPunkt.y], @"ay",
+                                    [NSNumber numberWithFloat:MausPunkt.x + offsetx], @"bx",
+                                   [NSNumber numberWithFloat:MausPunkt.y + offsety], @"by",
+                                    [NSNumber numberWithInt:[KoordinatenTabelle count]],@"index",
+                                    [NSNumber numberWithInt:oldpwm],@"pwm",NULL];
+         */
+ //NSLog(@"if CNC_Stoptaste state tempDic: %@",[tempDic description]);
+          
+          
+          if (KoordinatenTabelle.count > 1)
+          {
+             //[KoordinatenTabelle replaceObjectAtIndex:[KoordinatenTabelle count]-1 withObject:tempDic];
+             //if (GraphEnd)
+             
+             IndexFeld.integerValue = KoordinatenTabelle.count
+            IndexStepper.integerValue = KoordinatenTabelle.count
+            IndexStepper.maxValue = Double(KoordinatenTabelle.count)
+/*
+                [IndexFeld setIntValue:[KoordinatenTabelle count]];
+                [IndexStepper setIntValue:[IndexFeld intValue]];
+                [IndexStepper setMaxValue:[IndexFeld intValue]];
+*/
+             //   [KoordinatenTabelle addObject:tempDic];
+             KoordinatenTabelle.append(neueZeileDic)
+             
+             //[KoordinatenTabelle replaceObjectAtIndex:[KoordinatenTabelle count]-1 withObject:tempDic];
+             
+          }
+          else
+          {
+             
+             IndexFeld.integerValue = KoordinatenTabelle.count
+            IndexStepper.integerValue = KoordinatenTabelle.count
+            IndexStepper.maxValue = Double(KoordinatenTabelle.count)
+             KoordinatenTabelle.append(neueZeileDic)
+             
+             /*
+             [IndexFeld setIntValue:[KoordinatenTabelle count]];
+             [IndexStepper setIntValue:[IndexFeld intValue]];
+             [IndexStepper setMaxValue:[IndexFeld intValue]];
+             //[KoordinatenTabelle addObject:tempDic];
+             [KoordinatenTabelle addObject:neueZeileDic];
+              */
+          }
+          
+          
+       }
+       else
+       {
+          
+          /*
+          if (fabs(MausPunkt.x - oldMauspunkt.x) > [CNC steps]*0x7F) // Groesser als int16_t
+          {
+             NSLog(@"zu grosser Schritt X");
+             
+          }
+          */
+          
+          var tempDic:[String:Double] = [:]
+          tempDic["ax"] = MausPunkt.x
+          tempDic["ay"] = MausPunkt.y
+          tempDic["bx"] = MausPunkt.x + offsetx
+          tempDic["by"] = MausPunkt.y + offsety
+          tempDic["index"] = Double(KoordinatenTabelle.count)
+          tempDic["pwm"] = oldpwm
+
+          /*
+          NSDictionary* tempDic = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSNumber numberWithFloat:MausPunkt.x], @"ax",
+                                   [NSNumber numberWithFloat:MausPunkt.y], @"ay",
+                                   [NSNumber numberWithFloat:MausPunkt.x + offsetx], @"bx",
+                                   [NSNumber numberWithFloat:MausPunkt.y + offsety], @"by",
+                                   [NSNumber numberWithInt:[KoordinatenTabelle count]],@"index",
+                                   [NSNumber numberWithInt:oldpwm],@"pwm",
+                                   NULL];
+          */
+          
+          //NSLog(@"tempDic: %@",[tempDic description]);
+          IndexFeld.integerValue = KoordinatenTabelle.count
+         IndexStepper.integerValue = KoordinatenTabelle.count
+         IndexStepper.maxValue = Double(KoordinatenTabelle.count)
+          KoordinatenTabelle.append(neueZeileDic)
+/*
+          [IndexFeld setIntValue:[KoordinatenTabelle count]];
+          [IndexStepper setIntValue:[IndexFeld intValue]];
+          [IndexStepper setMaxValue:[IndexFeld intValue]];
+          //[KoordinatenTabelle addObject:tempDic];
+          [KoordinatenTabelle addObject:neueZeileDic];
+ */
+       }
+       oldMauspunkt=MausPunkt;
+       //NSLog(@"Mausklicktabelle: %@",[KoordinatenTabelle description]);
+       
+       //NSDictionary* RahmenDic = [self RahmenDic];
+       let maxX:Double = RahmenDic["maxx"] ?? 100
+       var minX:Double = RahmenDic["minx"] ?? 10
+       
+       let maxY:Double = RahmenDic["maxy"] ?? 100
+       var minY:Double = RahmenDic["miny"] ?? 10
+ 
+       
+ //      float maxY=[[RahmenDic objectForKey:@"maxy"]floatValue];
+ //      float minY=[[RahmenDic objectForKey:@"miny"]floatValue];
+       //   NSLog(@"maxX: %2.2f minX: %2.2f * maxY: %2.2f minY: %2.2f",maxX,minX,maxY,minY);
+       
+     //  [AbmessungX setIntValue:maxX - minX];
+     //  [AbmessungY setIntValue:maxY - minY];
+
+       ProfilFeld.DatenArray = KoordinatenTabelle as NSArray
+       //[ProfilGraph setDatenArray:KoordinatenTabelle];
+       ProfilFeld.needsDisplay = true
+       //[Profilfeld setNeedsDisplay:YES];
+       
+       CNCTable.reloadData()
+       if (KoordinatenTabelle.count > 0)
+       {
+          CNCTable.scrollRowToVisible(KoordinatenTabelle.count - 1)
+       }
+
+       
+    }
+    
+   @objc func MausDragAktion(_ notification:Notification)
+   {
+      let info = notification.userInfo
+      print("Hotwire MausDragAktion:\t \(String(describing: info))")
+   }
+
+   @objc func MausKlickAktion(_ notification:Notification)
+   {
+      let info = notification.userInfo
+      print("Hotwire MausKlickAktion:\t \(String(describing: info))")
+   }
 
     @objc class func cncoutletdaten() -> NSDictionary
     {
@@ -641,12 +931,12 @@ var outletdaten:[String:AnyObject] = [:]
    }
 
    
-   override func viewDidAppear() 
+   override func viewDidAppear()
    {
       print ("Hotwire viewDidAppear new")
   
      }
-   override func viewDidLoad() 
+   override func viewDidLoad()
    {
       super.viewDidLoad()
       // Do view setup here.
@@ -654,9 +944,9 @@ var outletdaten:[String:AnyObject] = [:]
       //let view = view[0] as! NSView
       self.view.wantsLayer = true
       
-      hintergrundfarbe  = NSColor.init(red: 0.25, 
-                                       green: 0.85, 
-                                       blue: 0.85, 
+      hintergrundfarbe  = NSColor.init(red: 0.25,
+                                       green: 0.85,
+                                       blue: 0.85,
                                        alpha: 0.25)
       
       self.view.layer?.backgroundColor = hintergrundfarbe.cgColor
@@ -670,6 +960,10 @@ var outletdaten:[String:AnyObject] = [:]
        NotificationCenter.default.addObserver(self, selector:#selector(usbstatusAktion(_:)),name:NSNotification.Name(rawValue: "usb_status"),object:nil)
 
        NotificationCenter.default.addObserver(self, selector:#selector(PfeilAktion(_:)),name:NSNotification.Name(rawValue: "pfeil"),object:nil)
+
+       NotificationCenter.default.addObserver(self, selector:#selector(PfeilFeldAktion(_:)),name:NSNotification.Name(rawValue: "pfeilfeld"),object:nil)
+
+       NotificationCenter.default.addObserver(self, selector:#selector(MausGraphAktion(_:)),name:NSNotification.Name(rawValue: "mauspunkt"),object:nil)
 
        NotificationCenter.default.addObserver(self, selector:#selector(PfeilFeldAktion(_:)),name:NSNotification.Name(rawValue: "pfeilfeld"),object:nil)
 
@@ -693,7 +987,7 @@ var outletdaten:[String:AnyObject] = [:]
        
       if (hotwireplist["pwm"] != nil)
       {
-         let plistpwm = hotwireplist["pwm"] as! Int 
+         let plistpwm = hotwireplist["pwm"] as! Int
          print("plistpwm: \(plistpwm)")
          DC_PWM.integerValue = hotwireplist["pwm"] as! Int
          DC_Slider.integerValue = hotwireplist["pwm"] as! Int
@@ -715,7 +1009,7 @@ var outletdaten:[String:AnyObject] = [:]
          SpeedFeld.integerValue = plistspeed
          SpeedStepper.integerValue = plistspeed
       }
-      else 
+      else
       {
          SpeedFeld.integerValue = 7
          SpeedStepper.integerValue = 7
@@ -760,7 +1054,7 @@ var outletdaten:[String:AnyObject] = [:]
          let plistwert = hotwireplist["profiltiefea"]  as! Int
          ProfilTiefeFeldA.integerValue = plistwert
       }
-      else 
+      else
       {
          ProfilTiefeFeldA.integerValue = 101
       }
@@ -770,7 +1064,7 @@ var outletdaten:[String:AnyObject] = [:]
          let plistwert = hotwireplist["profiltiefeb"]  as! Int
          ProfilTiefeFeldB.integerValue = plistwert
       }
-      else 
+      else
       {
          ProfilTiefeFeldB.integerValue = 141
       }
@@ -780,7 +1074,7 @@ var outletdaten:[String:AnyObject] = [:]
          let plistwert = hotwireplist["profilboffsetx"]  as! Int
          ProfilBOffsetXFeld.integerValue = plistwert
       }
-      else 
+      else
       {
          ProfilBOffsetXFeld.integerValue = 1
       }
@@ -790,7 +1084,7 @@ var outletdaten:[String:AnyObject] = [:]
          let plistwert = hotwireplist["profilboffsety"]  as! Int
          ProfilBOffsetYFeld.integerValue = plistwert
       }
-      else 
+      else
       {
          ProfilBOffsetYFeld.integerValue = 1
       }
@@ -801,7 +1095,7 @@ var outletdaten:[String:AnyObject] = [:]
          let plistwert = hotwireplist["profilwrench"]  as! Int
          ProfilWrenchFeld.integerValue = plistwert
       }
-      else 
+      else
       {
          ProfilWrenchFeld.integerValue = 1
       }
@@ -811,7 +1105,7 @@ var outletdaten:[String:AnyObject] = [:]
          let plistwert = hotwireplist["einlauflaenge"]  as! Int
          Einlauflaenge.integerValue = plistwert
       }
-      else 
+      else
       {
          Einlauflaenge.integerValue = 1
       }
@@ -821,7 +1115,7 @@ var outletdaten:[String:AnyObject] = [:]
          let plistwert = hotwireplist["einlauftiefe"]  as! Int
          Einlauftiefe.integerValue = plistwert
       }
-      else 
+      else
       {
          Einlauftiefe.integerValue = 1
       }
@@ -831,7 +1125,7 @@ var outletdaten:[String:AnyObject] = [:]
          let plistwert = hotwireplist["auslauflaenge"]  as! Int
          Auslauflaenge.integerValue = plistwert
       }
-      else 
+      else
       {
          Auslauflaenge.integerValue = 1
       }
@@ -841,7 +1135,7 @@ var outletdaten:[String:AnyObject] = [:]
          let plistwert = hotwireplist["auslauflaenge"]  as! Int
          Auslauftiefe.integerValue = plistwert
       }
-      else 
+      else
       {
          Auslauftiefe.integerValue = 1
       }
@@ -851,7 +1145,7 @@ var outletdaten:[String:AnyObject] = [:]
          let plistwert = hotwireplist["basisabstand"]  as! Int
          Basisabstand.integerValue = plistwert
       }
-      else 
+      else
       {
          Basisabstand.integerValue = 1
       }
@@ -861,7 +1155,7 @@ var outletdaten:[String:AnyObject] = [:]
          let plistwert = hotwireplist["portalabstand"]  as! Int
          Portalabstand.integerValue = plistwert
       }
-      else 
+      else
       {
          PositionFeld.integerValue = 1
       }
@@ -871,7 +1165,7 @@ var outletdaten:[String:AnyObject] = [:]
          let plistwert = hotwireplist["spannweite"]  as! Int
          Spannweite.integerValue = plistwert
       }
-      else 
+      else
       {
          Spannweite.integerValue = 1
       }
@@ -881,7 +1175,7 @@ var outletdaten:[String:AnyObject] = [:]
          let plistwert = hotwireplist["auslauf"]  as! Int
          AuslaufFeld.integerValue = plistwert
       }
-      else 
+      else
       {
          AuslaufFeld.integerValue = 1
       }
@@ -955,7 +1249,7 @@ var outletdaten:[String:AnyObject] = [:]
       // https://stackoverflow.com/questions/24045570/how-do-i-get-a-plist-as-a-dictionary-in-swift
       if let plistXML = FileManager.default.contents(atPath: USBPfad)
       {
-         do 
+         do
          {//convert the data to a dictionary and handle errors.
               plistData = try PropertyListSerialization.propertyList(from: plistXML, options: .mutableContainersAndLeaves, format: &propertyListFormat) as! [String:AnyObject]
 
@@ -991,7 +1285,7 @@ var outletdaten:[String:AnyObject] = [:]
          //USBPfad.stringValue = dateiname
 
       }
-      catch 
+      catch
       {
          print("readCNC_PList  error: \(error)")
          
@@ -1002,19 +1296,25 @@ var outletdaten:[String:AnyObject] = [:]
       return plistData
    }
    
+   @objc func MauspunktAktion(_ notification:Notification)
+   {
+       let info = notification.userInfo
+      print("MauspunktAktion : info: \(notification.userInfo) \(info)")
+
+   }
     
-   @objc func usbstatusAktion(_ notification:Notification) 
+   @objc func usbstatusAktion(_ notification:Notification)
    {
        //        userinformation = ["message":"usbstart", "usbstatus": usbstatus, "boardindex":boardindex] as [String : Any]
 
-       let info = notification.userInfo 
+       let info = notification.userInfo
        print(" usbstatusAktion: info: \(notification.userInfo) \(info)")
       guard let status = info?["usbstatus"] as? Int else
-      { 
+      {
          print(" usbstatusAktion: kein status\n")
-         return  
+         return
          
-      }// 
+      }//
        guard let rawboardindex = info?["boardindex"] as? Int else
        {
           print("Basis rawboardindex: kein rawboardindex\n")
