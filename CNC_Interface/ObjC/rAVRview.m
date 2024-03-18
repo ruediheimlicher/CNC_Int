@@ -5168,7 +5168,7 @@ return returnInt;
 
 - (void)MausKlickAktion:(NSNotification*)note
 {
-   //NSLog(@"MausKlickAktion note: %@",[[note userInfo]description]);
+   NSLog(@"MausKlickAktion note: %@",[[note userInfo]description]);
   [[[self view] window]makeFirstResponder: ProfilGraph];
    
    

@@ -459,20 +459,37 @@ var outletdaten:[String:AnyObject] = [:]
     let MANLEFT     = 3
     let MANDOWN     = 4
 
+/*
+    @objc func stepsAktion(_ notification:Notification)
+       {
+          print("stepsAktion: \(notification)")
+          steps = notification.userInfo?["motorsteps"] as! Int
+          print("stepsAktion steps: \(steps)")
+          steps_Feld.integerValue = steps
+       }
 
+       @objc func microAktion(_ notification:Notification)
+       {
+          print("microAktion: \(notification)")
+          micro = notification.userInfo?["micro"] as! Int
+          print("Aktion micro: \(micro)")
+   //       micro_Feld.integerValue = micro
+       }
+*/
     
     @objc func MausGraphAktion(_ notification:Notification)
     {
         let info = notification.userInfo
-        print("Hotwire mausGraphAktion:\t \(String(describing: info))")
-       
+        //print("Hotwire mausGraphAktion:\t \(String(describing: info))")
+        self.view.window?.makeFirstResponder(self.ProfilFeld)
         CNCTable.deselectAll(nil)
        
     //   [[[self view]window]makeFirstResponder: ProfilGraph];
        let mauspunktstring = notification.userInfo?["mauspunkt"] as! String
       let MausPunkt:NSPoint = NSPointFromString(mauspunktstring);
-
-       WertAXFeld.doubleValue = MausPunkt.x
+        print("Hotwire mausGraphAktion MausPunkt:\t \(MausPunkt)")
+      
+    WertAXFeld.doubleValue = MausPunkt.x
        WertAYFeld.doubleValue = MausPunkt.y
           
        WertAXStepper.doubleValue = MausPunkt.x
@@ -487,15 +504,19 @@ var outletdaten:[String:AnyObject] = [:]
      
      
        
-       var offsetx:Double = ProfilBOffsetXFeld.doubleValue
-       var offsety:Double = ProfilBOffsetYFeld.doubleValue
+       let offsetx:Double = ProfilBOffsetXFeld.doubleValue
+       let offsety:Double = ProfilBOffsetYFeld.doubleValue
+        
+        //print("mausgraphaktion offsetx: \(offsetx) offsety: \(offsety)")
        
        var oldPosDic:[String:Double] = [:]
        
        var oldax:Double = MausPunkt.x;
        var olday:Double = MausPunkt.y;
+        print("mausgraphaktion oldax: \(oldax) olday: \(olday)")
        var  oldbx:Double = oldax + offsetx;
        var  oldby:Double = olday + offsety;
+        print("mausgraphaktion oldbx: \(oldbx) oldby: \(oldby)")
        var  oldpwm :Double =  DC_PWM.doubleValue
        print("KoordinatenTabelle: \(KoordinatenTabelle) count: \(KoordinatenTabelle.count)")
        
@@ -510,6 +531,10 @@ var outletdaten:[String:AnyObject] = [:]
           olday = oldPosDic["ay"] ?? 0
           oldbx = oldPosDic["bx"] ?? 0
           oldby = oldPosDic["by"] ?? 0
+           
+           print("mausgraphaktion oldax a: \(oldax) olday: \(olday)")
+           print("mausgraphaktion oldbx b: \(oldbx) oldby: \(oldby)")
+           
           if (oldPosDic["pwm"]! > 0)
           {
              //NSLog(@"oldpwm VOR: %d",oldpwm);
@@ -538,24 +563,17 @@ var outletdaten:[String:AnyObject] = [:]
        
        //NSLog(@"deltax: %1.1f deltay: %1.1f",deltax, deltay);
        
-       var neueZeileDic:[String:Double] = [:]
-       neueZeileDic["ax"] = MausPunkt.x
-       neueZeileDic["ay"] = MausPunkt.y
-       neueZeileDic["bx"] = MausPunkt.x + deltax
-       neueZeileDic["by"] = MausPunkt.y + deltay
-       neueZeileDic["index"] = Double(KoordinatenTabelle.count)
-       neueZeileDic["pwm"] = oldpwm
-       /*
-       NSDictionary* neueZeileDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:MausPunkt.x], @"ax",
-                                [NSNumber numberWithFloat:MausPunkt.y], @"ay",
-                                     [NSNumber numberWithFloat:oldbx + deltax], @"bx",
-                                [NSNumber numberWithFloat:oldby + deltay],@"by",
-                                     [NSNumber numberWithInt:[KoordinatenTabelle count]],@"index",
-                                     [NSNumber numberWithInt:oldpwm],@"pwm",NULL];
-       */
-       
-       //NSLog(@"testDic:  %1.2f  %1.2f  %1.2f  %1.2f",MausPunkt.x,MausPunkt.y,oldbx+deltax,oldby+deltay);
-       
+       var neueZeileDic = [String:Double]()
+      
+        neueZeileDic["ax"] = MausPunkt.x
+        neueZeileDic["ay"] = MausPunkt.y
+        neueZeileDic["bx"] = oldbx + deltax
+        neueZeileDic["by"] = oldby + deltay
+ 
+        neueZeileDic["index"] = Double(KoordinatenTabelle.count)
+        neueZeileDic["pwm"] = oldpwm
+        print("neueZeileDic: \(neueZeileDic)")
+        
        if (CNC_Starttaste.state.rawValue > 0)
        {
            oldMauspunkt = MausPunkt
@@ -567,6 +585,7 @@ var outletdaten:[String:AnyObject] = [:]
           tempDic["by"] = MausPunkt.y + offsety
           tempDic["index"] = Double(KoordinatenTabelle.count)
           tempDic["pwm"] = oldpwm
+           print("tempDic: \(tempDic)")
 /*
           NSDictionary* tempDic = [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSNumber numberWithFloat:MausPunkt.x], @"ax",
@@ -589,7 +608,7 @@ var outletdaten:[String:AnyObject] = [:]
              break;
                 
              default:
-             
+              print("tempDic 2: \(tempDic)")
              KoordinatenTabelle[0] = tempDic
              
              IndexFeld.integerValue = 0
@@ -679,7 +698,7 @@ var outletdaten:[String:AnyObject] = [:]
           tempDic["by"] = MausPunkt.y + offsety
           tempDic["index"] = Double(KoordinatenTabelle.count)
           tempDic["pwm"] = oldpwm
-
+           print("tempDic 3: \(tempDic)")
           /*
           NSDictionary* tempDic = [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSNumber numberWithFloat:MausPunkt.x], @"ax",
@@ -724,13 +743,14 @@ var outletdaten:[String:AnyObject] = [:]
 
        ProfilFeld.DatenArray = KoordinatenTabelle as NSArray
        //[ProfilGraph setDatenArray:KoordinatenTabelle];
-       ProfilFeld.needsDisplay = true
+       //ProfilFeld.needsDisplay = true
+       ProfilFeld.setNeedsDisplay(ProfilFeld.frame)
        //[Profilfeld setNeedsDisplay:YES];
        
        CNCTable.reloadData()
        if (KoordinatenTabelle.count > 0)
        {
-          CNCTable.scrollRowToVisible(KoordinatenTabelle.count - 1)
+//          CNCTable.scrollRowToVisible(KoordinatenTabelle.count - 1)
        }
 
        
@@ -770,7 +790,7 @@ var outletdaten:[String:AnyObject] = [:]
         WertAYStepper.doubleValue = tempZeilenDic["ay"] ?? 0
 
         WertBXFeld.doubleValue = tempZeilenDic["bx"] ?? 0
-        WertBYFeld.doubleValue = tempZeilenDic["ay"] ?? 0
+        WertBYFeld.doubleValue = tempZeilenDic["by"] ?? 0
 
         WertBXStepper.doubleValue = tempZeilenDic["bx"] ?? 0
         WertBYStepper.doubleValue = tempZeilenDic["by"] ?? 0
@@ -993,6 +1013,13 @@ var outletdaten:[String:AnyObject] = [:]
  
        AnschlagUntenIndikator.wantsLayer = true
        AnschlagUntenIndikator?.layer?.backgroundColor = NSColor.green.cgColor
+ /*
+       NotificationCenter.default.addObserver(self, selector: #selector(stepsAktion), name:NSNotification.Name(rawValue: "steps"), object: nil)
+           
+       NotificationCenter.default.removeObserver(self, name: Notification.Name("micro"), object: nil)
+
+       NotificationCenter.default.addObserver(self, selector: #selector(microAktion), name:NSNotification.Name(rawValue: "micro"), object: nil)
+*/
 
        NotificationCenter.default.addObserver(self, selector:#selector(usbstatusAktion(_:)),name:NSNotification.Name(rawValue: "usb_status"),object:nil)
 
@@ -1344,7 +1371,7 @@ var outletdaten:[String:AnyObject] = [:]
    @objc func usbstatusAktion(_ notification:Notification)
    {
        //        userinformation = ["message":"usbstart", "usbstatus": usbstatus, "boardindex":boardindex] as [String : Any]
-
+       
        let info = notification.userInfo
        print(" usbstatusAktion: info: \(notification.userInfo) \(info)")
       guard let status = info?["usbstatus"] as? Int else

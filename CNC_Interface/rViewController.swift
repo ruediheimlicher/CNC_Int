@@ -338,13 +338,15 @@ class rViewController: NSViewController, NSWindowDelegate
            NotificationCenter.default.addObserver(self, selector:#selector(contDataAktion(_:)),name:NSNotification.Name(rawValue: "contdata"),object:nil)
            NotificationCenter.default.addObserver(self, selector:#selector(usbattachAktion(_:)),name:NSNotification.Name(rawValue: "usb_attach"),object:nil)
            NotificationCenter.default.addObserver(self, selector: #selector(slaveresetAktion), name:NSNotification.Name(rawValue: "slavereset"), object: nil)
-           
+       
            NotificationCenter.default.removeObserver(self, name: Notification.Name("steps"), object: nil)
-           NotificationCenter.default.addObserver(self, selector: #selector(stepsAktion), name:NSNotification.Name(rawValue: "steps"), object: nil)
+
+       NotificationCenter.default.addObserver(self, selector: #selector(stepsAktion), name:NSNotification.Name(rawValue: "steps"), object: nil)
            
            NotificationCenter.default.removeObserver(self, name: Notification.Name("micro"), object: nil)
-           NotificationCenter.default.addObserver(self, selector: #selector(microAktion), name:NSNotification.Name(rawValue: "micro"), object: nil)
-           
+
+       NotificationCenter.default.addObserver(self, selector: #selector(microAktion), name:NSNotification.Name(rawValue: "micro"), object: nil)
+ 
            NotificationCenter.default.addObserver(self, selector: #selector(stoptimerAktion), name:NSNotification.Name(rawValue: "stoptimer"), object: nil)
            
            NotificationCenter.default.addObserver(self, selector: #selector(haltAktion), name:NSNotification.Name(rawValue: "halt"), object: nil)
@@ -455,6 +457,7 @@ class rViewController: NSViewController, NSWindowDelegate
          }
 
       }
+        
        var userinformation:[String : Int]
        userinformation = [ "usbstatus": usbstatus, "boardindex":boardindex] as [String : Int]
       print("userinformation: \(userinformation)")
@@ -465,6 +468,22 @@ class rViewController: NSViewController, NSWindowDelegate
 
     }
     
+    @objc func stepsAktion(_ notification:Notification)
+        {
+           print("stepsAktion: \(notification)")
+           steps = notification.userInfo?["motorsteps"] as! Int
+           print("stepsAktion steps: \(steps)")
+           steps_Feld.integerValue = steps
+        }
+
+        @objc func microAktion(_ notification:Notification)
+        {
+           print("microAktion: \(notification)")
+           micro = notification.userInfo?["micro"] as! Int
+           print("Aktion micro: \(micro)")
+           micro_Feld.integerValue = micro
+        }
+
     
    func openFile() -> URL? 
    { 
@@ -564,7 +583,7 @@ class rViewController: NSViewController, NSWindowDelegate
     }
     
    
-    
+ /*
     @objc func stepsAktion(_ notification:Notification)
      {
         print("stepsAktion: \(notification)")
@@ -580,7 +599,7 @@ class rViewController: NSViewController, NSWindowDelegate
         print("Aktion micro: \(micro)")
         micro_Feld.integerValue = micro
      }
-
+*/
     @objc func stoptimerAktion(_ notification:Notification)
      {
         print("stoptimerAktion: \(notification)")

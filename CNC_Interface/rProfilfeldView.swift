@@ -328,7 +328,7 @@ class rProfilfeldView: NSView
    // https://stackoverflow.com/questions/21751105/mac-os-x-convert-between-nsview-coordinates-and-global-screen-coordinates
    override func draw(_ dirtyRect: NSRect) 
    {
-      print("Profilfeld drawRect dirtyRect: \(dirtyRect)")
+      print("Profilfeld drawRect dirtyRect: \(dirtyRect) Datearray: \(DatenArray)")
       let bgcolor:NSColor = NSColor.init(calibratedRed:1.0, green:1.0, blue: 1.0, alpha: 1.0)
       bgcolor.setFill()
       if scale == 0
@@ -398,20 +398,22 @@ class rProfilfeldView: NSView
       let anz = DatenArray.count
       if DatenArray.count > 0
       {
-         var line = DatenArray[0] as! [String:Any]
-         var ax = line["ax"] as! Double
-         var ay = line["ay"] as! Double
+         var line = DatenArray[0] as! [String:Double]
+          print("Profilfeld drawRect line 0: \(line)")
+          var ax = line["ax"]!
+         var ay = line["ay"]!
          StartPunktA = NSMakePoint(ax*scale,ay*scale)
-         var bx = line["bx"] as! Double
-         var by = line["by"] as! Double
+          var bx = line["bx"]!
+          var by = line["by"]!
          StartPunktB = NSMakePoint(bx*scale,by*scale)
          
-         line = DatenArray[anz - 1] as! [String:Any]
-         ax = line["ax"] as! Double
-         ay = line["ay"] as! Double
+         line = DatenArray[anz - 1] as! [String:Double]
+          print("Profilfeld drawRect line anz-1: \(line)")
+         ax = line["ax"]!
+         ay = line["ay"]!
          EndPunktA = NSMakePoint(ax*scale,ay*scale)
-         bx = line["bx"] as! Double
-         by = line["by"] as! Double
+         bx = line["bx"]!
+         by = line["by"]!
          EndPunktB = NSMakePoint(bx*scale,by*scale)
          
          print("Profilfeld drawRect StartpunktA: \(StartPunktA)  StartpunktB:\(StartPunktB)")
@@ -481,18 +483,138 @@ class rProfilfeldView: NSView
          var KlickLinieB = NSBezierPath()
          LinieB.move(to:StartPunktB)
 
-         
-         
-         /*
-         //NSLog(@"StartMarkARect: x: %d y: %d ",StartMarkARect.origin.x, StartMarkARect.origin.y);
-         NSBezierPath* StartMarkA=[NSBezierPath bezierPathWithOvalInRect:StartMarkARect];
-         [[NSColor blueColor]set];
-         [StartMarkA stroke];
-         NSBezierPath* LinieA=[NSBezierPath bezierPath];
-         NSBezierPath* KlickLinieA=[NSBezierPath bezierPath];
-         [LinieA moveToPoint:StartPunktA];
-*/
-         
+         // Abbrand
+          //  Seite 1
+          var AbbrandLinieA = NSBezierPath()
+          var startabbrandindexA:Int = 0
+          var AbbrandLinieB = NSBezierPath()
+          var startabbrandindexB:Int = 0
+ 
+          var abrax:Double = 0
+          var abray:Double = 0
+
+          var abrbx:Double = 0
+          var abrby:Double = 0
+
+          for i in 0..<anz // erstes vorkommen von abr suchen
+          {
+              var line = DatenArray[i] as! [String:Any]
+              if line["abrax"] != nil && line["abrax"] as! Int > 0
+              {
+                  startabbrandindexA += 1
+                  break
+              }
+          }
+          
+          var abrline = DatenArray[startabbrandindexA] as! [String:Double]
+          //var abrline0 = DatenArray[anz-1] as! [String:Double]
+          
+          if(abrline["abrax"] != nil && abrline["abray"] != nil )
+          {
+              abrax = abrline["abrax"]!
+              abray = abrline["abray"]!
+              
+              var AbbrandStartPunktA = NSMakePoint(abrax * scale, abray * scale)
+              AbbrandStartPunktA.y += Double(abbranddelay)
+              
+              AbbrandLinieA.move(to: AbbrandStartPunktA )
+          }
+ 
+          // Seite 2
+          
+          for i in 0..<anz
+          {
+              var line = DatenArray[i] as! [String:Any]
+              if line["abrbx"] != nil && line["abrbx"] as! Int > 0
+              {
+                  startabbrandindexB += 1
+                  break
+              }
+          }
+          
+          abrline = DatenArray[startabbrandindexB] as! [String:Double]
+          if(abrline["abrbx"] != nil && abrline["abrby"] != nil )
+          {
+              abrbx = line["abrbx"] as! Double
+              abrby = line["abrby"] as! Double
+              
+              var AbbrandStartPunktB = NSMakePoint(abrbx * scale, abrby * scale)
+              AbbrandStartPunktB.y += Double(abbranddelay)
+              
+              AbbrandLinieB.move(to: AbbrandStartPunktB )
+          }
+          
+          
+          for i in 0..<anz
+          {
+              line = DatenArray[i] as! [String:Double]
+              //line = DatenArray[i] as! [String:Double]
+              ax = line["ax"]!
+              ay = line["ay"]!
+              
+              var PunktA = NSMakePoint(ax * scale, ay * scale)
+              LinieA.line(to:PunktA)
+              var tempMarkA = NSBezierPath()
+ 
+              bx = line["bx"] as! Double
+              by = line["by"] as! Double
+              
+              var PunktB = NSMakePoint(bx * scale, by * scale)
+              LinieB.line(to:PunktB)
+              var tempMarkB = NSBezierPath()
+              
+              if i == Klickpunkt && screen > 0
+              {
+                  let tempMarkARect = NSMakeRect(PunktA.x-4.1, PunktA.y-4.1, 8.1, 8.1)
+                  tempMarkA = NSBezierPath.init(ovalIn: tempMarkARect)
+                  NSColor.gray.set()
+                  tempMarkA.stroke()
+                  
+                  let tempMarkBRect = NSMakeRect(PunktB.x-1.5, PunktB.y-1.5, 3.1, 3.1)
+                  tempMarkB = NSBezierPath.init(ovalIn: tempMarkBRect)
+                  NSColor.red.set()
+                  tempMarkB.stroke()
+                  
+
+              }// i == Klickpunkt
+              else
+              {
+                  NSColor.gray.set()
+                  let tempMarkARect = NSMakeRect(PunktA.x-2.5, PunktA.y-2.5, 5.1, 5.1)
+                  tempMarkA = NSBezierPath.init(ovalIn: tempMarkARect)
+                  tempMarkA.stroke()
+                  
+                  let tempMarkBRect = NSMakeRect(PunktB.x-1.5, PunktB.y-1.5, 3.1, 3.1)
+                  tempMarkB = NSBezierPath.init(ovalIn: tempMarkBRect)
+                  tempMarkB.stroke()
+                  
+                  if screen > 0
+                  {
+                      if i > stepperposition
+                      {
+                          NSColor.blue.set()
+                          tempMarkA.stroke()
+                      }
+                      else
+                      {
+                          NSColor.red.set()
+                          // Kreuz
+                          NSBezierPath.strokeLine(from:NSMakePoint(PunktA.x - 4.1, PunktA.y - 4.1), to:NSMakePoint(PunktA.x + 4.1, PunktA.y + 4.1))
+                          NSBezierPath.strokeLine(from:NSMakePoint(PunktA.x + 4.1, PunktA.y + 4.1), to:NSMakePoint(PunktA.x - 4.1, PunktA.y - 4.1))
+                          
+                      }
+                  }// if screen > 0
+                  
+              }
+              
+              
+              
+     
+          }// for i
+          
+          
+          
+          
       } // if DatenArray.count > 0
    }
    
@@ -519,7 +641,7 @@ class rProfilfeldView: NSView
         }
         
         let location = theEvent.locationInWindow
-        Swift.print(location)
+        Swift.print("mousedown location \(location)")
         var local_point = convert(theEvent.locationInWindow, from: nil)
         Swift.print(local_point)
         
@@ -562,6 +684,7 @@ class rProfilfeldView: NSView
                 NotificationDic["mauspunkty"] = Int(local_point.y)
                 NotificationDic["mauspunkt"] = NSStringFromPoint(local_point)
                 NotificationDic["klickabschnitt"] = clickAbschnitt
+                NotificationDic["mausklick"] = clickAbschnitt
                 NotificationDic["graphoffset"] = GraphOffset
                 nc.post(name: NSNotification.Name(rawValue: "mausklick") , object: nil, userInfo: NotificationDic)
             }
@@ -649,6 +772,7 @@ class rProfilfeldView: NSView
             var NotificationDic = [String:Any]()
             NotificationDic["mauspunkt"] = NSStringFromPoint(local_point)
             NotificationDic["graphoffet"] = GraphOffset
+            print("mousedown Range reseten: NotificationDic: \(NotificationDic)+")
             klickrange=NSMakeRange(0,0)
             startklickpunkt = -1
             nc.post(name: NSNotification.Name(rawValue: "mauspunkt") , object: nil, userInfo: NotificationDic)
@@ -663,7 +787,8 @@ class rProfilfeldView: NSView
       Swift.print("rJoystickView right mouse")
       let location = theEvent.locationInWindow
       Swift.print(location)
-      needsDisplay = true
+       self.setNeedsDisplay(self.frame)
+      //needsDisplay = true
    }
    
    
