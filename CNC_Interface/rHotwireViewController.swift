@@ -609,6 +609,8 @@ var outletdaten:[String:AnyObject] = [:]
           tempDic["by"] = MausPunkt.y + offsety
           tempDic["index"] = Double(KoordinatenTabelle.count)
           tempDic["pwm"] = oldpwm
+           
+           print("if CNC_Stoptaste state > 0 tempDic: \(tempDic)")
 /*
           NSDictionary* tempDic = [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSNumber numberWithFloat:MausPunkt.x], @"ax",
@@ -689,7 +691,7 @@ var outletdaten:[String:AnyObject] = [:]
                                    NULL];
           */
           
-          //NSLog(@"tempDic: %@",[tempDic description]);
+           print("if CNC_Stoptaste state == 0 tempDic: \(tempDic)")
           IndexFeld.integerValue = KoordinatenTabelle.count
          IndexStepper.integerValue = KoordinatenTabelle.count
          IndexStepper.maxValue = Double(KoordinatenTabelle.count)
@@ -741,10 +743,45 @@ var outletdaten:[String:AnyObject] = [:]
    }
 
    @objc func MausKlickAktion(_ notification:Notification)
-   {
-      let info = notification.userInfo
-      print("Hotwire MausKlickAktion:\t \(String(describing: info))")
-   }
+    {
+        let info = notification.userInfo
+        print("Hotwire MausKlickAktion:\t \(String(describing: info))")
+        
+     //   self.view.window?.addObserver(self, forKeyPath: "firstResponder", options: [.initial, .new], context: nil)
+
+        self.view.window?.makeFirstResponder(self.ProfilFeld)
+
+        var klickIndex = info?["klickpunkt"] as! Int
+
+        if klickIndex > 0x0FFF
+        {
+            klickIndex -= 0xF000
+        }
+        var NotificationDic = [String:Any]()
+        var tempZeilenDic = KoordinatenTabelle[klickIndex]
+        
+        IndexFeld.integerValue = klickIndex
+        IndexStepper.integerValue = klickIndex
+        
+        WertAXFeld.doubleValue = tempZeilenDic["ax"] ?? 0
+        WertAYFeld.doubleValue = tempZeilenDic["ay"] ?? 0
+
+        WertAXStepper.doubleValue = tempZeilenDic["ax"] ?? 0
+        WertAYStepper.doubleValue = tempZeilenDic["ay"] ?? 0
+
+        WertBXFeld.doubleValue = tempZeilenDic["bx"] ?? 0
+        WertBYFeld.doubleValue = tempZeilenDic["ay"] ?? 0
+
+        WertBXStepper.doubleValue = tempZeilenDic["bx"] ?? 0
+        WertBYStepper.doubleValue = tempZeilenDic["by"] ?? 0
+        
+        self.ProfilFeld.needsDisplay = true
+        var rowIndexSet = NSIndexSet.init(index: klickIndex)
+        
+        CNCTable.selectRowIndexes(IndexSet.init(rowIndexSet), byExtendingSelection: false)
+
+        
+    } // MausKlickAktion
 
     @objc class func cncoutletdaten() -> NSDictionary
     {
@@ -963,6 +1000,7 @@ var outletdaten:[String:AnyObject] = [:]
 
        NotificationCenter.default.addObserver(self, selector:#selector(PfeilFeldAktion(_:)),name:NSNotification.Name(rawValue: "pfeilfeld"),object:nil)
 
+       NotificationCenter.default.addObserver(self, selector:#selector(MausKlickAktion(_:)),name:NSNotification.Name(rawValue: "mausklick"),object:nil)
        NotificationCenter.default.addObserver(self, selector:#selector(MausGraphAktion(_:)),name:NSNotification.Name(rawValue: "mauspunkt"),object:nil)
 
        NotificationCenter.default.addObserver(self, selector:#selector(PfeilFeldAktion(_:)),name:NSNotification.Name(rawValue: "pfeilfeld"),object:nil)

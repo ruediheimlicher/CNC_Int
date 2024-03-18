@@ -301,7 +301,7 @@ int (^add)(int,int) = ^(int number1, int number2){
          [NotificationDic setObject:[NSNumber  numberWithInt:clickAbschnitt]forKey:@"klickabschnitt"];
          [NotificationDic setObject:[NSNumber numberWithInt:GraphOffset] forKey:@"graphoffset"];
 
-         [nc postNotificationName:@"mausklick" object:self userInfo:NotificationDic];
+  // ***       [nc postNotificationName:@"mausklick" object:self userInfo:NotificationDic];
          //return;
       }
       else
@@ -408,7 +408,7 @@ int (^add)(int,int) = ^(int number1, int number2){
       //NSLog(@"mousedown NotificationDic: %@",[NotificationDic description]);
 		//[self setNeedsDisplay:YES];
 //		NSLog(@"mouseDown: notific mausklick Punkt angeklickt");
-      [nc postNotificationName:@"mausklick" object:self userInfo:NotificationDic];
+// ***      [nc postNotificationName:@"mausklick" object:self userInfo:NotificationDic];
 	}
 	else // Range reseten
 	{

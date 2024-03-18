@@ -65,11 +65,11 @@ class rProfilfeldView: NSView
    
    func clickedPunktvonMaus(derPunkt:NSPoint) -> Int
    {
-      var delta:Double  = 1
+      var delta:Double  = 2
       var KlickFeld = NSMakeRect(derPunkt.x-delta/2, derPunkt.y-delta/2, delta, delta);
       for i in 0..<DatenArray.count
       {
-         var line = DatenArray[Klickpunkt] as! [String:Any]
+         var line = DatenArray[i] as! [String:Any]
          var ax = line["ax"] as! Double
          var ay = line["ay"] as! Double
          
@@ -497,160 +497,164 @@ class rProfilfeldView: NSView
    }
    
    override func mouseDown(with theEvent: NSEvent) 
-   {
-      
-      super.mouseDown(with: theEvent)
-      let nc = NotificationCenter.default
-      
-      let shift = NSEvent.ModifierFlags.shift.rawValue
-      
-      //let ident  = self.identifier as! String
-       let ident  = self.identifier
-      
-      Swift.print("rProfilfeldView mouseDown ident: \(ident)")
-      var identstring = ""
-      if let rawident:String = ident?.rawValue
-      {
-         identstring = rawident
-      }
-      else
-      {
-         identstring = "13"
-      }
-      
-      let location = theEvent.locationInWindow
-          Swift.print(location)
-      var local_point = convert(theEvent.locationInWindow, from: nil)
-          Swift.print(local_point)
-      
-      
-      var MausDic:[String:Any] = [:]
-      MausDic["mausistdown"] = 1
-      MausDic["graphoffset"] = GraphOffset
-      print("mouseDown Mausdic: \(MausDic)")
-      
-      nc.post(name: NSNotification.Name(rawValue: "mausdaten") , object: nil, userInfo: MausDic)
-      
-      local_point.x /= scale
-      local_point.y /= scale
-      
-      // von joystick
-      // setup the context
-      // setup the context
-      let dashHeight: CGFloat = 1
-      let dashColor: NSColor = .green
-      
-      if (oldMauspunkt.x == local_point.x) && (oldMauspunkt.y == local_point.y)
-      {
-         
-      }
-      else
-      {
-         oldMauspunkt = local_point
-      }      
-      print("mousedown x: \(local_point.x) y: \(local_point.y)")
-      
-      var linehit:Int = 0
-      
-      if DatenArray.count > 3
-      {
-         var clickAbschnitt = self.clickedPunktvonMaus(derPunkt: local_point)
-         if clickAbschnitt >= 0
-         {
-            var NotificationDic = [String:Any]()
-            NotificationDic["mauspunktx"] = Int(local_point.x)
-            NotificationDic["mauspunkty"] = Int(local_point.y)
-            NotificationDic["mauspunkt"] = NSStringFromPoint(local_point)
-            NotificationDic["klickabschnitt"] = clickAbschnitt
-            NotificationDic["graphoffset"] = GraphOffset
-            nc.post(name: NSNotification.Name(rawValue: "mausklick") , object: nil, userInfo: NotificationDic)
-         }
-         else
-         {
-            print("kein Klick")
-         }
-      } // count > 3
-      
-      var NotificationDic = [String:Any]()
-      Klickpunkt = self.clickedPunktvonMaus(derPunkt: local_point)
-      if Klickpunkt >= 0xFFFF
-      {
-         Klickseite = 2
-      }
-      else
-      {
-         Klickseite = 1
-      }
-      
-      print("mousedown startklickpunkt: \(startklickpunkt) Klickpunkt: \(Klickpunkt)")
-      NotificationDic["klickseite"] = Klickseite
-      
-      if Klickpunkt > -1
-      {
-         if shift > 0
-         {
-            if (startklickpunkt >= 0) && (!(startklickpunkt == Klickpunkt))
+    {
+        
+        super.mouseDown(with: theEvent)
+        let nc = NotificationCenter.default
+        
+        let shift = NSEvent.ModifierFlags.shift.rawValue
+        
+        //let ident  = self.identifier as! String
+        let ident  = self.identifier
+        
+        //Swift.print("rProfilfeldView mouseDown ident: \(ident)")
+        var identstring = ""
+        if let rawident:String = ident?.rawValue
+        {
+            identstring = rawident
+        }
+        else
+        {
+            identstring = "13"
+        }
+        
+        let location = theEvent.locationInWindow
+        Swift.print(location)
+        var local_point = convert(theEvent.locationInWindow, from: nil)
+        Swift.print(local_point)
+        
+        
+        var MausDic:[String:Any] = [:]
+        MausDic["mausistdown"] = 1
+        MausDic["graphoffset"] = GraphOffset
+        print("mouseDown Mausdic: \(MausDic)")
+        
+        //nc.post(name: NSNotification.Name(rawValue: "mausdaten") , object: nil, userInfo: MausDic)
+        
+        local_point.x /= scale
+        local_point.y /= scale
+        
+        // von joystick
+        // setup the context
+        // setup the context
+        let dashHeight: CGFloat = 1
+        let dashColor: NSColor = .green
+        
+        if (oldMauspunkt.x == local_point.x) && (oldMauspunkt.y == local_point.y)
+        {
+            
+        }
+        else
+        {
+            oldMauspunkt = local_point
+        }
+        print("mousedown x: \(local_point.x) y: \(local_point.y)")
+        
+        var linehit:Int = 0
+        
+        if DatenArray.count > 3
+        {
+            var clickAbschnitt = self.clickedPunktvonMaus(derPunkt: local_point)
+            if clickAbschnitt >= 0
             {
-               
-               if Klickpunkt > startklickpunkt
-               {
-                  klickrange = NSMakeRange(startklickpunkt, (Klickpunkt - startklickpunkt))
-                  NotificationDic["startklickpunkt"] = startklickpunkt
-                  
-               }// Klickpunkt > startklickpunkt
-               else
-               {
-                  klickrange = NSMakeRange(startklickpunkt, (startklickpunkt - Klickpunkt))
-                  NotificationDic["startklickpunkt"] = startklickpunkt
-               }
-               NotificationDic["klickrange"] = NSStringFromRange(klickrange)
-               
-               KlicksetA.add(in: klickrange)
-               NotificationDic["klickindexset"] = KlicksetA
-               klickrange=NSMakeRange(0,0)
-               startklickpunkt = -1
-            }// startklickpunkt >=0)
+                var NotificationDic = [String:Any]()
+                NotificationDic["mauspunktx"] = Int(local_point.x)
+                NotificationDic["mauspunkty"] = Int(local_point.y)
+                NotificationDic["mauspunkt"] = NSStringFromPoint(local_point)
+                NotificationDic["klickabschnitt"] = clickAbschnitt
+                NotificationDic["graphoffset"] = GraphOffset
+                nc.post(name: NSNotification.Name(rawValue: "mausklick") , object: nil, userInfo: NotificationDic)
+            }
             else
             {
-               KlicksetA.removeAllIndexes()
-               startklickpunkt=Klickpunkt
-               klickrange=NSMakeRange(0,0)
-    
+                print("kein Klick")
             }
-
-         }  // if shift   
-         else // Neuanfang, Vorbereitung fuer Aktion mit shift
-         {
-            KlicksetA.removeAllIndexes()
-            startklickpunkt = Klickpunkt
-            NotificationDic["klickrange"] = NSStringFromRange(NSMakeRange(0,0))
-            NotificationDic["graphoffet"] = GraphOffset
-            klickrange = NSMakeRange(0,0)
+        } // count > 3
+        
+        var NotificationDic = [String:Any]()
+        Klickpunkt = self.clickedPunktvonMaus(derPunkt: local_point)
+        if Klickpunkt >= 0xFFFF
+        {
+            Klickseite = 2
+        }
+        else
+        {
+            Klickseite = 1
+        }
+        
+        NotificationDic["klickseite"] = Klickseite
+        print("mousedown startklickpunkt: \(startklickpunkt) Klickpunkt: \(Klickpunkt)")
+        
+        if Klickpunkt > -1 // Punkt angeklickt
+        {
+            if shift > 0
+            {
+                if (startklickpunkt >= 0) && (!(startklickpunkt == Klickpunkt))
+                {
+                    
+                    if Klickpunkt > startklickpunkt
+                    {
+                        klickrange = NSMakeRange(startklickpunkt, (Klickpunkt - startklickpunkt))
+                        NotificationDic["startklickpunkt"] = startklickpunkt
+                        
+                    }// Klickpunkt > startklickpunkt
+                    else
+                    {
+                        klickrange = NSMakeRange(startklickpunkt, (startklickpunkt - Klickpunkt))
+                        NotificationDic["startklickpunkt"] = startklickpunkt
+                    }
+                    NotificationDic["klickrange"] = NSStringFromRange(klickrange)
+                    
+                    KlicksetA.add(in: klickrange)
+                    NotificationDic["klickindexset"] = KlicksetA
+                    klickrange=NSMakeRange(0,0)
+                    startklickpunkt = -1
+                }// startklickpunkt >=0)
+                else
+                {
+                    KlicksetA.removeAllIndexes()
+                    startklickpunkt=Klickpunkt
+                    klickrange=NSMakeRange(0,0)
+                    
+                }
+                
+            }  // if shift
+            else // Neuanfang, Vorbereitung fuer Aktion mit shift
+            {
+                KlicksetA.removeAllIndexes()
+                startklickpunkt = Klickpunkt  // Punkt merken
+                NotificationDic["klickrange"] = NSStringFromRange(NSMakeRange(0,0))
+                NotificationDic["graphoffet"] = GraphOffset
+                klickrange = NSMakeRange(0,0)
+                
+            } // Neuanfang
             
-         } // Neuanfang
-         
-         // Koord Mauspunkt
-         if Klickseite == 2
-         {
-            local_point.y -= CGFloat(GraphOffset)
-         }
-         
-         
-         
-      } // Klickpunkt < -1
-                                                              
-      
-      else // Range reseten
-      {
-         var NotificationDic = [String:Any]()
-         NotificationDic["mauspunkt"] = NSStringFromPoint(local_point)
-         NotificationDic["graphoffet"] = GraphOffset
-         klickrange=NSMakeRange(0,0)
-         startklickpunkt = -1
-         nc.post(name: NSNotification.Name(rawValue: "mauspunkt") , object: nil, userInfo: NotificationDic)
-
-      }
-      print("mousedown end")
+            // Koord Mauspunkt
+            if Klickseite == 2
+            {
+                local_point.y -= CGFloat(GraphOffset)
+            }
+            
+            NotificationDic["mauspunkt"] = NSStringFromPoint(local_point)
+            
+            // Nummer des angeklickten Punktes
+            NotificationDic["klickpunkt"] = Klickpunkt
+            
+            nc.post(name: NSNotification.Name(rawValue: "mausklick") , object: nil, userInfo: NotificationDic)
+        } // Klickpunkt < -1
+        
+        
+        else // Range reseten
+        {
+            var NotificationDic = [String:Any]()
+            NotificationDic["mauspunkt"] = NSStringFromPoint(local_point)
+            NotificationDic["graphoffet"] = GraphOffset
+            klickrange=NSMakeRange(0,0)
+            startklickpunkt = -1
+            nc.post(name: NSNotification.Name(rawValue: "mauspunkt") , object: nil, userInfo: NotificationDic)
+            
+        }
+        print("mousedown end")
     }
    
    override func rightMouseDown(with theEvent: NSEvent) 
@@ -713,7 +717,7 @@ class rProfilfeldView: NSView
            var aktivFeld:NSRect = NSMakeRect(aktivPunkt.x-3, aktivPunkt.y-3, 6, 6 )
           // let hyp = Int(sqrt(pow(triPerpendicular, 2) + pow(triBase, 2)))
            
-          if (self.mouse(aktivPunkt, in: aktivFeld))
+          if (self.mouse(aktivPunkt, in: aktivFeld)) // Maus ziehen
            {
                var NotificationDic = [String:Any]()
                NotificationDic["ax"] = Int(lokalpunkt.x)
@@ -725,14 +729,14 @@ class rProfilfeldView: NSView
                
                nc.post(name: NSNotification.Name(rawValue: "mausdrag") , object: nil, userInfo: NotificationDic)
            }
-          else if hypot((oldMauspunkt.x - lokalpunkt.x), (oldMauspunkt.y - lokalpunkt.y))>4
+          else if hypot((oldMauspunkt.x - lokalpunkt.x), (oldMauspunkt.y - lokalpunkt.y))>4 // Abstad gross genug für neuen Punkt
            {
              
                oldMauspunkt = lokalpunkt
                var NotificationDic = [String:Any]()
                NotificationDic["ax"] = Int(lokalpunkt.x)
                NotificationDic["ay"] = Int(lokalpunkt.y)
-              
+                NotificationDic["mauspunkt"] = NSStringFromPoint(lokalpunkt)
                NotificationDic["graphoffset"] = GraphOffset
                
                nc.post(name: NSNotification.Name(rawValue: "mauspunkt") , object: nil, userInfo: NotificationDic)
