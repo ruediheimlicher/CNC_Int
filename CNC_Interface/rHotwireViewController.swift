@@ -518,11 +518,11 @@ var outletdaten:[String:AnyObject] = [:]
        var  oldby:Double = olday + offsety;
         print("mausgraphaktion oldbx: \(oldbx) oldby: \(oldby)")
        var  oldpwm :Double =  DC_PWM.doubleValue
-       print("KoordinatenTabelle: \(KoordinatenTabelle) count: \(KoordinatenTabelle.count)")
+       //print("KoordinatenTabelle: \(KoordinatenTabelle) count: \(KoordinatenTabelle.count)")
        
        let c = KoordinatenTabelle.isEmpty
        
-       print("KoordinatenTabelle: \(KoordinatenTabelle) ")
+       print("Mausgraphaktion KoordinatenTabelle: \(KoordinatenTabelle) ")
        
        if (KoordinatenTabelle.isEmpty == false)
        {
@@ -757,10 +757,16 @@ var outletdaten:[String:AnyObject] = [:]
     }
     
    @objc func MausDragAktion(_ notification:Notification)
-   {
-      let info = notification.userInfo
-      print("Hotwire MausDragAktion:\t \(String(describing: info))")
-   }
+    {
+        let info = notification.userInfo
+        print("Hotwire MausDragAktion")
+        print("Hotwire MausDragAktion:\t \(String(describing: info))")
+        let mauspunktstring = notification.userInfo?["mauspunkt"] as! String
+       let MausPunkt:NSPoint = NSPointFromString(mauspunktstring);
+
+        
+        
+    }
 
    @objc func MausKlickAktion(_ notification:Notification)
     {
@@ -1047,7 +1053,7 @@ var outletdaten:[String:AnyObject] = [:]
        
       if (hotwireplist["koordinatentabelle"] != nil)
       {
-         print("koordinatentabelle: \(hotwireplist["koordinatentabelle"] )")
+         print("PList koordinatentabelle: \(hotwireplist["koordinatentabelle"] )")
       }
        
       if (hotwireplist["pwm"] != nil)

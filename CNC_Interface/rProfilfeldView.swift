@@ -101,7 +101,7 @@ class rProfilfeldView: NSView
       
       for i in 0..<DatenArray.count - 1
       {
-         var line = DatenArray[Klickpunkt] as! [String:Any]
+         var line = DatenArray[i] as! [String:Any]
          var ax = line["ax"] as! Double
          var ay = line["ay"] as! Double
          
@@ -227,7 +227,7 @@ class rProfilfeldView: NSView
         var breite:CGFloat = bounds.size.width;
         let w:CGFloat = bounds.size.width
         let h:CGFloat = bounds.size.height
-        print("w: \(w) h: \(h) gittermass: \(Gittermass)")
+        //print("w: \(w) h: \(h) gittermass: \(Gittermass)")
         
         if ((NSGraphicsContext.current?.isDrawingToScreen) != nil)
         {
@@ -328,7 +328,7 @@ class rProfilfeldView: NSView
    // https://stackoverflow.com/questions/21751105/mac-os-x-convert-between-nsview-coordinates-and-global-screen-coordinates
    override func draw(_ dirtyRect: NSRect) 
    {
-      print("Profilfeld drawRect dirtyRect: \(dirtyRect) Datearray: \(DatenArray)")
+      //print("Profilfeld drawRect dirtyRect: \(dirtyRect) Datearray: \(DatenArray)")
       let bgcolor:NSColor = NSColor.init(calibratedRed:1.0, green:1.0, blue: 1.0, alpha: 1.0)
       bgcolor.setFill()
       if scale == 0
@@ -340,7 +340,7 @@ class rProfilfeldView: NSView
       
       if (NSGraphicsContext.currentContextDrawingToScreen() == true)
       {
-         print("Profilfeld drawRect to screen ")
+         //print("Profilfeld drawRect to screen ")
          screen=1;
       }
       else
@@ -394,12 +394,12 @@ class rProfilfeldView: NSView
       //weg.lineWidth = 2
       //weg.stroke()  // draw line(s) in color
       GitterZeichnen()
-      print("Profilfeld drawRect DatenArray: \(DatenArray)")
+      //print("Profilfeld drawRect DatenArray: \(DatenArray)")
       let anz = DatenArray.count
       if DatenArray.count > 0
       {
          var line = DatenArray[0] as! [String:Double]
-          print("Profilfeld drawRect line 0: \(line)")
+ //         print("Profilfeld drawRect line 0: \(line)")
           var ax = line["ax"]!
          var ay = line["ay"]!
          StartPunktA = NSMakePoint(ax*scale,ay*scale)
@@ -408,7 +408,7 @@ class rProfilfeldView: NSView
          StartPunktB = NSMakePoint(bx*scale,by*scale)
          
          line = DatenArray[anz - 1] as! [String:Double]
-          print("Profilfeld drawRect line anz-1: \(line)")
+//          print("Profilfeld drawRect line anz-1: \(line)")
          ax = line["ax"]!
          ay = line["ay"]!
          EndPunktA = NSMakePoint(ax*scale,ay*scale)
@@ -416,8 +416,8 @@ class rProfilfeldView: NSView
          by = line["by"]!
          EndPunktB = NSMakePoint(bx*scale,by*scale)
          
-         print("Profilfeld drawRect StartpunktA: \(StartPunktA)  StartpunktB:\(StartPunktB)")
-         print("Profilfeld drawRect  EndPunktA: \(EndPunktA) EndPunktB: \(EndPunktB)")
+//         print("Profilfeld drawRect StartpunktA: \(StartPunktA)  StartpunktB:\(StartPunktB)")
+//         print("Profilfeld drawRect  EndPunktA: \(EndPunktA) EndPunktB: \(EndPunktB)")
          
          
          
@@ -678,6 +678,7 @@ class rProfilfeldView: NSView
         Swift.print("mousedown location \(location)")
         var local_point = convert(theEvent.locationInWindow, from: nil)
         Swift.print(local_point)
+        mausistdown = 1
         
         
         var MausDic:[String:Any] = [:]
@@ -693,15 +694,16 @@ class rProfilfeldView: NSView
         // von joystick
         // setup the context
         // setup the context
-        let dashHeight: CGFloat = 1
-        let dashColor: NSColor = .green
+        //let dashHeight: CGFloat = 1
+        //let dashColor: NSColor = .green
         
         if (oldMauspunkt.x == local_point.x) && (oldMauspunkt.y == local_point.y)
         {
-            
+            print("mousedown gleicher punkt")
         }
         else
         {
+            print("mousedown neuer punkt")
             oldMauspunkt = local_point
         }
         print("mousedown x: \(local_point.x) y: \(local_point.y)")
@@ -827,98 +829,90 @@ class rProfilfeldView: NSView
    
    
    override func mouseDragged(with theEvent: NSEvent) 
-   {
-      Swift.print("Profilfeld mouseDragged ")
-       let nc = NotificationCenter.default
-      let location = theEvent.locationInWindow
-      //Swift.print(location)
-      var lokalpunkt = convert(theEvent.locationInWindow, from: nil)
-       lokalpunkt.x /= scale;
-       lokalpunkt.y /= scale;
-      var userinformation:[String : Any]
-      Swift.print("Profilfeld mouseDragged weg.elementCount: \(weg.elementCount) scale: \(scale) " )
-      let hyp =  hypot((oldMauspunkt.x - lokalpunkt.x), (oldMauspunkt.y - lokalpunkt.y))
-      Swift.print("Profilfeld mouseDragged lokalpunkt: \(lokalpunkt) oldMauspunkt: \(oldMauspunkt) hyp: \(hyp)")
-      if (lokalpunkt.x >= self.bounds.size.width)
-      {
-         lokalpunkt.x = self.bounds.size.width
-         print("mouseDragged width")
-      }
-      if (lokalpunkt.x <= 0)
-      {
-         lokalpunkt.x = 0
-         print("mouseDragged width<0")
-      }
-      
-      if (lokalpunkt.y > self.bounds.size.height)
-      {
-         lokalpunkt.y = self.bounds.size.height
-         print("mouseDragged heugt")
-      }
-      if (lokalpunkt.y <= 0)
-      {
-         lokalpunkt.y = 0
-         print("mouseDragged height < 0")
-      }     
-       if (Klickseite == 2)
+    {
+        Swift.print("** Swift Profilfeld mouseDragged ")
+        let nc = NotificationCenter.default
+        let location = theEvent.locationInWindow
+        //Swift.print(location)
+        var lokalpunkt = convert(theEvent.locationInWindow, from: nil)
+        lokalpunkt.x /= scale;
+        lokalpunkt.y /= scale;
+        var userinformation:[String : Any]
+        let hyp =  hypot((oldMauspunkt.x - lokalpunkt.x), (oldMauspunkt.y - lokalpunkt.y))
+        Swift.print("Profilfeld mouseDragged lokalpunkt: \(lokalpunkt) oldMauspunkt: \(oldMauspunkt) hyp: \(hyp) Klickseite: \(Klickseite) Klickpunkt: \(Klickpunkt)")
+        if Klickseite == 2
         {
-           lokalpunkt.y -= CGFloat(GraphOffset)
+            lokalpunkt.y -= Double(GraphOffset)
         }
-
-      
-       if Klickpunkt >= 0 && DatenArray.count > Klickpunkt
-       {
-           var line = DatenArray[Klickpunkt] as! [String:Any]
-           var ax = line["ax"] as! Double
-           var ay = line["ay"] as! Double
-           
-           var aktivPunkt:NSPoint = NSPoint(x: ax  * scale, y: ay * scale)
-           var aktivFeld:NSRect = NSMakeRect(aktivPunkt.x-3, aktivPunkt.y-3, 6, 6 )
-          // let hyp = Int(sqrt(pow(triPerpendicular, 2) + pow(triBase, 2)))
-           
-          if (self.mouse(aktivPunkt, in: aktivFeld)) // Maus ziehen
-           {
-               var NotificationDic = [String:Any]()
-               NotificationDic["ax"] = Int(lokalpunkt.x)
-               NotificationDic["ay"] = Int(lokalpunkt.y)
-               NotificationDic["mauspunkt"] = NSStringFromPoint(lokalpunkt)
-               NotificationDic["klickpunkt"] = Klickpunkt
-               NotificationDic["klickseite"] = Klickseite
-               NotificationDic["graphoffset"] = GraphOffset
-               
-               nc.post(name: NSNotification.Name(rawValue: "mausdrag") , object: nil, userInfo: NotificationDic)
-           }
-          else if hypot((oldMauspunkt.x - lokalpunkt.x), (oldMauspunkt.y - lokalpunkt.y))>4 // Abstad gross genug für neuen Punkt
-           {
-             
-               oldMauspunkt = lokalpunkt
-               var NotificationDic = [String:Any]()
-               NotificationDic["ax"] = Int(lokalpunkt.x)
-               NotificationDic["ay"] = Int(lokalpunkt.y)
+        
+        if (lokalpunkt.x >= self.bounds.size.width)
+        {
+            lokalpunkt.x = self.bounds.size.width
+            print("mouseDragged width")
+        }
+        if (lokalpunkt.x <= 0)
+        {
+            lokalpunkt.x = 0
+            print("mouseDragged width<0")
+        }
+        
+        if (lokalpunkt.y > self.bounds.size.height)
+        {
+            lokalpunkt.y = self.bounds.size.height
+            print("mouseDragged height")
+        }
+        if (lokalpunkt.y <= 0)
+        {
+            lokalpunkt.y = 0
+            print("mouseDragged height < 0")
+        }
+        if (Klickseite == 2)
+        {
+            lokalpunkt.y -= CGFloat(GraphOffset)
+        }
+        
+        print("mouseDragged  Klickseite: \(Klickseite) Klickpunkt: \(Klickpunkt)")
+        
+        if Klickpunkt >= 0 && DatenArray.count > Klickpunkt
+        {
+            var line = DatenArray[Klickpunkt] as! [String:Any]
+            var ax = line["ax"] as! Double
+            var ay = line["ay"] as! Double
+            
+            var aktivPunkt:NSPoint = NSPoint(x: ax  * scale, y: ay * scale)
+            var aktivFeld:NSRect = NSMakeRect(aktivPunkt.x-3, aktivPunkt.y-3, 6, 6 )
+            // let hyp = Int(sqrt(pow(triPerpendicular, 2) + pow(triBase, 2)))
+            
+            if (self.mouse(aktivPunkt, in: aktivFeld)) // Maus ziehen
+            {
+                var NotificationDic = [String:Any]()
+                NotificationDic["ax"] = Int(lokalpunkt.x)
+                NotificationDic["ay"] = Int(lokalpunkt.y)
                 NotificationDic["mauspunkt"] = NSStringFromPoint(lokalpunkt)
-               NotificationDic["graphoffset"] = GraphOffset
-               
-               nc.post(name: NSNotification.Name(rawValue: "mauspunkt") , object: nil, userInfo: NotificationDic)
-               
-           }
-           
-           
-       } // if Klickpunkt
-       
-       
-       //
-      weg.line(to: lokalpunkt)
-      
-      needsDisplay = true
-      userinformation = ["message":"mousedown", "punkt": lokalpunkt, "index": weg.elementCount, "first": -1] as [String : Any]
-      userinformation["ident"] = self.identifier
-      
-      nc.post(name:Notification.Name(rawValue:"mausdrag"),
-              object: nil,
-              userInfo: userinformation)
-      
-      
-   }
+                NotificationDic["klickpunkt"] = Klickpunkt
+                NotificationDic["klickseite"] = Klickseite
+                NotificationDic["graphoffset"] = GraphOffset
+                print("mouseDragged in  Feld: NotificationDic: \(NotificationDic)")
+                nc.post(name: NSNotification.Name(rawValue: "mausdrag") , object: nil, userInfo: NotificationDic)
+            }
+        }// Klickpunkt >= 0
+        else if hypot((oldMauspunkt.x - lokalpunkt.x), (oldMauspunkt.y - lokalpunkt.y))>4 // Abstad gross genug für neuen Punkt
+        {
+            
+            oldMauspunkt = lokalpunkt
+            var NotificationDic = [String:Any]()
+            NotificationDic["ax"] = Int(lokalpunkt.x)
+            NotificationDic["ay"] = Int(lokalpunkt.y)
+            NotificationDic["mauspunkt"] = NSStringFromPoint(lokalpunkt)
+            NotificationDic["graphoffset"] = GraphOffset
+            print("mouseDragged gross genug: NotificationDic: \(NotificationDic)")
+            nc.post(name: NSNotification.Name(rawValue: "mauspunkt") , object: nil, userInfo: NotificationDic)
+            
+        }
+        
+         
+          
+    }
    
    func clearWeg()
    {
