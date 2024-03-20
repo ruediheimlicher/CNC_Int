@@ -600,20 +600,54 @@ class rProfilfeldView: NSView
                           NSColor.red.set()
                           // Kreuz
                           NSBezierPath.strokeLine(from:NSMakePoint(PunktA.x - 4.1, PunktA.y - 4.1), to:NSMakePoint(PunktA.x + 4.1, PunktA.y + 4.1))
-                          NSBezierPath.strokeLine(from:NSMakePoint(PunktA.x + 4.1, PunktA.y + 4.1), to:NSMakePoint(PunktA.x - 4.1, PunktA.y - 4.1))
-                          
+                          NSBezierPath.strokeLine(from:NSMakePoint(PunktA.x + 4.1, PunktA.y - 4.1), to:NSMakePoint(PunktA.x - 4.1, PunktA.y + 4.1))
                       }
                   }// if screen > 0
-                  
               }
               
-              
+              if KlicksetA.count > 0 && screen > 0
+              {
+                  if i == KlicksetA.firstIndex
+                  {
+                      KlickLinieA.move(to:PunktA)
+                  }
+                  
+                  if KlicksetA.contains(i) && screen > 0
+                  {
+                      
+                      let tempMarkRect = NSMakeRect(PunktA.x-1.5, PunktA.y-1.5, 3.1, 3.1)
+                      tempMarkA = NSBezierPath.init(ovalIn: tempMarkRect)
+                      NSColor.black.set()
+                      tempMarkA.fill()
+                      if KlicksetA.count > 0 && i > KlicksetA.firstIndex
+                      {
+                          KlickLinieA.line(to:PunktA)
+                      }
+                  }
+              }//  if KlicksetA.count
               
      
           }// for i
           
+          NSColor.blue.set()
+          LinieA.stroke()
+
+          NSColor.gray.set()
+          LinieB.stroke()
           
-          
+          if KlickLinieA.isEmpty
+          {
+              
+          }
+          else
+          {
+              NSColor.green.set()
+              KlickLinieA.stroke()
+          }
+
+          NSColor.gray.set()
+          AbbrandLinieA.stroke()
+          AbbrandLinieB.stroke()
           
       } // if DatenArray.count > 0
    }
