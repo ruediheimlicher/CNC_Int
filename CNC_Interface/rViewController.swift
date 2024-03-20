@@ -406,66 +406,69 @@ class rViewController: NSViewController, NSWindowDelegate
     // https://nabtron.com/quit-cocoa-app-window-close/
     override func viewDidAppear() 
     {
-      USB_OK_Feld.image = notokimage
-
-       teensyboardarray.append(["titel":TEENSY2_TITLE,"PID":TEENSY2_PID,"VID":TEENSY2_VID])
-       teensyboardarray.append(["titel":TEENSY3_TITLE,"PID":TEENSY3_PID,"VID":TEENSY3_VID])
-
-       print("teensyboardarray: \(teensyboardarray)")
-
-       BoardPop.removeAllItems()
+        USB_OK_Feld.image = notokimage
+        
+        teensyboardarray.append(["titel":TEENSY2_TITLE,"PID":TEENSY2_PID,"VID":TEENSY2_VID])
+        teensyboardarray.append(["titel":TEENSY3_TITLE,"PID":TEENSY3_PID,"VID":TEENSY3_VID])
+        
+        print("teensyboardarray: \(teensyboardarray)")
+        
+        BoardPop.removeAllItems()
         var popindex = 0
         for boarditem in teensyboardarray
         {
-           let temptitel = teensyboardarray[popindex]["titel"] as! String
-           BoardPop.addItem(withTitle: teensyboardarray[popindex]["titel"] as! String)
-           popindex += 1
+            let temptitel = teensyboardarray[popindex]["titel"] as! String
+            BoardPop.addItem(withTitle: teensyboardarray[popindex]["titel"] as! String)
+            popindex += 1
         }
-
-       print("viewDidAppear")
-       self.view.window?.delegate = self as? NSWindowDelegate 
-       
-       let warnung = NSAlert.init()
-       warnung.messageText = "Welches Board?"
-       let boardarray = BoardPop.itemTitles 
-       for titel in boardarray
-       {
-          let buttonstring = titel
-          warnung.addButton(withTitle: titel)
-       }
-       warnung.addButton(withTitle: "cancel")
-       let devicereturn:Int = warnung.runModal().rawValue
-       boardindex = devicereturn-1000
-       print("boardindex: \(boardindex) devicereturn: \(devicereturn)")
-      if boardindex < teensyboardarray.count
-      {
-         BoardPop.selectItem(at:devicereturn-1000)
-         
-         let teensycode = teensyboardarray[boardindex]
-         
-         let erfolg = teensy.USBOpen(code:teensycode, board: boardindex)
-        usbstatus = Int(Int(erfolg))
-         globalusbstatus = Int(erfolg)
-         print("viewDidAppear erfolg: \(erfolg) usbstatus: \(usbstatus) rawhid_status: \(rawhid_status())")
-         if usbstatus == 1
-         {
-            USB_OK_Feld.image = okimage
-         }
-         else
-         {
-            USB_OK_Feld.image = notokimage
-         }
-
-      }
         
-       var userinformation:[String : Int]
-       userinformation = [ "usbstatus": usbstatus, "boardindex":boardindex] as [String : Int]
-      print("userinformation: \(userinformation)")
+        print("viewDidAppear")
+        self.view.window?.delegate = self as? NSWindowDelegate 
+        
+        let warnung = NSAlert.init()
+        warnung.messageText = "Welches Board?"
+        let boardarray = BoardPop.itemTitles 
+        for titel in boardarray
+        {
+            let buttonstring = titel
+            warnung.addButton(withTitle: titel)
+        }
+        warnung.addButton(withTitle: "cancel")
+        let devicereturn  = warnung.runModal().rawValue
+        boardindex = devicereturn-1000
+        
+        print("boardindex: \(boardindex) devicereturn: \(devicereturn)")
+        self.view.window?.makeKey()
+        
+        if boardindex < teensyboardarray.count
+        {
+            BoardPop.selectItem(at:devicereturn-1000)
+            
+            let teensycode = teensyboardarray[boardindex]
+            
+            let erfolg = teensy.USBOpen(code:teensycode, board: boardindex)
+            usbstatus = Int(Int(erfolg))
+            globalusbstatus = Int(erfolg)
+            print("viewDidAppear erfolg: \(erfolg) usbstatus: \(usbstatus) rawhid_status: \(rawhid_status())")
+            if usbstatus == 1
+            {
+                USB_OK_Feld.image = okimage
+            }
+            else
+            {
+                USB_OK_Feld.image = notokimage
+            }
+            
+        }
+        
+        var userinformation:[String : Int]
+        userinformation = [ "usbstatus": usbstatus, "boardindex":boardindex] as [String : Int]
+        print("userinformation: \(userinformation)")
         let nc = NotificationCenter.default
-       nc.post(name:Notification.Name(rawValue:"usb_status"),
-               object: nil,
-               userInfo: userinformation)
-
+        nc.post(name:Notification.Name(rawValue:"usb_status"),
+                object: nil,
+                userInfo: userinformation)
+        
     }
     
     @objc func stepsAktion(_ notification:Notification)

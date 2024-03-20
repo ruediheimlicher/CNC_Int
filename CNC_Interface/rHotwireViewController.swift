@@ -1390,6 +1390,7 @@ var outletdaten:[String:AnyObject] = [:]
       print("Hotwire usbstatusAktion:\t \(status)")
       usbstatus = Int(status)
       boardindex = rawboardindex
+      
        
    }
   
