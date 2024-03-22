@@ -171,7 +171,7 @@ var outletdaten:[String:AnyObject] = [:]
 }
 
 
-@objc class rHotwireViewController: rViewController
+@objc class rHotwireViewController: rViewController, NSTableViewDataSource, NSTableViewDelegate
 {
       
    var hintergrundfarbe:NSColor = NSColor()
@@ -256,6 +256,9 @@ var outletdaten:[String:AnyObject] = [:]
     var  BlockrahmenArray = [String]()
     var CNCDatenArray = [String:Double]()
     var SchnittdatenArray = [String:Double]()
+    var KoordinatenFormatter = NumberFormatter()
+    
+    
     
     @IBOutlet weak var  PfeilfeldLinks: rPfeil_Feld!
    
@@ -315,8 +318,8 @@ var outletdaten:[String:AnyObject] = [:]
    @IBOutlet weak var  Profil1Pop: NSPopUpButton!
    @IBOutlet weak var  Profil2Pop: NSPopUpButton!
    
-   @IBOutlet  weak var  CNCTable: NSTableView!
-   @IBOutlet  weak var  CNCScroller: NSScrollView!
+   @IBOutlet  var  CNC_Table: NSTableView!
+   @IBOutlet  weak var  CNC_Scroller: NSScrollView!
 
    // CNC
    @IBOutlet weak var CNC_Preparetaste: NSButton!
@@ -487,278 +490,285 @@ var outletdaten:[String:AnyObject] = [:]
         let info = notification.userInfo
         //print("Hotwire mausGraphAktion:\t \(String(describing: info))")
         self.view.window?.makeFirstResponder(self.ProfilFeld)
-        CNCTable.deselectAll(nil)
-       
-    //   [[[self view]window]makeFirstResponder: ProfilGraph];
-       let mauspunktstring = notification.userInfo?["mauspunkt"] as! String
-      let MausPunkt:NSPoint = NSPointFromString(mauspunktstring);
+        CNC_Table.deselectAll(nil)
+        
+        //   [[[self view]window]makeFirstResponder: ProfilGraph];
+        let mauspunktstring = notification.userInfo?["mauspunkt"] as! String
+        let MausPunkt:NSPoint = NSPointFromString(mauspunktstring);
         print("Hotwire mausGraphAktion MausPunkt:\t \(MausPunkt)")
-      
-    WertAXFeld.doubleValue = MausPunkt.x
-       WertAYFeld.doubleValue = MausPunkt.y
-          
-       WertAXStepper.doubleValue = MausPunkt.x
-       WertAYStepper.doubleValue = MausPunkt.y
-  
-       WertBXFeld.doubleValue = MausPunkt.x
-       WertBYFeld.doubleValue = MausPunkt.y
-       
-       WertBXStepper.doubleValue = MausPunkt.x
-       WertBYStepper.doubleValue = MausPunkt.y
-
-     
-     
-       
-       let offsetx:Double = ProfilBOffsetXFeld.doubleValue
-       let offsety:Double = ProfilBOffsetYFeld.doubleValue
+        
+        WertAXFeld.doubleValue = MausPunkt.x
+        WertAYFeld.doubleValue = MausPunkt.y
+        
+        WertAXStepper.doubleValue = MausPunkt.x
+        WertAYStepper.doubleValue = MausPunkt.y
+        
+        WertBXFeld.doubleValue = MausPunkt.x
+        WertBYFeld.doubleValue = MausPunkt.y
+        
+        WertBXStepper.doubleValue = MausPunkt.x
+        WertBYStepper.doubleValue = MausPunkt.y
+        
+        
+        
+        
+        let offsetx:Double = ProfilBOffsetXFeld.doubleValue
+        let offsety:Double = ProfilBOffsetYFeld.doubleValue
         
         //print("mausgraphaktion offsetx: \(offsetx) offsety: \(offsety)")
-       
-       var oldPosDic:[String:Double] = [:]
-       
-       var oldax:Double = MausPunkt.x;
-       var olday:Double = MausPunkt.y;
+        
+        var oldPosDic:[String:Double] = [:]
+        
+        var oldax:Double = MausPunkt.x;
+        var olday:Double = MausPunkt.y;
         print("mausgraphaktion oldax: \(oldax) olday: \(olday)")
-       var  oldbx:Double = oldax + offsetx;
-       var  oldby:Double = olday + offsety;
+        var  oldbx:Double = oldax + offsetx;
+        var  oldby:Double = olday + offsety;
         print("mausgraphaktion oldbx: \(oldbx) oldby: \(oldby)")
-       var  oldpwm :Double =  DC_PWM.doubleValue
-       //print("KoordinatenTabelle: \(KoordinatenTabelle) count: \(KoordinatenTabelle.count)")
-       
-       let c = KoordinatenTabelle.isEmpty
-       
-       print("Mausgraphaktion KoordinatenTabelle: \(KoordinatenTabelle) ")
-       
-       if (KoordinatenTabelle.isEmpty == false)
-       {
-          oldPosDic = KoordinatenTabelle.last!
-          oldax = oldPosDic["ax"] ?? 0
-          olday = oldPosDic["ay"] ?? 0
-          oldbx = oldPosDic["bx"] ?? 0
-          oldby = oldPosDic["by"] ?? 0
-           
-           print("mausgraphaktion oldax a: \(oldax) olday: \(olday)")
-           print("mausgraphaktion oldbx b: \(oldbx) oldby: \(oldby)")
-           
-          if (oldPosDic["pwm"]! > 0)
-          {
-             //NSLog(@"oldpwm VOR: %d",oldpwm);
-             var  temppwm = oldPosDic["pwm"]
-             if (temppwm == oldpwm)
-             {
-                oldpwm = temppwm!;
-             }
-             //NSLog(@"oldpwm: %d temppwm: %d",oldpwm,temppwm);
-          }
-          CNC_Stoptaste.isEnabled = true
-       }
-       else // Start
-       {
-         // oldbx += offsetx;
-          //oldby += offsety;
-       }
-       
-       DC_Stepper.doubleValue = oldpwm
-       DC_PWM.doubleValue = oldpwm
-       
-       //NSLog(@"oldax: %1.1f olday: %1.1f",oldax,olday);
-       
-       var deltax = MausPunkt.x-oldax;
-       var deltay = MausPunkt.y-olday;
-       
-       //NSLog(@"deltax: %1.1f deltay: %1.1f",deltax, deltay);
-       
-       var neueZeileDic = [String:Double]()
-      
+        var  oldpwm :Double =  DC_PWM.doubleValue
+        //print("KoordinatenTabelle: \(KoordinatenTabelle) count: \(KoordinatenTabelle.count)")
+        
+        let c = KoordinatenTabelle.isEmpty
+        
+        print("Mausgraphaktion start KoordinatenTabelle: \(KoordinatenTabelle) ")
+        
+        if (KoordinatenTabelle.isEmpty == false)
+        {
+            oldPosDic = KoordinatenTabelle.last!
+            oldax = oldPosDic["ax"] ?? 0
+            olday = oldPosDic["ay"] ?? 0
+            oldbx = oldPosDic["bx"] ?? 0
+            oldby = oldPosDic["by"] ?? 0
+            
+            print("mausgraphaktion oldax a: \(oldax) olday: \(olday)")
+            print("mausgraphaktion oldbx b: \(oldbx) oldby: \(oldby)")
+            
+            if (oldPosDic["pwm"]! > 0)
+            {
+                //NSLog(@"oldpwm VOR: %d",oldpwm);
+                var  temppwm = oldPosDic["pwm"]
+                if (temppwm == oldpwm)
+                {
+                    oldpwm = temppwm!;
+                }
+                //NSLog(@"oldpwm: %d temppwm: %d",oldpwm,temppwm);
+            }
+            CNC_Stoptaste.isEnabled = true
+        }
+        else // Start
+        {
+            // oldbx += offsetx;
+            //oldby += offsety;
+        }
+        
+        DC_Stepper.doubleValue = oldpwm
+        DC_PWM.doubleValue = oldpwm
+        
+        //NSLog(@"oldax: %1.1f olday: %1.1f",oldax,olday);
+        
+        var deltax = MausPunkt.x-oldax;
+        var deltay = MausPunkt.y-olday;
+        
+        //NSLog(@"deltax: %1.1f deltay: %1.1f",deltax, deltay);
+        
+        var neueZeileDic = [String:Double]()
+        
         neueZeileDic["ax"] = MausPunkt.x
         neueZeileDic["ay"] = MausPunkt.y
         neueZeileDic["bx"] = oldbx + deltax
         neueZeileDic["by"] = oldby + deltay
- 
+        
         neueZeileDic["index"] = Double(KoordinatenTabelle.count)
         neueZeileDic["pwm"] = oldpwm
         print("neueZeileDic: \(neueZeileDic)")
         
-       if (CNC_Starttaste.state.rawValue > 0)
-       {
-           oldMauspunkt = MausPunkt
-          
-          var tempDic:[String:Double] = [:]
-          tempDic["ax"] = MausPunkt.x
-          tempDic["ay"] = MausPunkt.y
-          tempDic["bx"] = MausPunkt.x + offsetx
-          tempDic["by"] = MausPunkt.y + offsety
-          tempDic["index"] = Double(KoordinatenTabelle.count)
-          tempDic["pwm"] = oldpwm
-           print("tempDic: \(tempDic)")
-/*
-          NSDictionary* tempDic = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    [NSNumber numberWithFloat:MausPunkt.x], @"ax",
-                                   [NSNumber numberWithFloat:MausPunkt.y], @"ay",
-                                   [NSNumber numberWithFloat:MausPunkt.x + offsetx], @"bx",
-                                   [NSNumber numberWithFloat:MausPunkt.y + offsety],@"by",
-                                   [NSNumber numberWithInt:[KoordinatenTabelle count]],@"index",
-                                   [NSNumber numberWithInt:oldpwm],@"pwm",NULL];
-   */
-          //NSLog(@"tempDic: %@",[tempDic description]);
-          
-          switch (KoordinatenTabelle.count)
-          {
-             case 0:
-              IndexFeld.integerValue = KoordinatenTabelle.count
-             IndexStepper.integerValue = KoordinatenTabelle.count
-             IndexStepper.maxValue = Double(KoordinatenTabelle.count)
-          //      [KoordinatenTabelle addObject:tempDic];
-             KoordinatenTabelle.append(neueZeileDic)
-             break;
+        if (CNC_Starttaste.state.rawValue > 0)
+        {
+            oldMauspunkt = MausPunkt
+            
+            var tempDic:[String:Double] = [:]
+            tempDic["ax"] = MausPunkt.x
+            tempDic["ay"] = MausPunkt.y
+            tempDic["bx"] = MausPunkt.x + offsetx
+            tempDic["by"] = MausPunkt.y + offsety
+            tempDic["index"] = Double(KoordinatenTabelle.count)
+            tempDic["pwm"] = oldpwm
+            print("tempDic: \(tempDic)")
+            /*
+             NSDictionary* tempDic = [NSDictionary dictionaryWithObjectsAndKeys:
+             [NSNumber numberWithFloat:MausPunkt.x], @"ax",
+             [NSNumber numberWithFloat:MausPunkt.y], @"ay",
+             [NSNumber numberWithFloat:MausPunkt.x + offsetx], @"bx",
+             [NSNumber numberWithFloat:MausPunkt.y + offsety],@"by",
+             [NSNumber numberWithInt:[KoordinatenTabelle count]],@"index",
+             [NSNumber numberWithInt:oldpwm],@"pwm",NULL];
+             */
+            //NSLog(@"tempDic: %@",[tempDic description]);
+            
+            switch (KoordinatenTabelle.count)
+            {
+            case 0:
+                IndexFeld.integerValue = KoordinatenTabelle.count
+                IndexStepper.integerValue = KoordinatenTabelle.count
+                IndexStepper.maxValue = Double(KoordinatenTabelle.count)
+                //      [KoordinatenTabelle addObject:tempDic];
+                KoordinatenTabelle.append(neueZeileDic)
+                break;
                 
-             default:
-              print("tempDic 2: \(tempDic)")
-             KoordinatenTabelle[0] = tempDic
-             
-             IndexFeld.integerValue = 0
-            IndexStepper.integerValue = 0
-             break;
+            default:
+                print("tempDic 2: \(tempDic)")
+                KoordinatenTabelle.remove(at: 0)
+                KoordinatenTabelle.insert(tempDic, at:0)
+                //KoordinatenTabelle.replaceSubrange(0 ... 0, with: tempDic)
                 
-          }//switch
-          
-       }
-       else if (CNC_Stoptaste.state.rawValue > 0)
-       {
-          
-          var tempDic:[String:Double] = [:]
-          tempDic["ax"] = MausPunkt.x
-          tempDic["ay"] = MausPunkt.y
-          tempDic["bx"] = MausPunkt.x + offsetx
-          tempDic["by"] = MausPunkt.y + offsety
-          tempDic["index"] = Double(KoordinatenTabelle.count)
-          tempDic["pwm"] = oldpwm
-           
-           print("if CNC_Stoptaste state > 0 tempDic: \(tempDic)")
-/*
-          NSDictionary* tempDic = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    [NSNumber numberWithFloat:MausPunkt.x], @"ax",
-                                   [NSNumber numberWithFloat:MausPunkt.y], @"ay",
-                                    [NSNumber numberWithFloat:MausPunkt.x + offsetx], @"bx",
-                                   [NSNumber numberWithFloat:MausPunkt.y + offsety], @"by",
-                                    [NSNumber numberWithInt:[KoordinatenTabelle count]],@"index",
-                                    [NSNumber numberWithInt:oldpwm],@"pwm",NULL];
-         */
- //NSLog(@"if CNC_Stoptaste state tempDic: %@",[tempDic description]);
-          
-          
-          if (KoordinatenTabelle.count > 1)
-          {
-             //[KoordinatenTabelle replaceObjectAtIndex:[KoordinatenTabelle count]-1 withObject:tempDic];
-             //if (GraphEnd)
+                IndexFeld.integerValue = 0
+                IndexStepper.integerValue = 0
+                break;
+                
+            }//switch
+            
+        }
+        else if (CNC_Stoptaste.state.rawValue > 0)
+        {
+            
+            var tempDic:[String:Double] = [:]
+            tempDic["ax"] = MausPunkt.x
+            tempDic["ay"] = MausPunkt.y
+            tempDic["bx"] = MausPunkt.x + offsetx
+            tempDic["by"] = MausPunkt.y + offsety
+            tempDic["index"] = Double(KoordinatenTabelle.count)
+            tempDic["pwm"] = oldpwm
+            
+            print("if CNC_Stoptaste state > 0 tempDic: \(tempDic)")
+            /*
+             NSDictionary* tempDic = [NSDictionary dictionaryWithObjectsAndKeys:
+             [NSNumber numberWithFloat:MausPunkt.x], @"ax",
+             [NSNumber numberWithFloat:MausPunkt.y], @"ay",
+             [NSNumber numberWithFloat:MausPunkt.x + offsetx], @"bx",
+             [NSNumber numberWithFloat:MausPunkt.y + offsety], @"by",
+             [NSNumber numberWithInt:[KoordinatenTabelle count]],@"index",
+             [NSNumber numberWithInt:oldpwm],@"pwm",NULL];
+             */
+            //NSLog(@"if CNC_Stoptaste state tempDic: %@",[tempDic description]);
+            
+            
+            if (KoordinatenTabelle.count > 1)
+            {
+                //[KoordinatenTabelle replaceObjectAtIndex:[KoordinatenTabelle count]-1 withObject:tempDic];
+                //if (GraphEnd)
+                
+                IndexFeld.integerValue = KoordinatenTabelle.count
+                IndexStepper.integerValue = KoordinatenTabelle.count
+                IndexStepper.maxValue = Double(KoordinatenTabelle.count)
+                /*
+                 [IndexFeld setIntValue:[KoordinatenTabelle count]];
+                 [IndexStepper setIntValue:[IndexFeld intValue]];
+                 [IndexStepper setMaxValue:[IndexFeld intValue]];
+                 */
+                //   [KoordinatenTabelle addObject:tempDic];
+                KoordinatenTabelle.append(neueZeileDic)
+                
+                //[KoordinatenTabelle replaceObjectAtIndex:[KoordinatenTabelle count]-1 withObject:tempDic];
+                
+            }
+            else
+            {
+                
+                IndexFeld.integerValue = KoordinatenTabelle.count
+                IndexStepper.integerValue = KoordinatenTabelle.count
+                IndexStepper.maxValue = Double(KoordinatenTabelle.count)
+                KoordinatenTabelle.append(neueZeileDic)
+                
+                /*
+                 [IndexFeld setIntValue:[KoordinatenTabelle count]];
+                 [IndexStepper setIntValue:[IndexFeld intValue]];
+                 [IndexStepper setMaxValue:[IndexFeld intValue]];
+                 //[KoordinatenTabelle addObject:tempDic];
+                 [KoordinatenTabelle addObject:neueZeileDic];
+                 */
+            }
+            
+            
+        }
+        else
+        {
+            
+            /*
+             if (fabs(MausPunkt.x - oldMauspunkt.x) > [CNC steps]*0x7F) // Groesser als int16_t
+             {
+             NSLog(@"zu grosser Schritt X");
              
-             IndexFeld.integerValue = KoordinatenTabelle.count
+             }
+             */
+            
+            var tempDic:[String:Double] = [:]
+            tempDic["ax"] = MausPunkt.x
+            tempDic["ay"] = MausPunkt.y
+            tempDic["bx"] = MausPunkt.x + offsetx
+            tempDic["by"] = MausPunkt.y + offsety
+            tempDic["index"] = Double(KoordinatenTabelle.count)
+            tempDic["pwm"] = oldpwm
+            print("tempDic 3: \(tempDic)")
+            /*
+             NSDictionary* tempDic = [NSDictionary dictionaryWithObjectsAndKeys:
+             [NSNumber numberWithFloat:MausPunkt.x], @"ax",
+             [NSNumber numberWithFloat:MausPunkt.y], @"ay",
+             [NSNumber numberWithFloat:MausPunkt.x + offsetx], @"bx",
+             [NSNumber numberWithFloat:MausPunkt.y + offsety], @"by",
+             [NSNumber numberWithInt:[KoordinatenTabelle count]],@"index",
+             [NSNumber numberWithInt:oldpwm],@"pwm",
+             NULL];
+             */
+            
+            print("if CNC_Stoptaste state == 0 tempDic: \(tempDic)")
+            IndexFeld.integerValue = KoordinatenTabelle.count
             IndexStepper.integerValue = KoordinatenTabelle.count
             IndexStepper.maxValue = Double(KoordinatenTabelle.count)
-/*
-                [IndexFeld setIntValue:[KoordinatenTabelle count]];
-                [IndexStepper setIntValue:[IndexFeld intValue]];
-                [IndexStepper setMaxValue:[IndexFeld intValue]];
-*/
-             //   [KoordinatenTabelle addObject:tempDic];
-             KoordinatenTabelle.append(neueZeileDic)
-             
-             //[KoordinatenTabelle replaceObjectAtIndex:[KoordinatenTabelle count]-1 withObject:tempDic];
-             
-          }
-          else
-          {
-             
-             IndexFeld.integerValue = KoordinatenTabelle.count
-            IndexStepper.integerValue = KoordinatenTabelle.count
-            IndexStepper.maxValue = Double(KoordinatenTabelle.count)
-             KoordinatenTabelle.append(neueZeileDic)
-             
-             /*
+            KoordinatenTabelle.append(neueZeileDic)
+            /*
              [IndexFeld setIntValue:[KoordinatenTabelle count]];
              [IndexStepper setIntValue:[IndexFeld intValue]];
              [IndexStepper setMaxValue:[IndexFeld intValue]];
              //[KoordinatenTabelle addObject:tempDic];
              [KoordinatenTabelle addObject:neueZeileDic];
-              */
-          }
-          
-          
-       }
-       else
-       {
-          
-          /*
-          if (fabs(MausPunkt.x - oldMauspunkt.x) > [CNC steps]*0x7F) // Groesser als int16_t
-          {
-             NSLog(@"zu grosser Schritt X");
-             
-          }
-          */
-          
-          var tempDic:[String:Double] = [:]
-          tempDic["ax"] = MausPunkt.x
-          tempDic["ay"] = MausPunkt.y
-          tempDic["bx"] = MausPunkt.x + offsetx
-          tempDic["by"] = MausPunkt.y + offsety
-          tempDic["index"] = Double(KoordinatenTabelle.count)
-          tempDic["pwm"] = oldpwm
-           print("tempDic 3: \(tempDic)")
-          /*
-          NSDictionary* tempDic = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    [NSNumber numberWithFloat:MausPunkt.x], @"ax",
-                                   [NSNumber numberWithFloat:MausPunkt.y], @"ay",
-                                   [NSNumber numberWithFloat:MausPunkt.x + offsetx], @"bx",
-                                   [NSNumber numberWithFloat:MausPunkt.y + offsety], @"by",
-                                   [NSNumber numberWithInt:[KoordinatenTabelle count]],@"index",
-                                   [NSNumber numberWithInt:oldpwm],@"pwm",
-                                   NULL];
-          */
-          
-           print("if CNC_Stoptaste state == 0 tempDic: \(tempDic)")
-          IndexFeld.integerValue = KoordinatenTabelle.count
-         IndexStepper.integerValue = KoordinatenTabelle.count
-         IndexStepper.maxValue = Double(KoordinatenTabelle.count)
-          KoordinatenTabelle.append(neueZeileDic)
-/*
-          [IndexFeld setIntValue:[KoordinatenTabelle count]];
-          [IndexStepper setIntValue:[IndexFeld intValue]];
-          [IndexStepper setMaxValue:[IndexFeld intValue]];
-          //[KoordinatenTabelle addObject:tempDic];
-          [KoordinatenTabelle addObject:neueZeileDic];
- */
-       }
-       oldMauspunkt=MausPunkt;
-       //NSLog(@"Mausklicktabelle: %@",[KoordinatenTabelle description]);
-       
-       //NSDictionary* RahmenDic = [self RahmenDic];
-       let maxX:Double = RahmenDic["maxx"] ?? 100
-       var minX:Double = RahmenDic["minx"] ?? 10
-       
-       let maxY:Double = RahmenDic["maxy"] ?? 100
-       var minY:Double = RahmenDic["miny"] ?? 10
- 
-       
- //      float maxY=[[RahmenDic objectForKey:@"maxy"]floatValue];
- //      float minY=[[RahmenDic objectForKey:@"miny"]floatValue];
-       //   NSLog(@"maxX: %2.2f minX: %2.2f * maxY: %2.2f minY: %2.2f",maxX,minX,maxY,minY);
-       
-     //  [AbmessungX setIntValue:maxX - minX];
-     //  [AbmessungY setIntValue:maxY - minY];
+             */
+        }
+        oldMauspunkt=MausPunkt;
+        //NSLog(@"Mausklicktabelle: %@",[KoordinatenTabelle description]);
+        
+        //NSDictionary* RahmenDic = [self RahmenDic];
+        let maxX:Double = RahmenDic["maxx"] ?? 100
+        var minX:Double = RahmenDic["minx"] ?? 10
+        
+        let maxY:Double = RahmenDic["maxy"] ?? 100
+        var minY:Double = RahmenDic["miny"] ?? 10
+        
+        
+        //      float maxY=[[RahmenDic objectForKey:@"maxy"]floatValue];
+        //      float minY=[[RahmenDic objectForKey:@"miny"]floatValue];
+        //   NSLog(@"maxX: %2.2f minX: %2.2f * maxY: %2.2f minY: %2.2f",maxX,minX,maxY,minY);
+        
+        //  [AbmessungX setIntValue:maxX - minX];
+        //  [AbmessungY setIntValue:maxY - minY];
+        
+        ProfilFeld.DatenArray = KoordinatenTabelle as NSArray
+        //[ProfilGraph setDatenArray:KoordinatenTabelle];
+        //ProfilFeld.needsDisplay = true
+        ProfilFeld.setNeedsDisplay(ProfilFeld.frame)
+        //[Profilfeld setNeedsDisplay:YES];
+        
+        print("Mausgraphaktion end KoordinatenTabelle: \(KoordinatenTabelle) ")
 
-       ProfilFeld.DatenArray = KoordinatenTabelle as NSArray
-       //[ProfilGraph setDatenArray:KoordinatenTabelle];
-       //ProfilFeld.needsDisplay = true
-       ProfilFeld.setNeedsDisplay(ProfilFeld.frame)
-       //[Profilfeld setNeedsDisplay:YES];
-       
-       CNCTable.reloadData()
-       if (KoordinatenTabelle.count > 0)
-       {
-//          CNCTable.scrollRowToVisible(KoordinatenTabelle.count - 1)
-       }
-
-       
+        CNC_Table.reloadData()
+        
+        if (KoordinatenTabelle.count > 0)
+        {
+            let rowindexset =  IndexSet(integer: KoordinatenTabelle.count)
+            CNC_Table.selectRowIndexes(rowindexset, byExtendingSelection: false)
+            //          CNCTable.scrollRowToVisible(KoordinatenTabelle.count - 1)
+        }
+        
+        
     }
     
    @objc func MausDragAktion(_ notification:Notification)
@@ -809,7 +819,7 @@ var outletdaten:[String:AnyObject] = [:]
         self.ProfilFeld.needsDisplay = true
         var rowIndexSet = NSIndexSet.init(index: klickIndex)
         
-        CNCTable.selectRowIndexes(IndexSet.init(rowIndexSet), byExtendingSelection: false)
+        CNC_Table.selectRowIndexes(IndexSet.init(rowIndexSet), byExtendingSelection: false)
 
         
     } // MausKlickAktion
@@ -1093,14 +1103,41 @@ var outletdaten:[String:AnyObject] = [:]
  
        AnschlagUntenIndikator.wantsLayer = true
        AnschlagUntenIndikator?.layer?.backgroundColor = NSColor.green.cgColor
- /*
-       NotificationCenter.default.addObserver(self, selector: #selector(stepsAktion), name:NSNotification.Name(rawValue: "steps"), object: nil)
-           
-       NotificationCenter.default.removeObserver(self, name: Notification.Name("micro"), object: nil)
 
-       NotificationCenter.default.addObserver(self, selector: #selector(microAktion), name:NSNotification.Name(rawValue: "micro"), object: nil)
-*/
+       // CNC_Table
+       CNC_Table.dataSource = self
+       CNC_Table.delegate = self
+       CNC_Table.rowHeight = 13
+       CNC_Table.gridStyleMask = .solidVerticalGridLineMask
+       CNC_Table.usesAlternatingRowBackgroundColors = true
+       
+       // https://www.swiftbysundell.com/articles/formatting-numbers-in-swift/
+       
+       //          let cx = formater.string(from: NSNumber(value: Double(zeilendaten[1])))// /INTEGERFAKTOR))
+        // von CNC_Mill
+       //         let cx = formater.string(from: NSNumber(value: Double(zeilendaten[1])))// /INTEGERFAKTOR))
 
+       /*
+        var zeilendic = [String:String]()
+          zeilendic["ind"] = String(Int(zeilendaten[0]))
+          zeilendic["X"] = cx
+          zeilendic["Y"] = cy
+          zeilendic["Z"] = cz
+          //cx: Optional("3.985") cy: Optional("26.298")
+          //      print("zeilendic: \(zeilendic)")
+          CNC_DatendicArray.append(zeilendic)
+
+        
+        */
+       
+       KoordinatenFormatter.numberStyle = .decimal
+       KoordinatenFormatter.maximumFractionDigits = 2
+       KoordinatenFormatter.groupingSeparator = "."
+       KoordinatenFormatter.minimumFractionDigits = 2
+
+       
+      // (CNC_Table.tableColumn(withIdentifier:NSUserInterfaceItemIdentifier(rawValue: "index"))?.dataCell as AnyObject).alignment = NSRightTextAlignment
+       
        NotificationCenter.default.addObserver(self, selector:#selector(usbstatusAktion(_:)),name:NSNotification.Name(rawValue: "usb_status"),object:nil)
 
        NotificationCenter.default.addObserver(self, selector:#selector(PfeilAktion(_:)),name:NSNotification.Name(rawValue: "pfeil"),object:nil)
@@ -1588,4 +1625,42 @@ var outletdaten:[String:AnyObject] = [:]
     }// Pfeilaktion
 
 
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        
+       return (KoordinatenTabelle.count)
+       
+    }
+    
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+       let zeile = KoordinatenTabelle[row]
+       //print("p: \(zeile)")
+        let key = NSUserInterfaceItemIdentifier(tableColumn!.identifier.rawValue)
+       let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(tableColumn!.identifier.rawValue), owner: self) as? NSTableCellView
+        let keystring = KoordinatenFormatter.string(from:zeile[key.rawValue]! as NSNumber)
+        //cell?.textField?.doubleValue = zeile[key.rawValue]! // ohne formatter
+        cell?.textField?.stringValue = keystring!
+       
+       return cell
+    }
 } // end Hotwire
+
+/*
+//MARK: dataTable
+extension rHotwireViewController
+{
+   func numberOfRows(in tableView: NSTableView) -> Int {
+      return (KoordinatenTabelle.count)
+      
+   }
+   
+   func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+      let zeile = KoordinatenTabelle[row]
+      //print("p: \(person)")
+       let key = tableColumn!.identifier.rawValue
+      let cell = tableView.makeView(withIdentifier: (tableColumn!.identifier), owner: self) as? NSTableCellView
+       cell?.textField?.doubleValue = zeile[key]!
+      
+      return cell
+   }
+}
+*/
