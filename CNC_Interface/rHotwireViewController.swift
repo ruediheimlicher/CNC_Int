@@ -871,6 +871,10 @@ var outletdaten:[String:AnyObject] = [:]
         CNCDatenArray.removeAll()
         SchnittdatenArray.removeAll()
         
+        ProfilFeld.stepperposition = -1
+        ProfilFeld.setDatenArray(derDatenArray: KoordinatenTabelle as NSArray)
+        ProfilFeld.needsDisplay = true
+        
         var HomeSchnittdatenArray = [String:Any]()
         var ManArray = [String:Double]()
         var PositionA = NSMakePoint(0, 0)
