@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Foundation
 
 var outletdaten:[String:AnyObject] = [:]
 
@@ -251,7 +252,11 @@ var outletdaten:[String:AnyObject] = [:]
    var RahmenDic:[String:Double] = [:]
    
    var KoordinatenTabelle = [[String:Double]]()
-   
+    var  BlockKoordinatenTabelle = [String:Double]()
+    var  BlockrahmenArray = [String]()
+    var CNCDatenArray = [String:Double]()
+    var SchnittdatenArray = [String:Double]()
+    
     @IBOutlet weak var  PfeilfeldLinks: rPfeil_Feld!
    
    @IBOutlet weak var intpos0Feld: NSStepper!
@@ -841,6 +846,71 @@ var outletdaten:[String:AnyObject] = [:]
         //micro_Feld.integerValue = micro
      }
 */
+   // MARK: NEU-Taste
+    @IBAction func reportNeuTaste(_ sender: NSButton)
+    {
+        print("swift reportNeuTaste")
+        CNC_Halttaste.state = NSControl.StateValue(rawValue: 0)
+        CNC_Halttaste.isEnabled = false
+        CNC_Sendtaste.isEnabled = false
+        CNC_Starttaste.isEnabled = true
+        CNC_Starttaste.state = NSControl.StateValue(rawValue: 0)
+        CNC_Stoptaste.isEnabled = false
+        NeuesElementTaste.isEnabled = false
+        PositionFeld.stringValue = ""
+        //ProfilFeld.viewWithTag(1001).stringValue = ""
+        DC_Taste.isEnabled = false
+        HomeTaste.state = NSControl.StateValue(rawValue: 0)
+        KoordinatenTabelle.removeAll()
+        if (BlockrahmenArray != nil && BlockrahmenArray.count > 0)
+        {
+            BlockrahmenArray.removeAll()
+            ProfilFeld.setRahmenArray(derRahmenArray: BlockrahmenArray as NSArray)
+        }
+        BlockKoordinatenTabelle.removeAll()
+        CNCDatenArray.removeAll()
+        SchnittdatenArray.removeAll()
+        
+        var HomeSchnittdatenArray = [String:Any]()
+        var ManArray = [String:Double]()
+        var PositionA = NSMakePoint(0, 0)
+        var PositionB = NSMakePoint(0, 0)
+        
+        ManArray["ax"] = PositionA.x
+        ManArray["ay"] = PositionA.y
+        ManArray["bx"] = PositionB.x
+        ManArray["by"] = PositionB.y
+        
+        let neucode:UInt8  = 0xF1
+        var tempDic = [String:Int]()
+        tempDic["code"] = Int(neucode)
+        tempDic["position"] = 3
+        tempDic["cncposition"] = 0
+        tempDic["home"] = 0
+     //   var tempSteuerdatenDic = [String:Any]()
+      // tempSteuerdatenDic = AVR?.tool_SteuerdatenVonDic(tempDic) as! [String : Double]
+        
+        var tempSchnittdatenArray:[Int] = ((AVR?.tool_CNC_SchnittdatenArrayVonSteuerdaten(tempDic))) as! [Int]
+        let nc = NotificationCenter.default
+        var NotificationDic = [String:Any]()
+        
+        NotificationDic["cncposition"] = 0
+        NotificationDic["home"] = 0
+        
+        NotificationDic["schnittdatenarray"] = tempSchnittdatenArray
+        
+        print("swift reportNeuTaste NotificationDic: \(NotificationDic)")
+
+        nc.post(name:Notification.Name(rawValue:"usbschnittdaten"),
+        object: nil,
+        userInfo: NotificationDic)
+
+        print("swift reportNeuTaste")
+ 
+        
+        
+        //       KoordinatenTabelle.append(AVR?.schnittdatenVonDic(tempSteuerdatenDic) as! [String : Double]  )
+    }
 
    @IBAction func reportManRight(_ sender: rPfeil_Taste)
    {
