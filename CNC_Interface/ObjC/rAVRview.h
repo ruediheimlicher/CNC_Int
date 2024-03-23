@@ -566,6 +566,7 @@
    
 - (NSDictionary*)SchnittdatenVonDic:(NSDictionary*)derDatenDic;
 
+- (NSArray*)stopFunktion:(NSArray*)koordinatentabelle outletdaten: (NSDictionary*)outletdic;
 //- (NSDictionary*)SteuerdatenVonDic:(NSDictionary*)derDatenDic;
 
 

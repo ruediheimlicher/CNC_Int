@@ -18,7 +18,8 @@
 }
 - (NSArray*)Tool_SchnittdatenVonDic:(NSDictionary*)derDatenDic
 {
-   
+    NSLog(@"****  Tool_SchnittdatenVonDic start  derDatenDic: %@",derDatenDic);
+
    /*
     Bereitet die Angaben im Steuerdatenarray für die Uebergabe an den USB vor.
     Alle 16Bit-Zahlen werden aufgeteilt in highbyte und lowbyte
@@ -144,11 +145,13 @@
       [tempArray addObject:[NSNumber numberWithInt:1]];
    }
 
+    /*
    if ([derDatenDic objectForKey:@"zoomfaktor"])
    {
       [tempArray addObject:[derDatenDic objectForKey:@"zoomfaktor"]];
    }
    else
+     */
    {
       [tempArray addObject:[NSNumber numberWithInt:1]];
    }
@@ -214,7 +217,8 @@
    //NSLog(@"tempArray indexl: %d",[[derDatenDic objectForKey:@"indexl"]intValue]);
    NSLog(@"SchnittdatenVonDic tempArray: %@",[tempArray description]);
    //NSLog(@"SchnittdatenVonDic tempArray count: %d",[tempArray count]);
-   
+    NSLog(@"****  Tool_SchnittdatenVonDic end  tempArray: %@",tempArray);
+
    
    return tempArray;
 }
@@ -223,7 +227,7 @@
 {
 // Aufbereitung der Werte für die Uebergabe an Teensy, als uint8_t-Werte
    uint16_t dicindex = [[derDatenDic objectForKey:@"index"]intValue];
-//   NSLog(@"index: %d SteuerdatenVonDic: %@",dicindex, [derDatenDic description]);
+   NSLog(@"Tool_SteuerdatenVonDic start index: %d SteuerdatenVonDic: %@",dicindex, [derDatenDic description]);
     int  anzSchritte;
    int  anzaxplus=0;
    int  anzaxminus=0;
@@ -235,6 +239,17 @@
    int  anzbyplus=0;
    int  anzbyminus=0;
    
+    int speed = 1;
+    if ([derDatenDic objectForKey:@"speed"])
+    {
+        speed = [[derDatenDic objectForKey:@"speed"]intValue];
+    }
+    int steps = 48;
+    if ([derDatenDic objectForKey:@"steps"])
+    {
+        steps = [[derDatenDic objectForKey:@"steps"]intValue];
+    }
+
 
     if ([derDatenDic count]==0)
     {
@@ -572,7 +587,7 @@
     [tempDatenDic setObject:[NSNumber numberWithInt:((index >> 8) & 0xFF)] forKey: @"indexh"];
    //NSLog(@"SteuerdatenVonDic index: %d indexl: %d indexh: %d", index, indexl, indexh);
    //NSLog(@"SteuerdatenVonDic ZeitA: %1.5f  ZeitB: %1.5f relSeite: %d code: %d",ZeitA,ZeitB,relevanteSeite,code);
-    //NSLog(@"SteuerdatenVonDic tempDatenDic: %@",[tempDatenDic description]);
+    NSLog(@"Tool_SteuerdatenVonDic end index: %d tempDatenDic: %@",index,[tempDatenDic description]);
     return tempDatenDic;
 }
 

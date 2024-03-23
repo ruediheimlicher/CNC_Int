@@ -254,7 +254,7 @@ var outletdaten:[String:AnyObject] = [:]
    var KoordinatenTabelle = [[String:Double]]()
     var  BlockKoordinatenTabelle = [String:Double]()
     var  BlockrahmenArray = [String]()
-    var CNCDatenArray = [String:Double]()
+    var CNC_DatenArray = [String:Double]()
     var SchnittdatenArray = [String:Double]()
     var KoordinatenFormatter = NumberFormatter()
     
@@ -878,7 +878,7 @@ var outletdaten:[String:AnyObject] = [:]
             ProfilFeld.setRahmenArray(derRahmenArray: BlockrahmenArray as NSArray)
         }
         BlockKoordinatenTabelle.removeAll()
-        CNCDatenArray.removeAll()
+        CNC_DatenArray.removeAll()
         SchnittdatenArray.removeAll()
         
         ProfilFeld.stepperposition = -1
@@ -924,6 +924,51 @@ var outletdaten:[String:AnyObject] = [:]
         
         
         //       KoordinatenTabelle.append(AVR?.schnittdatenVonDic(tempSteuerdatenDic) as! [String : Double]  )
+    }
+    
+    @objc  @IBAction func reportStopTaste(_ sender: NSButton)
+    {
+        print("swift reportStopTaste")
+        if CNC_Starttaste.state == NSControl.StateValue.on
+        {
+            CNC_Starttaste.state = NSControl.StateValue.off
+        }
+        let stepsindex = CNC_StepsSegControl.selectedSegment
+        motorsteps = CNC_StepsSegControl.tag(forSegment:stepsindex)
+        outletdaten["motorsteps"] = CNC_StepsSegControl.tag(forSegment:stepsindex)  as AnyObject
+        micro = CNC_microPop.selectedItem?.tag ?? 1
+        speed = SpeedFeld.integerValue
+        pwm = DC_PWM.integerValue
+        
+        cnc_seite1check = CNC_Seite1Check.state.rawValue as Int
+        cnc_seite2check = CNC_Seite2Check.state.rawValue as Int
+        outletdaten["cnc_seite1check"] = CNC_Seite1Check.state.rawValue as Int as AnyObject
+        outletdaten["cnc_seite2check"] = CNC_Seite2Check.state.rawValue as Int as AnyObject
+        outletdaten["speed"] = speed as AnyObject
+        outletdaten["micro"] = micro as AnyObject
+        outletdaten["boardindex"] = boardindex as AnyObject
+        outletdaten["pwm"] = pwm as AnyObject
+        var zoomfaktor = ProfilTiefeFeldA.doubleValue / 1000
+        outletdaten["zoom"] = zoomfaktor as AnyObject
+        // Daten leeren
+        CNC_DatenArray.removeAll()
+        SchnittdatenArray.removeAll()
+        HomeTaste.state = NSControl.StateValue.off
+        DC_Taste.state = NSControl.StateValue.off
+        
+        if KoordinatenTabelle.count <= 1
+        {
+            let warnung = NSAlert.init()
+            warnung.messageText = "Zuwenig Elemente in KoordinatenTabelle"
+            warnung.addButton(withTitle: "OK")
+            let antwort = warnung.runModal()
+            CNC_Stoptaste.state = NSControl.StateValue.off
+        }
+        ProfilFeld.setgraphstatus(status: 1)
+        
+      var tempKoordinatenTabelle = AVR?.stopFunktion(KoordinatenTabelle, outletdaten: outletdaten)
+        
+        
     }
 
    @IBAction func reportManRight(_ sender: rPfeil_Taste)

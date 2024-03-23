@@ -248,7 +248,7 @@ class rViewController: NSViewController, NSWindowDelegate
     var halt = 0
     var home = 0
 
-    var pwm = 0
+    var pwm = 1
     
     var HomeAnschlagSet = IndexSet()
      // end IOWarriorWindowController
