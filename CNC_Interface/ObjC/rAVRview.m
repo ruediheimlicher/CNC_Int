@@ -3268,7 +3268,7 @@ return returnInt;
     [CNCStepXFeld setIntValue:[[[CNCDatenArray objectAtIndex:0]objectForKey:@"schrittex"]intValue]];
     [CNCStepYFeld setIntValue:[[[CNCDatenArray objectAtIndex:0]objectForKey:@"schrittey"]intValue]];
     
-    fprintf(stderr,"tempKoordinatenTabelle: \n");
+    //fprintf(stderr,"tempKoordinatenTabelle: \n");
     
     float lastax = [[[tempkoordinatentabelle objectAtIndex:0]objectForKey:@"ax"]floatValue];;
     float lastay = [[[tempkoordinatentabelle objectAtIndex:0]objectForKey:@"ay"]floatValue];
@@ -3324,7 +3324,7 @@ return returnInt;
     [tempkoordinatentabelle setArray:revKoordinatenTabelle];//index, pwm, ax,bx,ay,by
     
     
-    
+    /*
     [self updateIndex];
     [ProfilGraph setStepperposition:0];
     [ProfilGraph setNeedsDisplay:YES];
@@ -3342,16 +3342,18 @@ return returnInt;
     //NSLog(@"reportStopKnopf tempkoordinatentabelle: %@ count: %d ",[tempkoordinatentabelle description],[tempkoordinatentabelle count]);
     //NSLog(@"reportStopKnopf tempkoordinatentabelle count: %d ",[tempkoordinatentabelle count]);
     //NSLog(@"reportStopKnopf koordinatentabelle count: %d",[koordinatentabelle count]);
-    //NSLog(@"reportStopKnopf koordinatentabelle neu: %@",[koordinatentabelle description]);
+    NSLog(@"reportStopKnopf koordinatentabelle neu: %@",[koordinatentabelle description]);
     int anzDaten=[koordinatentabelle count]-1;
     //NSLog(@"reportStopKnopf anzDaten: %d",anzDaten);
     //[PositionFeld setIntValue:[koordinatentabelle count]-1];
     [IndexFeld setIntValue:anzDaten];
     [IndexStepper setIntValue:anzDaten];
     //NSLog(@"reportStopKnopf koordinatentabelle count: %d",[koordinatentabelle count]);
-    
+    */
     
     // end Action
+    NSLog(@"stopFunktion koordinatentabelle neu: %@",[koordinatentabelle description]);
+
     return tempschnittdatenarray;
 }
 

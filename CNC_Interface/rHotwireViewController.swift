@@ -188,6 +188,10 @@ var outletdaten:[String:AnyObject] = [:]
     var motorsteps = 47
     var speed = 6
     var quelle:Int = 0
+    
+    let  FIRST_BIT = 0 // in 'position' von reportStopKnopf: Abschnitt ist first
+    let  LAST_BIT = 1 // in 'position' von reportStopKnopf: Abschnitt ist last
+
    var  oldMauspunkt :  NSPoint  = NSZeroPoint
    /*
    var ProfilDatenOA: NSArray
@@ -255,7 +259,7 @@ var outletdaten:[String:AnyObject] = [:]
     var  BlockKoordinatenTabelle = [String:Double]()
     var  BlockrahmenArray = [String]()
     var CNC_DatenArray = [String:Double]()
-    var SchnittdatenArray = [String:Double]()
+    var SchnittdatenArray = [[Int]]()
     var KoordinatenFormatter = NumberFormatter()
     
     
@@ -872,6 +876,23 @@ var outletdaten:[String:AnyObject] = [:]
         DC_Taste.isEnabled = false
         HomeTaste.state = NSControl.StateValue(rawValue: 0)
         KoordinatenTabelle.removeAll()
+        CNC_Table.reloadData()
+        CNC_Table.needsDisplay = true
+        
+        IndexFeld.stringValue = ""
+        IndexStepper.integerValue = 0
+        WertAXFeld.stringValue = ""
+        WertAXStepper.integerValue = 0
+        
+        WertAYFeld.stringValue = ""
+        WertAYStepper.integerValue = 0
+
+        WertBXFeld.stringValue = ""
+        WertBXStepper.integerValue = 0
+
+        WertBYFeld.stringValue = ""
+        WertBYStepper.integerValue = 0
+
         if (BlockrahmenArray != nil && BlockrahmenArray.count > 0)
         {
             BlockrahmenArray.removeAll()
@@ -956,6 +977,9 @@ var outletdaten:[String:AnyObject] = [:]
         HomeTaste.state = NSControl.StateValue.off
         DC_Taste.state = NSControl.StateValue.off
         
+        
+        
+        
         if KoordinatenTabelle.count <= 1
         {
             let warnung = NSAlert.init()
@@ -966,9 +990,31 @@ var outletdaten:[String:AnyObject] = [:]
         }
         ProfilFeld.setgraphstatus(status: 1)
         
-      var tempKoordinatenTabelle = AVR?.stopFunktion(KoordinatenTabelle, outletdaten: outletdaten)
+        let tempSchnittdatenArray = AVR?.stopFunktion(KoordinatenTabelle, outletdaten: outletdaten)
         
+        print("tempSchnittdatenArray: \(tempSchnittdatenArray)")
         
+        for i in 0..<tempSchnittdatenArray!.count
+        {
+            let temparray = tempSchnittdatenArray![i] as! [Int]
+            print("i: \(i) temparray: \(temparray)")
+          SchnittdatenArray.append(temparray)
+        }
+     print("reportStopTaste SchnittdatenArray: \(SchnittdatenArray)")
+        // code am Anfang und Schluss einfuegen
+        var lastposition:Int = 0
+        lastposition |= (1<<LAST_BIT)
+        let anzdaten = SchnittdatenArray.count
+        SchnittdatenArray[anzdaten-1][17] = lastposition
+        
+        AnzahlFeld.integerValue = SchnittdatenArray.count
+        PositionFeld.integerValue = 0
+        
+        IndexFeld.integerValue = anzdaten
+        IndexStepper.integerValue = anzdaten
+        
+        CNC_Sendtaste.isEnabled = true
+        DC_Taste.state = NSControl.StateValue.off
     }
 
    @IBAction func reportManRight(_ sender: rPfeil_Taste)
