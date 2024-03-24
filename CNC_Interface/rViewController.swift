@@ -775,7 +775,7 @@ class rViewController: NSViewController, NSWindowDelegate
      usb_schnittdatenarray.removeAll()
      
      let info = notification.userInfo
-  //   print("info: \(info)")
+     print("info: \(info)")
      //    let usb_pwm =  info?["pwm"] as! UInt8
      //    let usb_delayok =  info?["delayok"] as! UInt8
     
@@ -798,7 +798,14 @@ class rViewController: NSViewController, NSWindowDelegate
      
      //print("usb_pwm: \(usb_pwm) usb_delayok: \(usb_delayok) usb_home: \(usb_home) usb_art: \(usb_art) usb_cncposition: \(usb_cncposition) ")
      //        let zeilenzahlarray = info?["schnittdatenarray"] as! [UInt8]
-     guard   let zeilenzahlarray = info?["schnittdatenarray"] as?[[UInt8]] else {return}
+     // guard   let zeilenzahlarray = info?["schnittdatenarray"] as?[[UInt8]] else {return}
+
+      guard   let zeilenzahlarray = info?["schnittdatenarray"] as?[[Int]] else 
+      
+      {
+          print("usbschnittdatenaktion : kein zeilenzahlarray\n")
+          return
+      }
      
      //HomeAnschlagSet.removeAll()
      
@@ -810,7 +817,7 @@ class rViewController: NSViewController, NSWindowDelegate
         for el in zeile
         {
            guard UInt8(el) != nil else { return  }
-           wertarray.append(el)
+            wertarray.append(UInt8(el))
            elementindex += 1
         }
         for anz in  elementindex..<Int(BufferSize())
@@ -820,6 +827,7 @@ class rViewController: NSViewController, NSWindowDelegate
         }
         wertarray[25] = UInt8(steps)
         wertarray[26] = UInt8(micro)
+         
         
         /*
          print("usbschnittdatenAktion usb_schnittdatenarray 0-48");
@@ -831,6 +839,7 @@ class rViewController: NSViewController, NSWindowDelegate
         }
          */
         usb_schnittdatenarray.append(wertarray)
+         
   
      }
      

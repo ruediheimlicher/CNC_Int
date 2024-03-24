@@ -13702,6 +13702,7 @@ return returnInt;
    NSNotificationCenter* nc=[NSNotificationCenter defaultCenter];
    [nc postNotificationName:@"usbschnittdaten" object:self userInfo:schnittdatendic];
 }
+
 /*
 -(void) killWindow:(NSAlert *)alert with:(NSTimer *) theTimer
     {

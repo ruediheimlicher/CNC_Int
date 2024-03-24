@@ -201,7 +201,7 @@ var outletdaten:[String:AnyObject] = [:]
 */
    
    //var   Scale: Double!;
-   //var   cncposition: Int!
+   var   cncposition: Int!
    //var   cncstatus: Double!
 
    var GraphEnd: Int!
@@ -488,6 +488,26 @@ var outletdaten:[String:AnyObject] = [:]
    //       micro_Feld.integerValue = micro
        }
 */
+    
+    @objc func DC_Funktion(pwm:UInt8 )
+     {
+        usb_schnittdatenarray.removeAll()
+        //print("DCAktion: \(notification)")
+         print("DCAktion  pwm: \(pwm)")
+        Stepperposition = 0;
+        var wertarray = [UInt8](repeating: 0, count: Int(BufferSize()))
+        
+        wertarray[16] = 0xE2
+        wertarray[24] = 0xE2
+        wertarray[18]=0; // indexh, indexl ergibt abschnittnummer
+        wertarray[20]=pwm; // pwm
+        
+        usb_schnittdatenarray.append(wertarray)
+        writeCNCAbschnitt()
+        teensy.clear_data()
+
+     }
+
     
     @objc func MausGraphAktion(_ notification:Notification)
     {
@@ -1017,6 +1037,158 @@ var outletdaten:[String:AnyObject] = [:]
         DC_Taste.state = NSControl.StateValue.off
     }
 
+    @IBAction func reportUSB_sendArray(_ sender:NSButton)
+    {
+        print("reportUSB_sendArray")
+        if SchnittdatenArray.count == 0
+        {
+            let warnung = NSAlert.init()
+            warnung.messageText = "reportUSB_sendArray SchnittdatenArray ist leer"
+            warnung.addButton(withTitle: "OK")
+            let antwort = warnung.runModal()
+            //CNC_Stoptaste.state = NSControl.StateValue.off
+            return
+        }// leer
+        
+        if SpeedFeld.integerValue == 0
+        {
+            let warnung = NSAlert.init()
+            warnung.messageText = "reportUSB_sendArray speed ist 0"
+            warnung.addButton(withTitle: "OK")
+            let antwort = warnung.runModal()
+            //CNC_Stoptaste.state = NSControl.StateValue.off
+            return
+        }
+        usbstatus = 1
+        var delayok = 0
+        if usbstatus > 0
+        {
+            if (SchnittdatenArray[0][1] <= 0x7F) || (SchnittdatenArray[0][9] <= 0x7F)
+            {
+                AnschlagLinksIndikator.fillColor = NSColor.green
+            }
+            
+            if (SchnittdatenArray[0][3] <= 0x7F) || (SchnittdatenArray[0][11] <= 0x7F)
+            {
+                AnschlagUntenIndikator.fillColor = NSColor.green
+            }
+
+            var a:NSApplication.ModalResponse
+            var delayok = 0
+            if DC_Taste.state == NSControl.StateValue.off
+            {
+                
+                let warnung = NSAlert.init()
+                warnung.messageText = "reportUSB_sendArray speed ist 0"
+                warnung.addButton(withTitle: "Einschalten")
+                warnung.addButton(withTitle: "Ignorieren")
+                warnung.addButton(withTitle: "Abbrechen")
+                let s1 = "Der Heizdraht ist noch nicht eingeschaltet."
+                let s2 = "Nach dem Einschalten den Vorgang erneut starten."
+                let informationString = ("\(s1)\n\(s2)")
+                warnung.informativeText = informationString
+                let antwort = warnung.runModal()
+                //CNC_Stoptaste.state = NSControl.StateValue.off
+                switch (antwort)
+                {
+                case .alertFirstButtonReturn: // first button
+                        DC_Taste.state = NSControl.StateValue.on
+                    let dc_pwm = UInt8(DC_Taste.intValue)
+                    self.DC_Funktion(pwm: dc_pwm)
+                    delayok = 1
+                case .alertSecondButtonReturn:
+                    print("second")
+                    // pwm entfernen
+                    for i in 0..<SchnittdatenArray.count
+                    {
+                        SchnittdatenArray[i][20] = 0
+                    }
+                case .alertThirdButtonReturn:
+                    print("third")
+                    return
+                default:
+                    break
+                }
+
+            }
+          }// if usbstatus
+        else
+        {
+            let warnung = NSAlert.init()
+            warnung.messageText = "CNC Schnit starten"
+            warnung.addButton(withTitle: "Einstecken und einschalten")
+            warnung.addButton(withTitle: "Zurück")
+            //warnung.addButton(withTitle: "Abbrechen")
+            let s1 = "Der Heizdraht ist noch nicht eingeschaltet."
+            let s2 = "Nach dem Einschalten den Vorgang erneut starten."
+            let informationString = ("\(s1)\n\(s2)")
+            warnung.informativeText = informationString
+            let antwort = warnung.runModal()
+
+        }
+        
+        print("reportUSB_sendArray cncposition: \(cncposition) \nschnittdatenarray 0: \(SchnittdatenArray[0])")
+        CNC_Halttaste.isEnabled = true
+        CNC_Stoptaste.state = NSControl.StateValue.off
+        PositionFeld.integerValue = 0
+        ProfilFeld.stepperposition = 0
+        ProfilFeld.needsDisplay = true
+        
+        let nc = NotificationCenter.default
+        var SchnittdatenDic = [String:Any]()
+        
+        SchnittdatenDic["pwm"] = pwm
+        SchnittdatenDic["schnittdatenarray"] = SchnittdatenArray
+        
+        
+        SchnittdatenDic["cncposition"] = 0
+        if HomeTaste.state == NSControl.StateValue.off
+        {
+            SchnittdatenDic["home"] = 1
+        }
+        else
+        {
+            SchnittdatenDic["home"] = 0
+        }
+        SchnittdatenDic["art"] = 0
+        SchnittdatenDic["delayok"] = delayok
+        
+        if delayok > 0
+        {
+            print("swift reportUSB_sendArray mit delay")
+            let sel = #selector(sendDelayedArrayWithDic(schnittdatendic:))
+            self.perform(#selector(sendDelayedArrayWithDic(schnittdatendic: )), with: SchnittdatenDic, afterDelay: 6)
+        }
+        else
+        {
+            print("swift reportUSB_sendArray ohne delay")
+            nc.post(name:Notification.Name(rawValue:"usbschnittdaten"),
+            object: nil,
+            userInfo: SchnittdatenDic)
+
+        }
+        
+        print("swift reportUSB_sendArray NotificationDic: \(SchnittdatenDic)")
+/*
+        nc.post(name:Notification.Name(rawValue:"usbschnittdaten"),
+        object: nil,
+        userInfo: NotificationDic)
+*/
+        
+        
+        
+    }//reportUSB_sendArray
+    
+    @objc func sendDelayedArrayWithDic(schnittdatendic:[String:Any])
+    {
+        print("sendDelayedAction")
+        let nc = NotificationCenter.default
+        nc.post(name:Notification.Name(rawValue:"usbschnittdaten"),
+        object: nil,
+        userInfo: schnittdatendic)
+
+    }
+    
    @IBAction func reportManRight(_ sender: rPfeil_Taste)
    {
       //print("swift reportManRight: \(sender.tag)")
