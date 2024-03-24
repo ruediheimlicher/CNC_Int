@@ -11623,7 +11623,7 @@ return returnInt;
     NSLog(@"AVR reportAndereSeiteAnfahren");
    NSDictionary* tempDic=[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:ANDERESEITEANFAHREN] forKey:@"usb"];
    NSNotificationCenter* nc=[NSNotificationCenter defaultCenter];
-   [nc postNotificationName:@"usbopen" object:self userInfo:tempDic];
+ //  [nc postNotificationName:@"usbopen" object:self userInfo:tempDic];
 
    float full_pwm = 1;
    float red_pwm = [red_pwmFeld floatValue];
@@ -11758,7 +11758,7 @@ return returnInt;
       NSDictionary* tempSteuerdatenDic=[self Tool_SteuerdatenVonDic:tempDic];
       
       
-      [AnfahrtSchnittdatenArray addObject:[self SchnittdatenVonDic:tempSteuerdatenDic]];
+      [AnfahrtSchnittdatenArray addObject:[self Tool_SchnittdatenVonDic:tempSteuerdatenDic]];
       
    } // for i
    NSLog(@"AnfahrtSchnittdatenArray: %@",[AnfahrtSchnittdatenArray description]);

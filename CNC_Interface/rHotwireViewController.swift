@@ -1192,8 +1192,8 @@ var outletdaten:[String:AnyObject] = [:]
     @IBAction func reportAndereSeiteAnfahren(_ sender: NSButton)
     {
         print("swift reportAndereSeiteAnfahren")
-        //AVR?.reportAndereSeiteAnfahren(_ :)
-       // sender.action = #selector(AVR?.reportAndereSeiteAnfahren(_ :))
+          
+        
     }
     
    @IBAction func reportManRight(_ sender: rPfeil_Taste)
@@ -1265,6 +1265,66 @@ var outletdaten:[String:AnyObject] = [:]
 
         AVR?.manRichtung(4, mousestatus:1, pfeilstep:100)
     }
+    
+    @IBAction func report_Shift(_ sender: NSButton)
+    {
+        print("swift report_Shift: \(sender.tag)")
+        let knopftag = sender.tag
+        var dx:Double = 0
+        var dy:Double = 0
+        let shiftschritt = 4
+        
+        switch knopftag
+        {
+        case 1:// rechts
+            print("right")
+            dx = Double(shiftschritt)
+            dy = 0
+        case 2: // up
+            print("up")
+            dx = 0
+            dy = Double(shiftschritt)
+        case 3: // left
+            print("left")
+            dx = Double(shiftschritt) * -1
+            dy = 0
+        case 4: // down
+            print("down")
+            dx = 0
+            dy = Double(shiftschritt) * -1
+
+            
+            
+        default:
+            return
+        }// switch tag
+
+        
+        var rahmenarray = [String:Double]()
+        
+        if KoordinatenTabelle.count > 0
+        {
+            for i in 0..<KoordinatenTabelle.count
+            {
+                var tempzeilendic = KoordinatenTabelle[i]
+                KoordinatenTabelle[i]["ax"]! += dx
+                KoordinatenTabelle[i]["ay"]! += dy
+                KoordinatenTabelle[i]["bx"]! += dx
+                KoordinatenTabelle[i]["by"]! += dy
+
+                
+            }// for i
+        }// if KoordinatenTabelle.count > 0
+        
+        ProfilFeld.setDatenArray(derDatenArray: KoordinatenTabelle as NSArray)
+          
+        CNC_Table.reloadData()
+        ProfilFeld.needsDisplay = true
+        
+    }
+    
+   
+    
 
     @IBAction func report_Home(_ sender: NSButton)
     {
