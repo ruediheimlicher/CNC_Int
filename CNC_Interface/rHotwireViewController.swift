@@ -310,6 +310,8 @@ var outletdaten:[String:AnyObject] = [:]
    @IBOutlet weak var  UnterseiteCheckbox: NSButton!
    @IBOutlet weak var  OberseiteTaste: NSButton!
    @IBOutlet weak var  UnterseiteTaste: NSButton!
+    
+    @IBOutlet weak var  AndereSeiteTaste: NSButton!
    
    @IBOutlet weak var  EinlaufCheckbox: NSButton!
    @IBOutlet weak var  AuslaufCheckbox: NSButton!
@@ -1187,6 +1189,13 @@ var outletdaten:[String:AnyObject] = [:]
 
     }
     
+    @IBAction func reportAndereSeiteAnfahren(_ sender: NSButton)
+    {
+        print("swift reportAndereSeiteAnfahren")
+        //AVR?.reportAndereSeiteAnfahren(_ :)
+       // sender.action = #selector(AVR?.reportAndereSeiteAnfahren(_ :))
+    }
+    
    @IBAction func reportManRight(_ sender: rPfeil_Taste)
    {
       //print("swift reportManRight: \(sender.tag)")
@@ -1342,8 +1351,12 @@ var outletdaten:[String:AnyObject] = [:]
    override func viewDidAppear()
    {
       print ("Hotwire viewDidAppear new")
-  
+      // AndereSeiteTaste.target = self
+      // AndereSeiteTaste.action = #selector(AVR?.reportAndereSeiteAnfahren(_ :))
+
      }
+    
+    
    override func viewDidLoad()
    {
       super.viewDidLoad()
@@ -1372,6 +1385,7 @@ var outletdaten:[String:AnyObject] = [:]
        CNC_Table.gridStyleMask = .solidVerticalGridLineMask
        CNC_Table.usesAlternatingRowBackgroundColors = true
        
+       CNC_busy = 0
        // https://www.swiftbysundell.com/articles/formatting-numbers-in-swift/
        
        //          let cx = formater.string(from: NSNumber(value: Double(zeilendaten[1])))// /INTEGERFAKTOR))
@@ -1395,9 +1409,12 @@ var outletdaten:[String:AnyObject] = [:]
        KoordinatenFormatter.maximumFractionDigits = 2
        KoordinatenFormatter.groupingSeparator = "."
        KoordinatenFormatter.minimumFractionDigits = 2
-
        
-      // (CNC_Table.tableColumn(withIdentifier:NSUserInterfaceItemIdentifier(rawValue: "index"))?.dataCell as AnyObject).alignment = NSRightTextAlignment
+       let objCInstance = AVR
+
+       AndereSeiteTaste.target = objCInstance
+       AndereSeiteTaste.action = #selector(AVR?.reportAndereSeiteAnfahren(_ :))
+       
        
        NotificationCenter.default.addObserver(self, selector:#selector(usbstatusAktion(_:)),name:NSNotification.Name(rawValue: "usb_status"),object:nil)
 

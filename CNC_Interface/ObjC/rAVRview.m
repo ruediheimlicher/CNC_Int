@@ -11620,6 +11620,7 @@ return returnInt;
 
 - (IBAction)reportAndereSeiteAnfahren:(id)sender
 {
+    NSLog(@"AVR reportAndereSeiteAnfahren");
    NSDictionary* tempDic=[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:ANDERESEITEANFAHREN] forKey:@"usb"];
    NSNotificationCenter* nc=[NSNotificationCenter defaultCenter];
    [nc postNotificationName:@"usbopen" object:self userInfo:tempDic];
