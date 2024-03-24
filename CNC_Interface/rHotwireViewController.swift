@@ -205,7 +205,7 @@ var outletdaten:[String:AnyObject] = [:]
    //var   cncstatus: Double!
 
    var GraphEnd: Int!
-   /*
+   
    var   CNC_busy: Int!
    var   ProfilTiefe: Int!
    var   ProfilZoom: Double!
@@ -222,9 +222,7 @@ var outletdaten:[String:AnyObject] = [:]
    var   auslauflaenge: Int!
    var   auslauftiefe: Int!
    var   auslaufrand: Int!
-   var   motorsteps: Int!
-   var   micro: Int!
-*/
+
    struct RumpfDaten
    {
       var breitea = 30
@@ -1671,21 +1669,86 @@ var outletdaten:[String:AnyObject] = [:]
    
 
     }
-   
-   @objc func readHotwire_PList() -> [String:AnyObject]
-   {
-      var dateiname = ""
-      var dateisuffix = ""
-      var urlstring:String = ""
-      var hotwireplist:[String] = []
-      var USBPfad = NSHomeDirectory() + "/Documents" + "/CNCDaten"
-      var PListName:String = "/CNC.plist"
-      USBPfad += PListName
-      print("readHotwire_PList: \(USBPfad)")
-      var USB_URL = NSURL.fileURL(withPath:USBPfad)
+    
+    @IBAction func reportDC_Stepper(_ sender: NSStepper)
+    {
+        print("reportDC_Stepper wert: \(sender.integerValue)")
+        DC_PWM.integerValue = sender.integerValue
+        DC_Slider.integerValue = sender.integerValue
+        if CNC_busy > 0
+        {
+            if DC_Taste.state == NSControl.StateValue.on
+            {
+                let dataDic = ["pwm":sender.integerValue]
+                self.DCAktion(datadic:dataDic)
+            }
+            else
+            {
+                let dataDic = ["pwm":0]
+                self.DCAktion(datadic:dataDic)
+
+            }
+        }
+   }
+    
+    
+    @IBAction func reportDC_Taste(_ sender: NSButton)
+    {
+        
+       print("reportDC_Taste state");
       
-      var propertyListFormat =  PropertyListSerialization.PropertyListFormat.xml //Format of the Property List.
-      var plistData: [String: AnyObject] = [:] //Our data
+        if sender.state ==  NSControl.StateValue.on
+       {
+            let dataDic = ["pwm":DC_PWM.integerValue]
+            self.DCAktion(datadic:dataDic)
+
+       }
+       else
+       {
+           let dataDic = ["pwm":0]
+           self.DCAktion(datadic:dataDic)
+       }
+
+    }
+
+                    @objc func DCAktion(datadic:[String:Any])
+                    {
+                        usb_schnittdatenarray.removeAll()
+                        //print("DCAktion: \(notification)")
+                        //let info = notification.userInfo
+                        guard let pwm = datadic["pwm"] else
+                        {
+                            print("DCAktion: kein pwm")
+                            return
+                        }
+                        print("DCAktion  pwm: \(pwm)")
+                        Stepperposition = 0;
+                        var wertarray = [UInt8](repeating: 0, count: Int(BufferSize()))
+                        
+                        wertarray[16] = 0xE2
+                        wertarray[24] = 0xE2
+                        wertarray[18]=0; // indexh, indexl ergibt abschnittnummer
+                        wertarray[20]=pwm as! UInt8; // pwm
+                        
+                        usb_schnittdatenarray.append(wertarray)
+                        writeCNCAbschnitt()
+                        teensy.clear_data()
+                        
+                    }
+                    @objc func readHotwire_PList() -> [String:AnyObject]
+                    {
+                        var dateiname = ""
+                        var dateisuffix = ""
+                        var urlstring:String = ""
+                        var hotwireplist:[String] = []
+                        var USBPfad = NSHomeDirectory() + "/Documents" + "/CNCDaten"
+                        var PListName:String = "/CNC.plist"
+                        USBPfad += PListName
+                        print("readHotwire_PList: \(USBPfad)")
+                        var USB_URL = NSURL.fileURL(withPath:USBPfad)
+                        
+                        var propertyListFormat =  PropertyListSerialization.PropertyListFormat.xml //Format of the Property List.
+                        var plistData: [String: AnyObject] = [:] //Our data
 
       if FileManager.default.fileExists(atPath: USBPfad)
       {
