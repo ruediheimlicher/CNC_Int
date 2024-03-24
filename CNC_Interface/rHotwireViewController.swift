@@ -254,7 +254,7 @@ var outletdaten:[String:AnyObject] = [:]
    var RahmenDic:[String:Double] = [:]
    
    var KoordinatenTabelle = [[String:Double]]()
-    var  BlockKoordinatenTabelle = [String:Double]()
+    var  BlockKoordinatenTabelle = [[String:Double]]()
     var  BlockrahmenArray = [String]()
     var CNC_DatenArray = [String:Double]()
     var SchnittdatenArray = [[Int]]()
@@ -1312,12 +1312,55 @@ var outletdaten:[String:AnyObject] = [:]
                 KoordinatenTabelle[i]["bx"]! += dx
                 KoordinatenTabelle[i]["by"]! += dy
 
+                if  tempzeilendic["abrax"] == nil // kein abbran
+                {
+                    //print("kein abbrand")
+                    continue
+                }
+                else
+                {
+                    KoordinatenTabelle[i]["abrax"]! += dx
+                    KoordinatenTabelle[i]["abray"]! += dy
+                    KoordinatenTabelle[i]["abrbx"]! += dx
+                    KoordinatenTabelle[i]["abrby"]! += dy
+
+                }
                 
             }// for i
         }// if KoordinatenTabelle.count > 0
         
         ProfilFeld.setDatenArray(derDatenArray: KoordinatenTabelle as NSArray)
           
+        if BlockKoordinatenTabelle.count > 0
+        {
+            for i in 0..<BlockKoordinatenTabelle.count
+            {
+                let tempzeilendic = BlockKoordinatenTabelle[i]
+                BlockKoordinatenTabelle[i]["ax"]! += dx
+                BlockKoordinatenTabelle[i]["ay"]! += dy
+                BlockKoordinatenTabelle[i]["bx"]! += dx
+                BlockKoordinatenTabelle[i]["by"]! += dy
+            }
+            
+            
+        }// if BlockKoordinatenTabelle.count > 0
+        
+ 
+        if BlockrahmenArray.count > 0
+        {
+            for i in 0..<BlockrahmenArray.count
+            {
+                var  temppunkt = NSPointFromString(BlockrahmenArray[i])
+                temppunkt.x += dx
+                temppunkt.y += dy
+                BlockrahmenArray[i] = NSStringFromPoint(temppunkt)
+            }
+            
+            ProfilFeld.setRahmenArray(derRahmenArray: BlockrahmenArray as NSArray)
+        }// if BlockrahmenArray.count > 0
+        
+
+        
         CNC_Table.reloadData()
         ProfilFeld.needsDisplay = true
         
