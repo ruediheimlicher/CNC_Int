@@ -260,10 +260,9 @@ var outletdaten:[String:AnyObject] = [:]
     var SchnittdatenArray = [[Int]]()
     var KoordinatenFormatter = NumberFormatter()
     
-    
+    var CNC_Eingabe = rEinstellungen()
     
     @IBOutlet weak var  PfeilfeldLinks: rPfeil_Feld!
-   
    @IBOutlet weak var intpos0Feld: NSStepper!
    //@IBOutlet weak var StepperTab: rTabview!
     
@@ -1795,6 +1794,7 @@ var outletdaten:[String:AnyObject] = [:]
         print("reportDC_Stepper wert: \(sender.integerValue)")
         DC_PWM.integerValue = sender.integerValue
         DC_Slider.integerValue = sender.integerValue
+        outletdaten["pwm"] = sender.integerValue as AnyObject
         if CNC_busy > 0
         {
             if DC_Taste.state == NSControl.StateValue.on
@@ -1806,11 +1806,18 @@ var outletdaten:[String:AnyObject] = [:]
             {
                 let dataDic = ["pwm":0]
                 self.DCAktion(datadic:dataDic)
-
             }
         }
    }
     
+    @IBAction func reportSpeed_Stepper(_ sender: NSStepper)
+    {
+        print("reportSpeed_Stepper wert: \(sender.integerValue)")
+        SpeedFeld.integerValue = sender.integerValue
+        
+        outletdaten["speed"] = sender.integerValue as AnyObject
+        
+    } // reportSpeed_Stepper
     
     @IBAction func reportDC_Taste(_ sender: NSButton)
     {
@@ -1829,6 +1836,20 @@ var outletdaten:[String:AnyObject] = [:]
            self.DCAktion(datadic:dataDic)
        }
 
+    }
+    
+    @IBAction func reportNeueFigur(_ sender: NSButton)
+    {
+        print("reportNeueFigur")
+        if CNC_Eingabe == nil
+        {
+            
+        }
+        CNC_Eingabe.window?.title = "Einstellungen"
+        CNC_Eingabe.window?.makeKeyAndOrderFront(nil)
+        CNC_Eingabe.window?.isReleasedWhenClosed = true
+        NSApp.runModal(for: (CNC_Eingabe.window)!)
+       // NSModalSession session = [NSApp beginModalSessionForWindow:[CNC_Eingabe window]];
     }
 
                     @objc func DCAktion(datadic:[String:Any])
@@ -2082,9 +2103,16 @@ var outletdaten:[String:AnyObject] = [:]
        //print("p: \(zeile)")
         let key = NSUserInterfaceItemIdentifier(tableColumn!.identifier.rawValue)
        let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(tableColumn!.identifier.rawValue), owner: self) as? NSTableCellView
-        let keystring = KoordinatenFormatter.string(from:zeile[key.rawValue]! as NSNumber)
-        //cell?.textField?.doubleValue = zeile[key.rawValue]! // ohne formatter
-        cell?.textField?.stringValue = keystring!
+        if key.rawValue == "index" || key.rawValue == "pwm"
+        {
+            cell?.textField?.intValue = Int32(zeile[key.rawValue]!)
+       }
+        else
+        {
+            let keystring = KoordinatenFormatter.string(from:zeile[key.rawValue]! as NSNumber)
+            //cell?.textField?.doubleValue = zeile[key.rawValue]! // ohne formatter
+            cell?.textField?.stringValue = keystring!
+        }
        
        return cell
     }
