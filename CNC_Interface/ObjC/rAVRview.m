@@ -2667,10 +2667,12 @@ return returnInt;
     {
         speed = [[outletdic objectForKey:@"speed"] intValue];
     }
+    NSLog(@"stopFunktion speed: %d",speed);
+    
     int steps = 48;
     if([outletdic objectForKey:@"steps"])
     {
-        speed = [[outletdic objectForKey:@"steps"] intValue];
+        steps = [[outletdic objectForKey:@"steps"] intValue];
     }
 
 
@@ -12410,6 +12412,7 @@ return returnInt;
                 position |= (1<<LAST_BIT);
             }
             [tempDic setObject:[NSNumber numberWithInt:position] forKey:@"position"];
+            [tempDic setObject:[NSNumber numberWithInt:speed] forKey:@"speed"];
             
             NSDictionary* tempSteuerdatenDic=[self Tool_SteuerdatenVonDic:tempDic];
             

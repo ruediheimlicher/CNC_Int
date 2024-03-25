@@ -186,7 +186,7 @@ var outletdaten:[String:AnyObject] = [:]
    //var ProfilDaten: NSMutableArray!
    
     var motorsteps = 47
-    var speed = 6
+    var speed = 7
     var quelle:Int = 0
     
     let  FIRST_BIT = 0 // in 'position' von reportStopKnopf: Abschnitt ist first
@@ -1278,7 +1278,7 @@ var outletdaten:[String:AnyObject] = [:]
       if (hotwireplist["speed"] != nil)
       {
          let plistspeed = hotwireplist["speed"]  as! Int
-         print("speed: \(plistspeed )")
+         print("plistspeed: \(plistspeed )")
          SpeedFeld.integerValue = plistspeed
          SpeedStepper.integerValue = plistspeed
       }
@@ -1291,7 +1291,7 @@ var outletdaten:[String:AnyObject] = [:]
       if (hotwireplist["abbranda"] != nil)
       {
          let plistabbranda = hotwireplist["abbranda"]  as! Double
-         print("speed: \(plistabbranda )")
+         print("plistabbranda: \(plistabbranda )")
          AbbrandFeld.doubleValue = plistabbranda
       }
       else
@@ -1314,7 +1314,7 @@ var outletdaten:[String:AnyObject] = [:]
       if (hotwireplist["profilnameb"] != nil)
       {
          let plistprofilnameb = hotwireplist["profilnameb"]  as! String
-         print("plistprofilnamea: \(plistprofilnameb )")
+         print("plistprofilnameb: \(plistprofilnameb )")
          ProfilNameFeldB.stringValue = plistprofilnameb
       }
       else

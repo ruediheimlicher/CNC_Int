@@ -239,7 +239,7 @@
    int  anzbyplus=0;
    int  anzbyminus=0;
    
-    int speed = 1;
+    int speed = 7;
     if ([derDatenDic objectForKey:@"speed"])
     {
         speed = [[derDatenDic objectForKey:@"speed"]intValue];
@@ -324,7 +324,10 @@
    //   NSLog(@"i:  DistanzA: %2.2f DistanzB: %2.2f",DistanzA,DistanzB);
    }
     
-   float Zeit = Distanz/speed;                                                //    Schnittzeit für Distanz
+    NSLog(@"Tool_SteuerdatenvonDic: i:  DistanzA: %2.2f DistanzB: %2.2f speed: %d",DistanzA,DistanzB, speed);
+    //speed = 7;
+    
+    float Zeit = Distanz/speed;                                                //    Schnittzeit für Distanz
    float ZeitA = DistanzA/speed;                                                //    Schnittzeit für Distanz A
    float ZeitB = DistanzB/speed;                                                //    Schnittzeit für Distanz B
    int relevanteSeite=0; // seite A
@@ -364,7 +367,7 @@
 //   NSLog(@"motorstatus: %d",motorstatus);
 
    float relZeit= fmaxf(ZeitA,ZeitB);                             // relevante Zeit: grössere Zeit gibt korrekte max Schnittgeschwindigkeit
-   
+    NSLog(@"ZeitA: %2.2f ZeitB: %2.2f relzeit:  %2.2f",ZeitA, ZeitB, relZeit);
    [tempDatenDic setObject:[NSNumber numberWithFloat:relZeit] forKey: @"relevantezeit"];
 
    //NSLog(@"ZeitA: %2.4f ZeitB: %2.4f",ZeitA,ZeitB);
