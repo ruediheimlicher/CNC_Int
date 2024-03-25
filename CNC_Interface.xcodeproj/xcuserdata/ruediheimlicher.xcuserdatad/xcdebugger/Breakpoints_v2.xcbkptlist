@@ -14659,7 +14659,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "0F7D63A1-F998-4303-BC6A-166087CA2AF6"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CNC_Interface/rHotwireViewController.swift"
@@ -14669,6 +14669,98 @@
             endingLineNumber = "283"
             landmarkName = "rHotwireViewController"
             landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "0F7D63A1-F998-4303-BC6A-166087CA2AF6 - 5d5339513140d60f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CNC_Interface.rHotwireViewController.Einlauftiefe.getter : Swift.Optional&lt;__C.NSTextField&gt;"
+                  moduleName = "CNC_Interface"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Volumes/Dokumente/Programming/CNC_Interface/CNC_Interface/rHotwireViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "283"
+                  endingLineNumber = "283"
+                  offsetFromSymbolStart = "36">
+               </Location>
+               <Location
+                  uuid = "0F7D63A1-F998-4303-BC6A-166087CA2AF6 - 6558d9644a0d0a1b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CNC_Interface.rHotwireViewController.Einlauftiefe.setter : Swift.Optional&lt;__C.NSTextField&gt;"
+                  moduleName = "CNC_Interface"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Volumes/Dokumente/Programming/CNC_Interface/CNC_Interface/rHotwireViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "283"
+                  endingLineNumber = "283"
+                  offsetFromSymbolStart = "68">
+               </Location>
+               <Location
+                  uuid = "0F7D63A1-F998-4303-BC6A-166087CA2AF6 - 8c453c7c841b4d08"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CNC_Interface.rHotwireViewController.Einlauftiefe.modify : Swift.Optional&lt;__C.NSTextField&gt;"
+                  moduleName = "CNC_Interface"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Volumes/Dokumente/Programming/CNC_Interface/CNC_Interface/rHotwireViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "283"
+                  endingLineNumber = "283"
+                  offsetFromSymbolStart = "0">
+               </Location>
+               <Location
+                  uuid = "0F7D63A1-F998-4303-BC6A-166087CA2AF6 - eea3d2b294a78f9e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CNC_Interface.rHotwireViewController.Einlauftiefe.modify : Swift.Optional&lt;__C.NSTextField&gt; with unmangled suffix &quot;.resume.0&quot;"
+                  moduleName = "CNC_Interface"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Volumes/Dokumente/Programming/CNC_Interface/CNC_Interface/rHotwireViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "283"
+                  endingLineNumber = "283"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  uuid = "0F7D63A1-F998-4303-BC6A-166087CA2AF6 - 64635bc6867054f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CNC_Interface.rHotwireViewController.init(nibName: Swift.Optional&lt;__C.NSNibName&gt;, bundle: Swift.Optional&lt;__C.NSBundle&gt;) -&gt; CNC_Interface.rHotwireViewController"
+                  moduleName = "CNC_Interface"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Volumes/Dokumente/Programming/CNC_Interface/CNC_Interface/rHotwireViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "283"
+                  endingLineNumber = "283"
+                  offsetFromSymbolStart = "3336">
+               </Location>
+               <Location
+                  uuid = "0F7D63A1-F998-4303-BC6A-166087CA2AF6 - c97034b6e8972e12"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CNC_Interface.rHotwireViewController.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;CNC_Interface.rHotwireViewController&gt;"
+                  moduleName = "CNC_Interface"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Volumes/Dokumente/Programming/CNC_Interface/CNC_Interface/rHotwireViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "283"
+                  endingLineNumber = "283"
+                  offsetFromSymbolStart = "3324">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

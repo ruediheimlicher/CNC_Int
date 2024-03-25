@@ -257,8 +257,8 @@ class rViewController: NSViewController, NSWindowDelegate
     
     var schnittdatenstring:String = ""
     
-    var steps = 0
-    var micro = 0
+    var steps = 48
+    var micro = 1
 
     //var Einstellungen = rEinstellungen()
     let USBATTACHED = 5

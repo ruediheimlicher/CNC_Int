@@ -50,7 +50,7 @@ if ((self = [super init]) != nil)
 {
 	DatenArray = [[NSMutableArray alloc]init];
 	
-	speed=10;
+	speed=7;
 	steps=48;
    micro = 1;
    red_pwm = 0.4;

@@ -4943,7 +4943,7 @@ return returnInt;
        steps = [outletdaten[@"motorsteps"]integerValue];
        int seite1check = [outletdaten[@"cnc_seite1check"]integerValue];
        int seite2check = [outletdaten[@"cnc_seite2check"]integerValue];
-       NSLog(@"AVR  ManRichtung richtung: %d mousestatus: %d seite1check: %d seite2check: %d",richtung, status,seite1check,seite2check);
+       NSLog(@"AVR  ManRichtung richtung: %d mousestatus: %d seite1check: %d seite2check: %d speed: %d",richtung, status,seite1check,seite2check,speed);
        
        if ((cncstatus)|| !(outletdaten[@"cnc_seite1check"] || (outletdaten[@"cnc_seite2check"])))
       {
