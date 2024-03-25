@@ -2839,7 +2839,8 @@
       [[self window]orderOut:NULL];
      // [NSApp stopModalWithCode:1];
       NSNotificationCenter* nc=[NSNotificationCenter defaultCenter];
-      [nc postNotificationName:@"LibProfileingabe" object:self userInfo: ProfilDic];
+    //  [nc postNotificationName:@"LibProfileingabe" object:self userInfo: ProfilDic];
+       [nc postNotificationName:@"libprofileingabe" object:self userInfo: ProfilDic];
 
       
       //[ProfilEinfuegenTaste setEnabled:1]; 
@@ -3048,8 +3049,9 @@
       
        //NSLog(@"doProfilEinfuegenTask userInfo:ProfilDic count: %ld",(unsigned long)[ProfilDic count]);
       NSNotificationCenter* nc=[NSNotificationCenter defaultCenter];
-      [nc postNotificationName:@"LibProfileingabe" object:self userInfo: ProfilDic];
-      
+      //[nc postNotificationName:@"LibProfileingabe" object:self userInfo: ProfilDic];
+       [nc postNotificationName:@"libprofileingabe" object:self userInfo: ProfilDic];
+
    }
    [[self window]orderOut:NULL];
    [NSApp stopModalWithCode:1];
@@ -3780,7 +3782,7 @@
 
       
       NSNotificationCenter* nc=[NSNotificationCenter defaultCenter];
-      [nc postNotificationName:@"LibProfileingabe" object:self userInfo:ProfilDic];
+      [nc postNotificationName:@"libprofileingabe" object:self userInfo:ProfilDic];
       
       [[self window]orderOut:NULL];
       [NSApp stopModalWithCode:1];

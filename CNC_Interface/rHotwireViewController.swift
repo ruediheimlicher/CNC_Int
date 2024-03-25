@@ -488,6 +488,24 @@ var outletdaten:[String:AnyObject] = [:]
        }
 */
     
+    @objc func LibProfileingabeAktion(_ notification:Notification)
+    {
+        let info = notification.userInfo
+        print("LibProfileingabeAktion: \(info)")
+        /*
+          Werte fuer "teil":
+          10:  Endleisteneinlauf
+          20:  Oberseite
+          30:  Unterseite, rueckwaerts eingesetzt
+          40:  Nasenleisteauslauf
+          50: Sicherheitsschnitt nach oben
+          */
+        let startindexoffset = KoordinatenTabelle.count - 1
+        print("LibProfileingabeAktion startindexoffset: \(startindexoffset)")
+        
+        
+    }// LibProfileingabeAktion
+    
     @objc func DC_Funktion(pwm:UInt8 )
      {
         usb_schnittdatenarray.removeAll()
@@ -1517,7 +1535,16 @@ var outletdaten:[String:AnyObject] = [:]
        AndereSeiteTaste.target = objCInstance
        AndereSeiteTaste.action = #selector(AVR?.reportAndereSeiteAnfahren(_ :))
        
-       
+       let ProfilnamenArray = AVR?.readProfilLib() as! [String]
+       print("ProfilnamenArray: \(ProfilnamenArray[0])")
+       Profil1Pop.removeAllItems()
+       Profil1Pop.addItem(withTitle: "Profil wählen")
+       Profil1Pop.addItems(withTitles: ProfilnamenArray)
+
+       Profil2Pop.removeAllItems()
+       Profil2Pop.addItem(withTitle: "Profil wählen")
+       Profil2Pop.addItems(withTitles: ProfilnamenArray)
+
        NotificationCenter.default.addObserver(self, selector:#selector(usbstatusAktion(_:)),name:NSNotification.Name(rawValue: "usb_status"),object:nil)
 
        NotificationCenter.default.addObserver(self, selector:#selector(PfeilAktion(_:)),name:NSNotification.Name(rawValue: "pfeil"),object:nil)
@@ -1528,6 +1555,8 @@ var outletdaten:[String:AnyObject] = [:]
        NotificationCenter.default.addObserver(self, selector:#selector(MausGraphAktion(_:)),name:NSNotification.Name(rawValue: "mauspunkt"),object:nil)
 
        NotificationCenter.default.addObserver(self, selector:#selector(PfeilFeldAktion(_:)),name:NSNotification.Name(rawValue: "pfeilfeld"),object:nil)
+
+       NotificationCenter.default.addObserver(self, selector:#selector(LibProfileingabeAktion(_:)),name:NSNotification.Name(rawValue: "libprofileingabe"),object:nil)
 
       Auslauftiefe.integerValue = 10
       
@@ -1848,7 +1877,52 @@ var outletdaten:[String:AnyObject] = [:]
         CNC_Eingabe.window?.title = "Einstellungen"
         CNC_Eingabe.window?.makeKeyAndOrderFront(nil)
         CNC_Eingabe.window?.isReleasedWhenClosed = true
+        let rowindexset = IndexSet(integer:CNC_Table.numberOfRows-1)
+        
+        CNC_Table.selectRowIndexes(rowindexset, byExtendingSelection: false)
+        CNC_Table.scrollRowToVisible(CNC_Table.numberOfRows-1)
+        
+        var datenDic = [String:Any]()
+        datenDic["startx"] = WertAXFeld.doubleValue
+        datenDic["starty"] = WertAYFeld.doubleValue
+        datenDic["einlaufrand"] = Einlaufrand.integerValue
+        datenDic["auslaufrand"] = Auslaufrand.integerValue
+        
+        datenDic["einlauflaenge"] = Einlauflaenge.integerValue
+        datenDic["einlauftiefe"] = Einlauftiefe.integerValue
+        datenDic["auslauflaenge"] = Auslauflaenge.integerValue
+        datenDic["auslauftiefe"] = Auslauftiefe.integerValue
+        
+        datenDic["abbranda"] = AbbrandFeld.doubleValue
+        datenDic["mitoberseite"] = 1
+        datenDic["mitunterseite"] = 1
+        
+        if Profil1Pop.indexOfSelectedItem > 0
+        {
+            let profil1name = Profil1Pop.titleOfSelectedItem?.components(separatedBy: ".")[0]
+            print("profil1name: \(profil1name)")
+            datenDic["profil1"] = profil1name
+        }
+        else
+        {
+            datenDic["profil1"] = ProfilNameFeldA.stringValue
+        }
+
+        if Profil2Pop.indexOfSelectedItem > 0
+        {
+            let profil2name = Profil2Pop.titleOfSelectedItem?.components(separatedBy: ".")[0]
+            print("profil2name: \(profil2name)")
+            datenDic["profil2"] = profil2name
+        }
+        else
+        {
+            datenDic["profil2"] = ProfilNameFeldB.stringValue
+        }
+        CNC_Eingabe.setDaten(datenDic)
+        
         NSApp.runModal(for: (CNC_Eingabe.window)!)
+        
+        
        // NSModalSession session = [NSApp beginModalSessionForWindow:[CNC_Eingabe window]];
     }
 
