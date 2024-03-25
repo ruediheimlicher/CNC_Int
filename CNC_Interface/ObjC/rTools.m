@@ -349,7 +349,7 @@
 //   NSLog(@"motorstatus: %d",motorstatus);
 
    float relZeit= fmaxf(ZeitA,ZeitB);                             // relevante Zeit: grössere Zeit gibt korrekte max Schnittgeschwindigkeit
-   
+    NSLog(@"ZeitA: %2.2f ZeitB: %2.2f relzeit:  %2.2f",ZeitA, ZeitB, relZeit);
    [tempDatenDic setObject:[NSNumber numberWithFloat:relZeit] forKey: @"relevantezeit"];
 
    //NSLog(@"ZeitA: %2.4f ZeitB: %2.4f",ZeitA,ZeitB);
