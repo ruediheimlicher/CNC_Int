@@ -90,335 +90,335 @@
 
 @interface rAVRview:NSViewController <NSTableViewDataSource,NSTableViewDelegate,NSTabViewDelegate>
 {
-   // https://dev.iachieved.it/iachievedit/using-swift-in-an-existing-objective-c-project/
-   rTSP_NN* nn;
-   
-   NSMutableDictionary*      CNC_PList;
-   
-   IBOutlet id             BoardPop;
-   
-   IBOutlet id                StepperTab;
-   
-   IBOutlet   NSTabView*      TaskTab;
-   IBOutlet   rProfilGraph*     ProfilFeld;
-   
-   IBOutlet   id               GFKFeldA;
-   IBOutlet   id               GFKFeldB;
-
-   
-   IBOutlet   id               ProfilTiefeFeldA;
-   IBOutlet   id               ProfilTiefeFeldB;
-
-   IBOutlet   id               Einlauflaenge;
-   IBOutlet   id               Einlauftiefe;
-
-   IBOutlet   id               Auslauflaenge;
-   IBOutlet   id               Auslauftiefe;
-
-   IBOutlet   id               ProfilBOffsetYFeld;
-   IBOutlet   id               ProfilBOffsetXFeld;
-   
-   IBOutlet   id               ProfilWrenchFeld;// Schränkung
-   IBOutlet   id               ProfilWrenchEinheitRadio;
-   IBOutlet   id               HorizontalSchieberFeld;
-   IBOutlet   id               VertikalSchieberFeld;
-   IBOutlet   id               HorizontalSchieber;
-   IBOutlet   id               VertikalSchieber;
-   
-   IBOutlet   id               SpeedStepper;
-   IBOutlet   id               SpeedFeld;
-   
-   NSTableView*            ProfilTable;
-   NSMutableArray*         ProfilDaten;
-   NSArray*                  ProfilDatenOA;
-   NSArray*                  ProfilDatenUA;
-   IBOutlet   id               ProfilNameFeldA;
-
-   NSArray*                  ProfilDatenOB;
-   NSArray*                  ProfilDatenUB;
-   IBOutlet   id               ProfilNameFeldB;
-   
-   
-   IBOutlet   id               StopKoordinate;
-   IBOutlet   id               StartKoordinate;
-   IBOutlet   id               Adresse;
-   IBOutlet   id               Cmd;
-   IBOutlet   id               Drehgeber;
-   IBOutlet   id               DrehgeberFeld;
-   
-// IBOutlet   id               StartKnopf;
-// IBOutlet   id               StopKnopf;
-   
-   IBOutlet   id               CNCKnopf;
-   IBOutlet   id               OberseiteCheckbox;
-   IBOutlet   id               UnterseiteCheckbox;
-   IBOutlet   id               OberseiteTaste;
-   IBOutlet   id               UnterseiteTaste;
-   IBOutlet id             EinlaufCheckbox;
-   IBOutlet id             AuslaufCheckbox;
-   
-   IBOutlet id             AbbrandCheckbox;
-
-   IBOutlet   id           ScalePop;
-   IBOutlet   NSPopUpButton*           Profil1Pop;
-   IBOutlet   NSPopUpButton*          Profil2Pop;
-   IBOutlet   id           CNCPositionFeld;
-   IBOutlet   id           CNCStepXFeld;
-   IBOutlet   id           CNCStepYFeld;
-   int                     Scale;
-   int                     cncposition;
-   int                     cncstatus;
-   
-   NSString*            ProfilLibPfad;
+    // https://dev.iachieved.it/iachievedit/using-swift-in-an-existing-objective-c-project/
+    rTSP_NN* nn;
     
-   NSString*               CNCdataPfad;
-   NSMutableArray*         EEPROMArray;
-   NSMutableArray*         KoordinatenTabelle;
-   
-   NSMutableArray*         UndoKoordinatenTabelle;
-   NSMutableIndexSet*      UndoSet;
-
-   NSMutableArray*         BlockKoordinatenTabelle;
-   NSMutableArray*         BlockrahmenArray;
-
-   NSMutableDictionary*     RumpfteilDic;
-   
-   NSPoint                 oldMauspunkt;
-   
-   rProfilGraph*           ProfilGraph;
-  
-   int                     GraphEnd;
-   IBOutlet NSTableView*   CNCTable;
-   IBOutlet NSScrollView*  CNCScroller;
-   
-   rCNC*                   CNC;
-   int                     CNC_busy;
-   
-   NSTimer*                CNCTimer;
-   
-   int                     ProfilTiefe;
-   float                   ProfilZoom;
-   NSPoint                 ProfilNullpunkt;
-   int                     mitOberseite;
-   int                     mitUnterseite;
-   int                     mitEinlauf;
-   int                     mitAuslauf;
-   int                     flipH;
-   int                     flipV;
-   int                     reverse;
-   
-   int einlauflaenge;
-   int einlauftiefe;
-   int einlaufrand;
-   
-   int auslauflaenge;
-   int auslauftiefe;
-   int auslaufrand;
-   
-   int motorsteps;
-   int micro;
-   
-   NSMutableArray*         CNCDatenArray;
-   NSMutableArray*         SchnittdatenArray;
-   
-   NSMutableArray*         debugArray;
+    NSMutableDictionary*      CNC_PList;
+    
+    IBOutlet id             BoardPop;
+    
+    IBOutlet id                StepperTab;
+    
+    IBOutlet   NSTabView*      TaskTab;
+    IBOutlet   rProfilGraph*     ProfilFeld;
+    
+    IBOutlet   id               GFKFeldA;
+    IBOutlet   id               GFKFeldB;
+    
+    
+    IBOutlet   id               ProfilTiefeFeldA;
+    IBOutlet   id               ProfilTiefeFeldB;
+    
+    IBOutlet   id               Einlauflaenge;
+    IBOutlet   id               Einlauftiefe;
+    
+    IBOutlet   id               Auslauflaenge;
+    IBOutlet   id               Auslauftiefe;
+    
+    IBOutlet   id               ProfilBOffsetYFeld;
+    IBOutlet   id               ProfilBOffsetXFeld;
+    
+    IBOutlet   id               ProfilWrenchFeld;// Schränkung
+    IBOutlet   id               ProfilWrenchEinheitRadio;
+    IBOutlet   id               HorizontalSchieberFeld;
+    IBOutlet   id               VertikalSchieberFeld;
+    IBOutlet   id               HorizontalSchieber;
+    IBOutlet   id               VertikalSchieber;
+    
+    IBOutlet   id               SpeedStepper;
+    IBOutlet   id               SpeedFeld;
+    
+    NSTableView*            ProfilTable;
+    NSMutableArray*         ProfilDaten;
+    NSArray*                  ProfilDatenOA;
+    NSArray*                  ProfilDatenUA;
+    IBOutlet   id               ProfilNameFeldA;
+    
+    NSArray*                  ProfilDatenOB;
+    NSArray*                  ProfilDatenUB;
+    IBOutlet   id               ProfilNameFeldB;
+    
+    
+    IBOutlet   id               StopKoordinate;
+    IBOutlet   id               StartKoordinate;
+    IBOutlet   id               Adresse;
+    IBOutlet   id               Cmd;
+    IBOutlet   id               Drehgeber;
+    IBOutlet   id               DrehgeberFeld;
+    
+    // IBOutlet   id               StartKnopf;
+    // IBOutlet   id               StopKnopf;
+    
+    IBOutlet   id               CNCKnopf;
+    IBOutlet   id               OberseiteCheckbox;
+    IBOutlet   id               UnterseiteCheckbox;
+    IBOutlet   id               OberseiteTaste;
+    IBOutlet   id               UnterseiteTaste;
+    IBOutlet id             EinlaufCheckbox;
+    IBOutlet id             AuslaufCheckbox;
+    
+    IBOutlet id             AbbrandCheckbox;
+    
+    IBOutlet   id           ScalePop;
+    IBOutlet   NSPopUpButton*           Profil1Pop;
+    IBOutlet   NSPopUpButton*          Profil2Pop;
+    IBOutlet   id           CNCPositionFeld;
+    IBOutlet   id           CNCStepXFeld;
+    IBOutlet   id           CNCStepYFeld;
+    int                     Scale;
+    int                     cncposition;
+    int                     cncstatus;
+    
+    NSString*            ProfilLibPfad;
+    
+    NSString*               CNCdataPfad;
+    NSMutableArray*         EEPROMArray;
+    NSMutableArray*         KoordinatenTabelle;
+    
+    NSMutableArray*         UndoKoordinatenTabelle;
+    NSMutableIndexSet*      UndoSet;
+    
+    NSMutableArray*         BlockKoordinatenTabelle;
+    NSMutableArray*         BlockrahmenArray;
+    
+    NSMutableDictionary*     RumpfteilDic;
+    
+    NSPoint                 oldMauspunkt;
+    
+    rProfilGraph*           ProfilGraph;
+    
+    int                     GraphEnd;
+    IBOutlet NSTableView*   CNCTable;
+    IBOutlet NSScrollView*  CNCScroller;
+    
+    rCNC*                   CNC;
+    int                     CNC_busy;
+    
+    NSTimer*                CNCTimer;
+    
+    int                     ProfilTiefe;
+    float                   ProfilZoom;
+    NSPoint                 ProfilNullpunkt;
+    int                     mitOberseite;
+    int                     mitUnterseite;
+    int                     mitEinlauf;
+    int                     mitAuslauf;
+    int                     flipH;
+    int                     flipV;
+    int                     reverse;
+    
+    int einlauflaenge;
+    int einlauftiefe;
+    int einlaufrand;
+    
+    int auslauflaenge;
+    int auslauftiefe;
+    int auslaufrand;
+    
+    int motorsteps;
+    int micro;
+    
+    NSMutableArray*         CNCDatenArray;
+    NSMutableArray*         SchnittdatenArray;
+    
+    NSMutableArray*         debugArray;
     char*      newsendbuffer;
-   int               Stepperposition;
-   NSMutableIndexSet* HomeAnschlagSet;
-   
-   NSTimer*                  IOWTimer;
-   int                     AnzahlDaten;
-   int                     n;
-   int                     aktuellerTag;
-   int                     IOW_busy;
-   int                     aktuelleMark;
-   NSMutableDictionary*      StepperDic;
-   rUtils*                  Utils;
-   
-   NSMutableArray*         Eingangsdaten;
-   // TWI
-   
+    int               Stepperposition;
+    NSMutableIndexSet* HomeAnschlagSet;
+    
+    NSTimer*                  IOWTimer;
+    int                     AnzahlDaten;
+    int                     n;
+    int                     aktuellerTag;
+    int                     IOW_busy;
+    int                     aktuelleMark;
+    NSMutableDictionary*      StepperDic;
+    rUtils*                  Utils;
+    
+    NSMutableArray*         Eingangsdaten;
+    // TWI
+    
     NSMutableDictionary*      outletstatusdic;
     
-   IBOutlet id               TWI_Statustaste;
-   IBOutlet id               TWI_Sendtaste;
-   
-   // CNC
-   IBOutlet id               CNC_Preparetaste;
-   IBOutlet id               CNC_Starttaste;
-   IBOutlet id               CNC_Stoptaste;
-   IBOutlet id               CNC_Sendtaste;
-   IBOutlet id               CNC_Terminatetaste;
-   IBOutlet id               CNC_Neutaste;
-   IBOutlet id               CNC_Halttaste;
-   IBOutlet id                DC_Taste;
-   IBOutlet id                DC_Stepper;
-   IBOutlet id                DC_Slider;
-   IBOutlet id                DC_PWM;
-   IBOutlet id                CNC_Steps;
-   IBOutlet id                CNC_micro;
-
-   IBOutlet id               CNC_Uptaste;
-   IBOutlet id               CNC_Downtaste;
-   IBOutlet id               CNC_Lefttaste;
-   IBOutlet id               CNC_busySpinner;
-   
-   IBOutlet id             CNC_Linkstaste;
-   
-   IBOutlet id               CNC_Righttaste;
-   
-   IBOutlet id               CNC_Seite1Check;
-   IBOutlet id               CNC_Seite2Check;
-   
-   IBOutlet id               CNC_BlockKonfigurierenTaste;
-   IBOutlet id               CNC_BlockAnfuegenTaste;
-
-   
-   IBOutlet rPfeiltaste*             TestPfeiltaste;
-   
-   IBOutlet id               IndexFeld;
-   IBOutlet id               IndexStepper;
-
-   IBOutlet id               WertAXFeld;
-   IBOutlet id               WertAXStepper;
-   IBOutlet id               WertAYFeld;
-   IBOutlet id               WertAYStepper;
- 
-   IBOutlet id               WertBXFeld;
-   IBOutlet id               WertBXStepper;
-   IBOutlet id               WertBYFeld;
-   IBOutlet id               WertBYStepper;
-   
-   IBOutlet id               ABBindCheck;
-
-   IBOutlet id               LagePop;
-   IBOutlet id               WinkelFeld;
-   IBOutlet id               WinkelStepper;
-
-   IBOutlet id               PWMFeld;
-   IBOutlet id               PWMStepper;
-
-   IBOutlet id               AbbrandFeld;
+    IBOutlet id               TWI_Statustaste;
+    IBOutlet id               TWI_Sendtaste;
     
-   IBOutlet  id              GleichesProfilRadioKnopf;
-   IBOutlet id               WertFeld;
-   
-   IBOutlet id               PositionFeld;
-   IBOutlet id               AnzahlFeld;
-   IBOutlet id               PositionXFeld;
-   IBOutlet id               PositionYFeld;
-   
-   IBOutlet id               SaveChangeTaste;
-   IBOutlet id               ShiftAllTaste;
-   
-   IBOutlet id               Blockoberkante;
-   IBOutlet id               OberkantenStepper;
-   IBOutlet id               Blockbreite;
-   IBOutlet id               Blockdicke;
-   
-   IBOutlet id                RumpfBlockbreite;
-   IBOutlet id                RumpfBlockhoehe;
-
-   
-   IBOutlet id               Einlaufrand;
-   IBOutlet id               Auslaufrand;
-   IBOutlet id               AnschlagLinksIndikator;
-   IBOutlet id               AnschlagUntenIndikator;
-   
-   IBOutlet id               Basisabstand; // Abstand CNC zu Block
-   IBOutlet id               Portalabstand; 
-   IBOutlet id               Spannweite; // 
-   
-   IBOutlet id               startdelayFeld; //
-   
-   IBOutlet id               USBKontrolle;
-   
-   IBOutlet id               HomeTaste;
-
-   IBOutlet id               SeitenVertauschenTaste;
-   IBOutlet id               NeuesElementTaste;
-   
-   IBOutlet   id               AbmessungX;
-   IBOutlet   id               AbmessungY;
-   
-   IBOutlet   id               red_pwmFeld;
-  
-   IBOutlet id               LinkeRechteSeite;
-   
-   IBOutlet id               VersionFeld;
-   IBOutlet id               DatumFeld;
-   IBOutlet id            SlaveVersionFeld;
-   
-   NSMutableDictionary*      AnschlagDic;
-   int pwm;
-   int                     startwert;
-   NSWindow*               window;
-   int                     mausistdown;
-   int                     quelle;
-   
-   rEinstellungen*         CNC_Eingabe;
-   float                   minimaldistanz; // minimaler abstand zwischen 2  Punkten, um in den Array aufgenommen zu werden
-
-   int                     AVR_USBStatus;
-   IBOutlet id               ManufactorerFeld;
-   IBOutlet id               ProductFeld;
-   IBOutlet id               MinimaldistanzFeld;
-   
-   IBOutlet id             BlockbreiteFeld;
-   IBOutlet id             BlockbreiteStepper;
-   
-   
-   
-   // Rumpf
-   IBOutlet id               RandFeld;
-   IBOutlet id               EinlaufFeld;
-   IBOutlet id               BreiteAFeld;
-   IBOutlet id               HoeheAFeld;
-   IBOutlet id               RadiusAFeld;
-   IBOutlet id               AuslaufFeld;
-   IBOutlet id               BreiteBFeld;
-   IBOutlet id               HoeheBFeld;
-   IBOutlet id               RadiusBFeld;
-   IBOutlet id               EinstichtiefeFeld;
-   //IBOutlet id               RumpfblockhoeheFeld;
-   IBOutlet id               RumpfabstandFeld; // Abstand CNC zu Block
-   IBOutlet id               ElementlaengeFeld; // Laenge des Rumpfabschnittes
-   IBOutlet id                RumpfOffsetXFeld;
-   IBOutlet id                RumpfOffsetYFeld;
-   IBOutlet id                RumpfportalabstandFeld;
-   
-   IBOutlet id                Schalendickefeld;
-   IBOutlet id                NutCheckbox;
-   
+    // CNC
+    IBOutlet id               CNC_Preparetaste;
+    IBOutlet id               CNC_Starttaste;
+    IBOutlet id               CNC_Stoptaste;
+    IBOutlet id               CNC_Sendtaste;
+    IBOutlet id               CNC_Terminatetaste;
+    IBOutlet id               CNC_Neutaste;
+    IBOutlet id               CNC_Halttaste;
+    IBOutlet id                DC_Taste;
+    IBOutlet id                DC_Stepper;
+    IBOutlet id                DC_Slider;
+    IBOutlet id                DC_PWM;
+    IBOutlet id                CNC_Steps;
+    IBOutlet id                CNC_micro;
     
-   IBOutlet NSSegmentedControl* RumpfteilTaste;
-   
-   int anzahlRumpfteile;
-   
-   NSString*               PListPfad;
-   
-   NSMutableArray*         RumpfdatenArray;
-   int                     aktuellerRumpfteil;
- 
-   //int                     _kote;
-   int                     KoteWert;
-   
-   
-   
-   rProfildruckView*       Profilfeld;
-   
-   int                     boardindex; // teensy""2: 0  teensy3: 1
-   
-   
-   float einfahrtx;
-   float einfahrty;
-
+    IBOutlet id               CNC_Uptaste;
+    IBOutlet id               CNC_Downtaste;
+    IBOutlet id               CNC_Lefttaste;
+    IBOutlet id               CNC_busySpinner;
+    
+    IBOutlet id             CNC_Linkstaste;
+    
+    IBOutlet id               CNC_Righttaste;
+    
+    IBOutlet id               CNC_Seite1Check;
+    IBOutlet id               CNC_Seite2Check;
+    
+    IBOutlet id               CNC_BlockKonfigurierenTaste;
+    IBOutlet id               CNC_BlockAnfuegenTaste;
+    
+    
+    IBOutlet rPfeiltaste*             TestPfeiltaste;
+    
+    IBOutlet id               IndexFeld;
+    IBOutlet id               IndexStepper;
+    
+    IBOutlet id               WertAXFeld;
+    IBOutlet id               WertAXStepper;
+    IBOutlet id               WertAYFeld;
+    IBOutlet id               WertAYStepper;
+    
+    IBOutlet id               WertBXFeld;
+    IBOutlet id               WertBXStepper;
+    IBOutlet id               WertBYFeld;
+    IBOutlet id               WertBYStepper;
+    
+    IBOutlet id               ABBindCheck;
+    
+    IBOutlet id               LagePop;
+    IBOutlet id               WinkelFeld;
+    IBOutlet id               WinkelStepper;
+    
+    IBOutlet id               PWMFeld;
+    IBOutlet id               PWMStepper;
+    
+    IBOutlet id               AbbrandFeld;
+    
+    IBOutlet  id              GleichesProfilRadioKnopf;
+    IBOutlet id               WertFeld;
+    
+    IBOutlet id               PositionFeld;
+    IBOutlet id               AnzahlFeld;
+    IBOutlet id               PositionXFeld;
+    IBOutlet id               PositionYFeld;
+    
+    IBOutlet id               SaveChangeTaste;
+    IBOutlet id               ShiftAllTaste;
+    
+    IBOutlet id               Blockoberkante;
+    IBOutlet id               OberkantenStepper;
+    IBOutlet id               Blockbreite;
+    IBOutlet id               Blockdicke;
+    
+    IBOutlet id                RumpfBlockbreite;
+    IBOutlet id                RumpfBlockhoehe;
+    
+    
+    IBOutlet id               Einlaufrand;
+    IBOutlet id               Auslaufrand;
+    IBOutlet id               AnschlagLinksIndikator;
+    IBOutlet id               AnschlagUntenIndikator;
+    
+    IBOutlet id               Basisabstand; // Abstand CNC zu Block
+    IBOutlet id               Portalabstand;
+    IBOutlet id               Spannweite; //
+    
+    IBOutlet id               startdelayFeld; //
+    
+    IBOutlet id               USBKontrolle;
+    
+    IBOutlet id               HomeTaste;
+    
+    IBOutlet id               SeitenVertauschenTaste;
+    IBOutlet id               NeuesElementTaste;
+    
+    IBOutlet   id               AbmessungX;
+    IBOutlet   id               AbmessungY;
+    
+    IBOutlet   id               red_pwmFeld;
+    
+    IBOutlet id               LinkeRechteSeite;
+    
+    IBOutlet id               VersionFeld;
+    IBOutlet id               DatumFeld;
+    IBOutlet id            SlaveVersionFeld;
+    
+    NSMutableDictionary*      AnschlagDic;
+    int pwm;
+    int                     startwert;
+    NSWindow*               window;
+    int                     mausistdown;
+    int                     quelle;
+    
+    rEinstellungen*         CNC_Eingabe;
+    float                   minimaldistanz; // minimaler abstand zwischen 2  Punkten, um in den Array aufgenommen zu werden
+    
+    int                     AVR_USBStatus;
+    IBOutlet id               ManufactorerFeld;
+    IBOutlet id               ProductFeld;
+    IBOutlet id               MinimaldistanzFeld;
+    
+    IBOutlet id             BlockbreiteFeld;
+    IBOutlet id             BlockbreiteStepper;
+    
+    
+    
+    // Rumpf
+    IBOutlet id               RandFeld;
+    IBOutlet id               EinlaufFeld;
+    IBOutlet id               BreiteAFeld;
+    IBOutlet id               HoeheAFeld;
+    IBOutlet id               RadiusAFeld;
+    IBOutlet id               AuslaufFeld;
+    IBOutlet id               BreiteBFeld;
+    IBOutlet id               HoeheBFeld;
+    IBOutlet id               RadiusBFeld;
+    IBOutlet id               EinstichtiefeFeld;
+    //IBOutlet id               RumpfblockhoeheFeld;
+    IBOutlet id               RumpfabstandFeld; // Abstand CNC zu Block
+    IBOutlet id               ElementlaengeFeld; // Laenge des Rumpfabschnittes
+    IBOutlet id                RumpfOffsetXFeld;
+    IBOutlet id                RumpfOffsetYFeld;
+    IBOutlet id                RumpfportalabstandFeld;
+    
+    IBOutlet id                Schalendickefeld;
+    IBOutlet id                NutCheckbox;
+    
+    
+    IBOutlet NSSegmentedControl* RumpfteilTaste;
+    
+    int anzahlRumpfteile;
+    
+    NSString*               PListPfad;
+    
+    NSMutableArray*         RumpfdatenArray;
+    int                     aktuellerRumpfteil;
+    
+    //int                     _kote;
+    int                     KoteWert;
+    
+    
+    
+    rProfildruckView*       Profilfeld;
+    
+    int                     boardindex; // teensy""2: 0  teensy3: 1
+    
+    
+    float einfahrtx;
+    float einfahrty;
+    
     int            speed;
     int            steps;
-
- 
- 
-   }
+    
+    
+    
+}
    @property (nonatomic)  int    Kote;
    @property (nonatomic) BOOL wantsLayer;
 
@@ -585,6 +585,7 @@
 
 //- (NSArray*)SteuerdatenArrayVonDic:(NSDictionary*)derDatenDic;
 
+- (void)LibProfileingabeFunktion:(NSDictionary*)eingabeDic;
 @end
 
 @interface rAVRview(rTools)

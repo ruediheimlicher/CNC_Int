@@ -3672,8 +3672,8 @@
 
 - (IBAction)reportProfilEinfuegen:(id)sender
 {
-   //NSLog(@"reportProfilEinfuegen");
-   NSLog(@"doProfilEinfuegenTask start");
+   NSLog(@"reportProfilEinfuegen");
+   //NSLog(@"doProfilEinfuegenTask start");
    NSMutableArray* oberseitearrayA = [NSMutableArray new];
    NSMutableArray* unterseitearrayA = [NSMutableArray new];
    NSMutableArray* oberseitearrayB = [NSMutableArray new];
@@ -3783,7 +3783,7 @@
       
       NSNotificationCenter* nc=[NSNotificationCenter defaultCenter];
       [nc postNotificationName:@"libprofileingabe" object:self userInfo:ProfilDic];
-      
+   //    [nc postNotificationName:@"LibProfileingabe" object:self userInfo:ProfilDic];
       [[self window]orderOut:NULL];
       [NSApp stopModalWithCode:1];
    }
