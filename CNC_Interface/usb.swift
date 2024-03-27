@@ -33,6 +33,7 @@ class rTimerInfo {
    var last_read_byteArray = [UInt8](repeating: 0x00, count: BUFFER_SIZE)
    var write_byteArray: Array<UInt8> = Array(repeating: 0x00, count: BUFFER_SIZE)
    // var testArray = [UInt8]()
+     
    var testArray: Array<UInt8>  = [0xAB,0xDC,0x69,0x66,0x74,0x73,0x6f,0x64,0x61]
    
    var read_OK:ObjCBool = false
@@ -45,7 +46,13 @@ class rTimerInfo {
    var manustring:String = ""
    var prodstring:String = ""
    
-   var USBTimerInfo = rTimerInfo()
+  
+     var USBTimerInfo = rTimerInfo()
+     
+     
+     
+     
+     
    override init()
    {
       super.init()
@@ -297,22 +304,24 @@ class rTimerInfo {
             datatruecounter += 1
             let codehex = read_byteArray[0]
             let codehexstring = String(codehex, radix:16, uppercase:true)
-            //print("cont_read_USB new Data codehex: \(codehex) codehex: \(codehexstring)")
+            print("cont_read_USB new Data codehex: \(codehex) codehex: \(codehexstring)")
             
             
             //print("\n+++ cont_read_USB new read_byteArray in Timer. code: \(read_byteArray[0])")
             
-            /*
+            
             if (read_byteArray[0] == 0xBD)
             {
                //print("usb code BD")
             }
+             
+             print("read_byteArray")
             for  i in 0..<BUFFER_SIZE
             {
-               print(" \(read_byteArray[i])", terminator: "")
+               print("i: \(i)  \(read_byteArray[i]) ")
             }
             print("\n")
-             */
+            
             // http://dev.iachieved.it/iachievedit/notifications-and-userinfo-with-swift-3-0/
             
             //let usbdic = ["message":"neue Daten", "data":read_byteArray] as [String : UInt8]

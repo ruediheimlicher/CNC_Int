@@ -811,12 +811,13 @@ NSMutableDictionary* cncdatendic;
           selector:@selector(WriteModifierAktion:)
               name:@"WriteModifier"
             object:nil];
-   
+ 
+    /*
    [nc addObserver:self
           selector:@selector(USBReadAktion:)
               name:@"usbread"
             object:nil];
-   
+  */
    
    [nc addObserver:self
           selector:@selector(MausAktion:)
@@ -1675,8 +1676,8 @@ return returnInt;
             }
             else
             {
-               minimaldistanz = 0.8;
-               [MinimaldistanzFeld setFloatValue:0.8];
+               minimaldistanz = 1.0;
+               [MinimaldistanzFeld setFloatValue:1.0];
             }
             
             
@@ -8875,6 +8876,7 @@ return returnInt;
 {
    
    NSLog(@"LibProfileingabeAktion start");
+    NSLog(@"eingabeDic: %@",eingabeDic);
    //[self KT];
    if([[eingabeDic objectForKey:@"profil1name"] isEqual: @"***"])
    {
@@ -8885,7 +8887,17 @@ return returnInt;
       NSLog(@"LibProfileingabeAktion Fehler profil2name");
    }
   
-   //NSLog(@"LibProfileingabeAktion note: %@",note.userInfo);
+    
+   NSLog(@"LibProfileingabeFunktion koordinatentabelle: %@",[eingabeDic objectForKey:@"koordinatentabelle"]);
+    KoordinatenTabelle = [NSMutableArray arrayWithArray:[eingabeDic objectForKey:@"koordinatentabelle"]];
+    
+    float offsetx = [[eingabeDic objectForKey:@"offsetx"]floatValue];
+    float offsety = [[eingabeDic objectForKey:@"offsety"]floatValue];
+    
+    
+    
+    
+    
    //NSLog(@"LibProfileingabeAktion note: %@",[[note userInfo] description]);
    /*
     Werte fuer "teil":
@@ -8911,8 +8923,8 @@ return returnInt;
    NSMutableArray* ProfilArrayB;
    
    // NSArray* ProfilUArray;
-   float offsetx = [ProfilBOffsetXFeld floatValue];
-   float offsety = [ProfilBOffsetYFeld floatValue];
+   //offsetx = [ProfilBOffsetXFeld floatValue];
+   //offsety = [ProfilBOffsetYFeld floatValue];
    
  //  if ([WertAXFeld floatValue]==0)
    {
@@ -8941,7 +8953,7 @@ return returnInt;
    }
 */
    // Profil lesen
-   [ProfilGraph setScale:[[ScalePop selectedItem]tag]];
+//   [ProfilGraph setScale:[[ScalePop selectedItem]tag]];
    
    
    
@@ -9025,11 +9037,11 @@ return returnInt;
    
    
    
-   [OberseiteCheckbox  setState:[[ProfilDic objectForKey:@"oberseite"]intValue]];
-   [UnterseiteCheckbox  setState:[[ProfilDic objectForKey:@"unterseite"]intValue]];
+ //  [OberseiteCheckbox  setState:[[ProfilDic objectForKey:@"oberseite"]intValue]];
+ //  [UnterseiteCheckbox  setState:[[ProfilDic objectForKey:@"unterseite"]intValue]];
    
-   [EinlaufCheckbox  setState:[[ProfilDic objectForKey:@"einlauf"]intValue]];
-   [AuslaufCheckbox  setState:[[ProfilDic objectForKey:@"auslauf"]intValue]];
+//   [EinlaufCheckbox  setState:[[ProfilDic objectForKey:@"einlauf"]intValue]];
+//   [AuslaufCheckbox  setState:[[ProfilDic objectForKey:@"auslauf"]intValue]];
    
    mitOberseite = [[ProfilDic objectForKey:@"oberseite"]intValue];
    mitUnterseite = [[ProfilDic objectForKey:@"unterseite"]intValue];
@@ -9038,6 +9050,7 @@ return returnInt;
    flipH = [[ProfilDic objectForKey:@"fliph"]intValue];
    flipV = [[ProfilDic objectForKey:@"flipv"]intValue];
    reverse = [[ProfilDic objectForKey:@"reverse"]intValue];
+    
    
    float ProfiltiefeA = [ProfilTiefeFeldA floatValue];
    float ProfiltiefeB = [ProfilTiefeFeldB floatValue];
@@ -9101,16 +9114,16 @@ return returnInt;
    einlauflaenge = [[ProfilDic objectForKey:@"einlauflaenge"]intValue];
    einlauftiefe = [[ProfilDic objectForKey:@"einlauftiefe"]intValue];
    einlaufrand = [[ProfilDic objectForKey:@"einlaufrand"]intValue];
-   [Einlaufrand setIntValue:einlaufrand];
-   [Einlauftiefe setIntValue:[[ProfilDic objectForKey:@"einlauftiefe"]intValue]];
-   [Einlauflaenge setIntValue:[[ProfilDic objectForKey:@"einlauflaenge"]intValue]];
+//   [Einlaufrand setIntValue:einlaufrand];
+//   [Einlauftiefe setIntValue:[[ProfilDic objectForKey:@"einlauftiefe"]intValue]];
+//   [Einlauflaenge setIntValue:[[ProfilDic objectForKey:@"einlauflaenge"]intValue]];
    
    auslauflaenge = [[ProfilDic objectForKey:@"auslauflaenge"]intValue];
    auslauftiefe = [[ProfilDic objectForKey:@"auslauftiefe"]intValue];
    auslaufrand = [[ProfilDic objectForKey:@"auslaufrand"]intValue];
-   [Auslaufrand setIntValue:auslaufrand];
-   [Auslauftiefe setIntValue:[[ProfilDic objectForKey:@"auslauftiefe"]intValue]];
-   [Auslauflaenge setIntValue:[[ProfilDic objectForKey:@"auslauflaenge"]intValue]];
+//   [Auslaufrand setIntValue:auslaufrand];
+//   [Auslauftiefe setIntValue:[[ProfilDic objectForKey:@"auslauftiefe"]intValue]];
+//   [Auslauflaenge setIntValue:[[ProfilDic objectForKey:@"auslauflaenge"]intValue]];
    
    //NSLog(@"einlaufrand: %d auslaufrand: %d",einlaufrand,auslaufrand);
    
@@ -9216,7 +9229,7 @@ return returnInt;
       if(einlaufok)
       {
          int k=0;
-         for(k=1;k<[EndleistenEinlaufArrayA count];k++)
+         for(k=0;k<[EndleistenEinlaufArrayA count];k++)
          {
             NSMutableDictionary* tempZeilenDic =[[NSMutableDictionary alloc]initWithCapacity:0];
             
@@ -11136,13 +11149,13 @@ return returnInt;
       index++;
       
       // Sicherheitsschnitt am Profilrand
-      // down
+      // up
       PositionA.y +=profilrandy;
       PositionB.y +=profilrandy;
       [BlockKoordinatenTabelle addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:PositionA.x],@"ax",[NSNumber numberWithFloat:PositionA.y],@"ay",[NSNumber numberWithFloat:PositionB.x],@"bx", [NSNumber numberWithFloat:PositionB.y],@"by",[NSNumber numberWithInt:index],@"index",[NSNumber numberWithInt:lage],@"lage",[NSNumber numberWithFloat:aktuellepwm*full_pwm],@"pwm",nil]];
       index++;
 
-      // up
+      // down
       PositionA.y -=profilrandy;
       PositionB.y -=profilrandy;
       [BlockKoordinatenTabelle addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:PositionA.x],@"ax",[NSNumber numberWithFloat:PositionA.y],@"ay",[NSNumber numberWithFloat:PositionB.x],@"bx", [NSNumber numberWithFloat:PositionB.y],@"by",[NSNumber numberWithInt:index],@"index",[NSNumber numberWithInt:lage],@"lage",[NSNumber numberWithFloat:aktuellepwm*red_pwm],@"pwm",nil]];

@@ -334,7 +334,9 @@ class rViewController: NSViewController, NSWindowDelegate
            NotificationCenter.default.addObserver(self, selector: #selector(usbsendAktion), name:NSNotification.Name(rawValue: "usbsend"), object: nil)
            NotificationCenter.default.removeObserver(self, name:NSNotification.Name(rawValue: "usbschnittdaten"), object: nil)
            NotificationCenter.default.addObserver(self, selector: #selector(usbschnittdatenAktion), name:NSNotification.Name(rawValue: "usbschnittdaten"), object: nil)
+       
            NotificationCenter.default.addObserver(self, selector:#selector(newDataAktion(_:)),name:NSNotification.Name(rawValue: "newdata"),object:nil)
+       
            NotificationCenter.default.addObserver(self, selector:#selector(contDataAktion(_:)),name:NSNotification.Name(rawValue: "contdata"),object:nil)
            NotificationCenter.default.addObserver(self, selector:#selector(usbattachAktion(_:)),name:NSNotification.Name(rawValue: "usb_attach"),object:nil)
            NotificationCenter.default.addObserver(self, selector: #selector(slaveresetAktion), name:NSNotification.Name(rawValue: "slavereset"), object: nil)
@@ -724,6 +726,8 @@ class rViewController: NSViewController, NSWindowDelegate
           
           //print("dic end\n")
        }
+    
+    
     @objc func usbschnittdatenAktion(_ notification:Notification)
   {
      // N
@@ -1068,7 +1072,7 @@ class rViewController: NSViewController, NSWindowDelegate
    @objc func newDataAktion(_ notification:Notification) 
    {
       let lastData = teensy.getlastDataRead()
-      //print("rViewController newDataAktion lastData:\t \(lastData)   ")
+      print("rViewController newDataAktion lastData:\t \(lastData)   ")
       var ii = 0
        /*
       while ii < 10
@@ -1110,13 +1114,13 @@ class rViewController: NSViewController, NSWindowDelegate
          {
             //print("d not nil\n")
             var i = 0
-             /*
-            while i < 10
+             
+            while i < 36
             {
-               //print("i: \(i)  wert: \(d![i])\t")
+                //print("i: \(i)  wert: \(d[i])\t")
                i = i+1
             }
-              */
+              
             
          }
         
@@ -1128,6 +1132,8 @@ class rViewController: NSViewController, NSWindowDelegate
       //print("dic: \(dic ?? ["a":[123]])\n")
 
    }
+    
+    
    
    func tester(_ timer: Timer)
    {

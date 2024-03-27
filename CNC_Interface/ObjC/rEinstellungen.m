@@ -3213,7 +3213,7 @@
 
 - (IBAction)reportLibElementEinfuegen:(id)sender
 {   
-   //NSLog(@"reportLibElementEinfuegen name: %@",LibElementName);
+   NSLog(@"reportLibElementEinfuegen name: %@",LibElementName);
    NSMutableDictionary* ElementDic=[[NSMutableDictionary alloc]initWithCapacity:0];
    [ElementDic setObject:@"LibElement"  forKey:@"quelle"];
    //NSLog(@"reportLibElementEinfuegen LibElementArray: %@",[LibElementArray description]);
